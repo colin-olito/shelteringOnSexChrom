@@ -1,0 +1,410 @@
+\documentclass[11pt]{article}
+% Preamble
+%\usepackage[sc]{mathpazo} %Like Palatino with extensive math support
+ \usepackage{mathptmx}
+ %\usepackage{times}
+\usepackage{fullpage}
+\usepackage[authoryear,sectionbib,sort]{natbib}
+\bibliographystyle{evolution.bst}
+\setlength{\bibsep}{0.0pt}
+\linespread{1.7}
+\usepackage[utf8]{inputenc}
+\usepackage[left]{lineno}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage{color,soul}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{pdflscape}
+\usepackage{nameref}
+%\usepackage[title,titletoc,toc]{appendix}
+\usepackage[colorlinks=true, allcolors=black]{hyperref}
+\usepackage{pdflscape}
+\usepackage{textgreek}
+
+
+% Section Header Formats
+\titleformat{\section}[block]{\Large\bfseries\filcenter}{\thesection}{1em}{}
+\titleformat{\subsection}[block]{\Large\itshape\filcenter}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}[block]{\large\itshape}{\thesubsubsection}{1em}{}
+\titleformat{\paragraph}[runin]{\itshape}{\theparagraph}{1em}{}[. ]\renewcommand{\refname}{Literature Cited}
+
+% Special Math Characters
+\newcommand\encircle[1]{%
+  \tikz[baseline=(X.base)] 
+    \node (X) [draw, shape=circle, inner sep=0] {\strut #1};}
+
+% Equation numbering
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+
+% Graphics package
+\usepackage{graphicx}
+%\graphicspath{{../../figures/}.pdf}
+
+% Change default margins
+\usepackage[top=0.75in, bottom=0.75in, left=0.75in, right=0.75in]{geometry}
+
+% Definitions
+\def\mathbi#1{\textbf{\em #1}}
+\def\mbf#1{\mathbf{#1}}
+\def\mbb#1{\mathbb{#1}}
+\def\mcal#1{\mathcal{#1}}
+\newcommand{\bo}[1]{{\bf #1}}
+\newcommand{\tr}{{\mbox{\tiny \sf T}}}
+\newcommand{\bm}[1]{\mbox{\boldmath $#1$}}
+\newcommand{\om}{\omega}
+\DeclareRobustCommand{\firstsecond}[2]{#2}
+ \def\linenumberfont{\normalfont\scriptsize}
+ \newcommand{\kron}{\otimes}
+
+
+ %===========================================
+% Basic info from Journal
+
+%%%%%%%%%%%%%%%%
+% Line numbering
+%%%%%%%%%%%%%%%%
+
+% Please use line numbering with your initial submission and
+% subsequent revisions. After acceptance, please turn line numbering
+% off by adding percent signs to the lines %\usepackage{lineno} and
+% to %\linenumbers{} and %\modulolinenumbers[3] below.
+%
+% To avoid line numbering being thrown off around math environments,
+% the math environments have to be wrapped using
+% \begin{linenomath*} and \end{linenomath*}
+%
+% (Thanks to Vlastimil Krivan for pointing this out to us!)
+
+%%%%%%%%%%%%
+% Authorship
+%%%%%%%%%%%%
+% Please remove authorship information while your paper is under review,
+% unless you wish to waive your anonymity under double-blind review. You
+% will need to add this information back in to your final files after
+% acceptance.
+
+% The journal does not have numbered sections in the main portion of
+% articles. Please refrain from using section references (à la
+% section~\ref{section:CountingOwlEggs}), and refer to sections by name
+% (e.g. section ``Counting Owl Eggs'').
+
+% You may wish to remove the Acknowledgments section while your paper 
+% is under review (unless you wish to waive your anonymity under
+% double-blind review) if the Acknowledgments reveal your identity.
+% If you remove this section, you will need to add it back in to your
+% final files after acceptance.
+
+%If you have deposited data to Dryad, you should cite them somewhere in the main text (usually in the Methods or Results sections). A sentence like the following will do. All data are available in the Dryad Digital Repository (\citealt{CookEtAl2015}).
+
+%===========================================
+
+% This version of the LaTeX template was last updated on
+% November 8, 2019.
+
+\begin{document}
+\title{Consequences of recessive deleterious genetic variation for the evolution of inversions suppressing recombination between sex chromosomes}
+
+
+%\author{Colin Olito$^{1,\ast}$, Bengt Hansson$^{1}$, Suvi Ponnikas$^{2}$, Jessica K. Abbott$^{1}$}
+\date{\today}
+\maketitle
+
+%\noindent{} 1. Department of Biology, Lund University, Lund 223 62, Sweden;
+
+%\noindent{} 2.  Ecology and Genetics Research Unit, 90014 University of Oulu, Finland;
+
+%\noindent{} $\ast$ Corresponding author; e-mail: colin.olito@gmail.com
+
+\bigskip
+
+\noindent \textit{Manuscript elements}: figure~1, figure~2, Online Supplementary Material containing Appendices~A--E. Figure 1 to print in color, figure 2 in greyscale.
+
+\bigskip
+
+\noindent \textit{Keywords}: Sex chromosomes, recombination, chromosomal inversion, mutation, indirect selection 
+
+\bigskip
+
+\noindent \textit{Manuscript type}: Original Article. %Or e-article, note, e-note, natural history miscellany, e-natural history miscellany, comment, reply, invited symposium, or historical perspective.
+
+\bigskip
+
+%\noindent \textcolor{red}{TO BE OMITTED FOR THE ANONYMIZED SUBMISSION:}
+
+%\noindent \textit{Acknowledgements}: This research was supported by a Wenner-Gren Postdoctoral Fellowship to C.O., and ERC-StG-2015-678148 to J.K.A.. The authors gratefully acknowledge T. Connallon, C.Y. Jordan, C. Venables, the Genetics of Sex-Differences Research Group at Lund University, the editor, and two anonymous reviewers for valuable feedback.
+
+\bigskip
+
+%\noindent \textit{Author Contributions}: The study was conceived by C.O. during discussions with the other authors and the Genetics of Sex Differences research group at Lund University. C.O. developed the models and performed the analyses. All authors contributed to writing and critically revising the manuscript.
+
+
+%\noindent{\footnotesize Prepared using the suggested \LaTeX{} template for \textit{Am.\ Nat.}}
+
+\linenumbers{}
+\modulolinenumbers[1]
+
+\newpage{}
+
+
+%====================
+% Begin Main Text
+%====================
+
+%\section{Outline}
+%\tableofcontents
+%%%%%%%%%%%%%%%%%%%%
+\newpage{}
+\section*{Abstract}
+
+The evolution of suppressed recombination between sex chromosomes is widely hypothesized to be driven by sex antagonism, where selection favours tighter linkage between the sex-determining gene(s) and nearby loci experienceing sex-differences in selection such that male-beneficial alleles become coupled to the proto-Y chromosome, and female-beneficial alleles to the proto-X. Indeed, the sexual antagonism hypothesis overshadows several alternative hypotheses despite a dearth of supporting empirical evidence. Here, we use population genetic models to evaluate the consequences of segregating deleterious mutational variation on the evolution of otherwise neutral chromosomal inversions expanding the sex-linked region (SLR) on a proto-Y chromosome. We find that SLR-expanding inversions face a race against time: lightly loaded inversions are initially beneficial, but eventually become deleterious as they accumulate new mutations and must fix before this window of opportunity closes. The outcome of this race can be non-intuitive, and is strongly influenced by inversion size, the deleterious mutation rate, and the dominance coefficient of deleterious mutations, but small inversions can have greatly elevated fixation probabilities relative to neutral expectations. Overall, our results demonstrate that deleterious genetic variation can plausibly drive the evolution of suppressed recombination between sex chromosomes, and underscore the importance of confronting seemingly intuitive hypotheses with mathematical models.
+
+\newpage{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+Sex chromosomes have evolved from homologous pairs of autosomes repeatedly within many eukaryotic lineages across the tree of life \citep{BeukeboomPerrin2014,Bachtrog2014}. A striking feature of many sex chromosome systems is the evolution of recombination suppression, which profoundly influences the long-term fate of the chromosomes. Once recombination stops, the subsequent evolution of sequence divergence and functional degeneration of the non-recombining region of the sex-limited chromosome, and possibly dosage compensation to retain adequate gene expression levels in both sexes, can all contribute to the gradual evolution of sex chromosome heteromorphy \citep{Bull1983,Rice1987,Rice1996,Bachtrog2006,CharlesworthEtAl2005,BeukeboomPerrin2014}. 
+
+The initial loss of recombination between sex chromosomes is widely hypothesized to be caused by selection favoring linkage disequilibrium (achieved by recombination suppression) between the sex-determining gene(s) and nearby loci experiencing sex-differences in selection (e.g., sexually antagonistic loci with alleles that have opposite fitness effect between sexes) \citep{Bull1983,Rice1987,Rice1996,Lenormand2003,Otto2019}. Indeed, even though strong empirical support for the sexual antagonism hypothesis remains elusive, it continues to overshadow a variety of alternatives which have received less theoretical or empirical attention \citep{Ponnikas2018, OlitoAbbott2020,Jefferies2021,LenormandRoze2021}. 
+
+Several of these alternative hypotheses revolve around the idea that a chromosomal rearrangement – typically an inversion – expanding the sex-linked region on a Y (or W) chromosome may be selectively favored due to a form of heterozygote advantage arising from the combination of wild-type and (partially) recessive deleterious alleles that it captures \citep{Ironside2010,Ponnikas2018,Branco2017,Jay2021}. In fact, a tangle of at least three distinct hypotheses have been described in varying detail, ranging from loose verbal models to mathematical and simulation models (we summarize the various hypotheses in Appendix A of the Online Supplementary Material). Each of these models proposes, in some way, that an inversion linking alleles at selected loci to the heterozygous male-determining allele on a Y chromosome will reduce the homozygous expression of recessive deleterious alleles at those loci. This sheltering effect is hypothesized to cause higher fitness for inverted relative to non-inverted Y chromosomes. 
+
+The red thread running through each of these hypotheses is that deleterious mutational variation is pervasive throughout the genome \citep{Muller1950,Crow1970b,Charlesworth-etal-1993} and the fate of new inversions expanding the sex-linked region may therefore be strongly influenced by the random sample of that variation which they happen to capture. Moreover, deleterious genetic variation is known to have important implications for the evolution of inversions on autosomes: autosomal inversions undergo a complex time-dependent selection process that can result in diverse evolutionary outcomes, including fixation, extinction, and balanced inversion polymorphisms, depending on the set of alleles they initially capture \citep{Nei1967,Charlesworth1973,ConnallonOlito2020}. 
+
+However, there is a crucial difference between autosomal inversions and those expanding the sex-linked region on a Y chromosome. By capturing the dominant sex-determining factor (or expanding the chromosomal region already linked to it), the latter are prevented from occurring in both X and Y chromosomes. At first glance, this would appear to reduce the homozygous expression of recessive deleterious alleles captured by the inversion, thereby paving the way for inversion fixation \citep{Ironside2010, Jay2021}. As we demonstrate below, this is an oversimplification. In fact, when recessive deleterious genetic variation is present, inversions expanding the sex-linked region (SLR hereafter) on Y chromosomes experience fundamentally different time-dependent selection processes compared to autosomal ones. Careful consideration of these time-inhomogeneous selection processes is necessary to fully understand the evolutionary dynamics of inversions contributing to recombination suppression between sex chromosomes. 
+
+In this paper, we develop a population genetic model to describe the evolutionary dynamics of new inversion mutations that capture the dominant sex-determining factor in randomly mating populations, while explicitly considering the consequences of standing deleterious mutational variation. We briefly describe the deterministic frequency dynamics predicted by the model before turning our attention to the fixation probabilities for inversions of different lengths, which we calculate using stochastic Wright-Fisher simulations. Our results illuminate two important features of inversions on Y chromosomes expanding the SLR: ({\itshape i}) because recessive deleterious mutations segregate on both X and Y chromosomes, mutations initially captured by an inversion are expressed as homozygotes at a rate equal to their frequency in X chromosomes, so that inversions capturing even a single deleterious allele will carry a permanent (but dynamic) deleterious mutation load; ({\itshape ii}) inversions initially capturing fewer than the average number of deleterious mutations over the chromosomal segment they span will initially be beneficial, but this selective advantage erodes over time as new mutations accumulate on descendent copies of the inversion until the benefit becomes smaller than the permanent load carried by the inversion; at this point the overall fitness effect of the inversion becomes irreversibly deleterious and its chances of fixation negligible. Hence, the evolutionary fate of SLR-expanding inversions is a race against time; initially beneficial inversions must fix before their selective advantage decays and their window of opportunity closes permanently. The outcome of this race can be non-intuitive and is determined jointly by several key population genetic parameters, including the deleterious mutation rate, dominance and selection parameters, and population size. We close by discussing the implications of our findings for existing theories of recombination arrest between sex-chromosomes.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Methods and Results}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{Overview of the model}
+
+Consider a population of diploid, randomly mating individuals with discrete generations, in which sex is determined genetically by a dominant male-determining factor (i.e., a male-heterogametic X-Y system). The model is equally applicable to female heterogametic Z-W systems if male/female labels are reversed. The order of life history events proceeds as follows: fertilization, mutation, selection, then meiosis. The gene(s) determining sex reside within a non-recombining SLR, but recombination still occurs elsewhere along the chromosomes. Hence, our models are most applicable to genetic systems in which the evolution of recombination suppression between sex chromosomes is incomplete, and the still recombining pseudo-autosomal region (PAR) accounts for a sizeable fraction of the proto sex chromosomes \citep[e.g.,][]{Otto2011,Otto2014}. In line with this scenario, we assume that genes located in the PAR have functional homologs on both X and Y chromosomes. 
+
+We model the evolution of new chromosomal inversion mutations arising on a Y chromosome that would expand the SLR were they to fix among the Y chromosomes in the population. Our goal is to predict how new inversions will respond to indirect selection against deleterious mutations segregating within the population at the loci they span \citep[e.g.,][]{Nei1967}. To isolate these indirect selection effects, we assume that the inversion itself is neutral (i.e., inversions cause no breakpoint effects or meiotic dysfunction; \citealt{CorbettDetig2016, KrimbasPowell1992,OlitoAbbott2020, Villoutreix-etal-2021}. For simplicity, we also assume that loci within the SLR do not contribute to indirect selection on inversions. This second assumption can be justified in different ways: ({\itshape i}) there has been sufficient differentiation and functional degeneration within the SLR on Y chromosomes that few functional genes remain in this region; ({\itshape ii}) the SLR is small relative to the length of inversions, such that there are few loci other than the sex-determining genes within the SLR; and ({\itshape iii}) any loci within the SLR that are captured by an inversion will contribute minimally to indirect selection favoring suppressed suppression because they are already fully sex-linked. 
+
+Our model relies on several other important simplifying assumptions. First, we assume that inversions completely suppress recombination between inverted-Y and X chromosomes over the chromosomal region they span (in fact, genetic exchange could occur via double crossovers or gene conversion, but this should be rare; \citealt{KrimbasPowell1992,KorunesNoor2019}). Second, we assume that new inversion mutations occur rarely enough that the evolutionary fate of a given inversion is independent of others (i.e., we assume “strong selection, weak mutation” with respect to inversions; \citealt{Gillespie1991}). Our results therefore preclude the possibility that multiple inversions segregate simultaneously within the population. Third, we assume that deleterious alleles segregate at mutation-selection balance outside of the SLR, with no epistasis, and no linkage disequilibrium among loci or with the SLR prior to a new inversion mutation. This requires strong purifying selection against deleterious variants relative to mutation or genetic drift. Finally, we assume that fitness is multiplicative over the loci spanned by the inversion.
+
+Below, we first develop a deterministic model describing the frequency dynamics of new inversions expanding the SLR on Y chromosomes in the presence of deleterious mutational variation and illustrate important features of the model predictions. We emphasize the role of joint changes in the inversion frequency as well as deleterious allele frequencies on X chromosomes. For simplicity, we present deterministic results for the idealized case where mutation and selection coefficients at all loci spanned by the inversion are equal. We then present Wright-Fisher (W-F) simulations that incorporate stochastic fluctuations in inversion frequencies due to random gamete sampling in a finite population. Finally, we validate our W-F results with a brief analysis of an individual-based simulation model. We present most of the mathematical details in Appendix B. Computer code needed to reproduce the simulations is available on GitHub at: https://.....
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Deterministic model}
+
+We first define two useful terms: the total number of selected loci located outside of the SLR on the chromosome arm containing it (i.e., within the PAR), $n_{\text{tot}}$, and the length of a new inversion, $x$, expressed as the proportion of the PAR that the new inversion links to the ancestral SLR. Assuming that the selected loci are distributed uniformly along the chromosome arm, the number of loci spanned by a new inversion of length $x$ will be $n = n_{\text{tot}} x$. Each of the $n$ loci are assumed to be diallelic, with a wild-type allele ($A$) at the $i^{th}$ locus that mutates to a deleterious variant ($a$) at a rate $\mu_i$ per meiosis (we ignore backmutation from $a \rightarrow A$), with locus-specific genotypic relative fitnesses of $w_{i,AA} = 1$, $w_{i,Aa} = 1 - h_i s_i$, $w_{i,aa} = 1 - s_i$. Deleterious alleles segregate at each locus at their mutation-selection balance equilibrium frequency of $\hat{q}_i = \mu_i/(h_i s_i)$. A new inversion mutation will capture a random sample of the standing deleterious variation at these $n$ loci, which can be divided into two classes: loci where the inversion initially captures a deleterious allele and those where it captures a wild-type allele.
+
+For recombining sex chromosomes, it is necessary to track gene frequency changes for these two classes of loci within four different chromosome classes, X’s in ovules/eggs, X’s in pollen/sperm, non-inverted Y’s, and inverted Y’s, which we denote $X_f$, $X_m$, $Y$, and $Y^I$ respectively \citep[see][]{Otto2014,OlitoAbbott2020}. The gene frequencies at time $t$ for each of the $n$ loci can be described using the following notation: $q_{X_f,t}^{del,i}$, $q_{X_m,t}^{del,i}$, $q_{Y,t}^{del,i}$, $q_{Y^I,t}^{del,i}$, and $q_{X_f,t}^{wt,i}$, $q_{X_m,t}^{wt,i}$, $q_{Y,t}^{wt,i}$, $q_{Y^I,t}^{wt,i}$ where $q$ refers to the deleterious allele frequency, and the $del$ and $wt$ superscripts denote which allele was initially captured by the inversion at the $i^{th}$ locus. Note that by assumption $q_{Y^I}^{del,i} = 1$ for all $t$. For brevity, we present the full development of the recursions in Appendix B).
+
+Under the simplifying assumption that mutation and selection parameters are constant across all loci captured by the inversion ($\mu_i = \mu$, $s_i = s$, $h_i = h$, and $r \sim \text{Poisson}(Ux/hs)$), the deleterious allele frequencies will follow the same trajectory within each chromosome class $\times$ captured allele combination (i.e., $q_{\cdot,t}^{wt,i} = q_{\cdot,t}^wt$, and $q_{\cdot,t}^{del,i}=q_{\cdot,t}^{del}$). This allows us to define the following simplified recursion for the frequency of an inversion that initially captures $r$ deleterious alleles in terms of the allele frequencies:
+\begin{linenomath*}
+\begin{equation} \label{eq:YIrecursion}
+  Y^I_{t+1} = Y^I_{t} \left[ \Big(1 - s \big(h p^{del}_{X_{f,t}} + q^{del}_{X_{f,t}} \big) \Big)^r 
+                             \bigg(1 - s \Big(h \big(p^{wt}_{Y^I_{t}} q^{wt}_{X_{f,t}} + q^{wt}_{Y^I_{t}} p^{wt}_{X_{f,t}} \big) + q^{wt}_{Y^I_{t}} q^{wt}_{X_{f,t}} \Big) \bigg)^{n-r} \right] / \bar{w}^Y
+\end{equation}
+\end{linenomath*}
+\noindent where
+\begin{linenomath*}
+\begin{equation} \label{eq:wBarY}
+  \bar{w}^Y =  \begin{array}{c}
+                  Y^I_{t} \left[ \Big(1 - s \big(h p^{del}_{X_{f,t}} + q^{del}_{X_{f,t}} \big) \Big)^r 
+                             \bigg(1 - s \Big(h \big(p^{wt}_{Y^I_{t}} q^{wt}_{X_{f,t}} + q^{wt}_{Y^I_{t}} p^{wt}_{X_{f,t}} \big) + q^{wt}_{Y^I_{t}} q^{wt}_{X_{f,t}} \Big) \bigg)^{n-r} \right] +\\
+                  (1 - Y^I_{t}) \left[
+                                      \begin{array}{c}
+                                        \bigg(1 - s \Big(h \big(p^{del}_{X_{f,t}} q^{del}_{Y,t} + q^{del}_{X_{f,t}} p^{del}_{Y,t} \big) + q^{del}_{X_{f,t}} q^{del}_{Y,t} \Big) \bigg)^r \\
+                                        \bigg(1 - s \Big(h \big(p^{wt}_{X_{f,t}} q^{wt}_{Y,t} + q^{wt}_{X_{f,t}} p^{wt}_{Y,t} \big) + q^{wt}_{X_{f,t}} q^{wt}_{Y,t} \Big) \bigg)^{n-r} \\
+                                      \end{array}\right]
+            \end{array},
+\end{equation}
+\end{linenomath*}
+\noindent and we have used the convention $p_{\cdot,t}^\cdot=1-q_{\cdot,t}^\cdot$ to simplify notation. The deterministic frequency dynamics of the inversion can now be fully described by a system of eight recursions corresponding to the deleterious allele frequencies in each of the seven relevant loci $\times$ chromosome classes (see Appendix B) and the frequency of the inversion, Equations (\ref{eq:YIrecursion}) and (\ref{eq:wBarY}).
+
+Equation (\ref{eq:YIrecursion}) offers immediate insight into the different contributions of $del$ vs.~$wt$ loci to inversion relative fitness. The fitness effects of $del$ loci depend solely on the frequency of deleterious alleles in X chromosomes in ovules/eggs (selection terms in bracketed expressions with an exponent of $r$ involve only $p_{X_f,t}^{del}$ and $q_{X_f,t}^{del}$) because all descendent copies of the inversion already carry a deleterious allele at these loci. Under recurrent mutation, $q_{X_f,t}^{del}$ will always be non-zero, and so it is immediately clear that $del$ loci will impart a permanent fitness cost to the inversion. Meanwhile, $wt$ loci depend jointly on the frequency of deleterious alleles in ovule/egg-derived X chromosomes and the accumulation of new deleterious mutations on descendent copies of the inversion at these loci (selection terms involve $p_{X_f,t}^{wt}$, $q_{X_f,t}^{wt}$, and $q_{Y^I,t}^{wt}$). Compared to the fitness of non-inverted Y chromosomes (the second expression in square brackets in Equation \ref{eq:wBarY}) it is clear that any temporary fitness advantage of new inversions must come from the initially low frequency of deleterious alleles at $wt$ loci among inverted Y chromosomes ($q_{Y^I,t}^{wt}$). The key questions become: when, and for how long, does the temporary fitness benefit from $wt$ loci outweigh the permanent load associated with $del$ loci? and does it result in elevated fixation probabilities for new SLR-expanding inversions?
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Deterministic frequency dynamics}
+
+When deleterious alleles are approximately codominant (i.e., $h_i \approx 1/2$), most purifying selection occurs in heterozygotes and an inversion initially loaded with even a single deleterious allele (i.e., when $r > 0$) will not invade \citep[see][]{OlitoAbbott2020,ConnallonOlito2020}. However, when deleterious mutations are partially recessive ($0 < h_i < 1/2$), as expected by theory and supported by empirical data \citep[e.g.,][]{Manna2011,AgrawalWhitlock2011}, lightly loaded inversions expanding the SLR on Y chromosomes can deterministically rise to high frequency. 
+
+Fig.1 illustrates key features of the deterministic dynamics for inversions initially capturing different numbers of partially recessive deleterious mutations for three dominance scenarios  ($h_i = h = \{0.25, 0.1, 0.01\}$). All examples show inversions that are initially beneficial because they capture fewer deleterious mutations than the population average over the chromosomal segment they span. The time course of inversion fitness relative to non-inverted Y chromosomes (Fig. 1A-C) illustrates both the decay of the initial fitness benefit as new mutations accumulate on descendent copies of the inversion-bearing chromosome at $wt$ loci (inversions that initially have relative fitness greater than or equal to one), and the permanent deleterious load due to $del$ loci (all inversions with $r > 0$ eventually become deleterious). The tipping-point where the relative fitness of loaded inversions drops below one occurs when the transient benefit to the inversion of initially capturing fewer-than-average deleterious mutations no longer compensates for the cost of being fixed for those few mutations. The deterministic inversion frequency dynamics (Fig. 1D-F) reflect these changes in relative fitness and highlight that the deterministic outcome for initially unloaded inversions is to fix among Y chromosomes in the population. When deleterious mutations are strongly recessive (e.g., $h \approx 0.01$), lightly loaded inversions can deterministically rise to high frequencies before becoming deleterious and crashing to extinction (Fig. 1C,F,I; see also figure S3 in Appendix C). 
+
+
+%%%%%%%%%%%%%%%%%%%%%
+% Figure 1
+ \begin{figure}[htbp]\label{fig:determFig}
+ \centering
+ \includegraphics[scale=0.6]{../../figures/deterministicDomIllusFig.pdf}
+ \caption{\footnotesize{Illustration of deterministic fitness and frequency dynamics for inversions initially loaded with different numbers of deleterious alleles. Results are shown for inversions of length $x = 0.2$ three different dominance scenarios ($h = \{0.25, 0.1, 0.01\}$ corresponding to each column of panels, left to right). Panels (A-C) show the fitness of SLR-expanding inversions on a Y chromosome relative to the average fitness of all Y chromosomes. Points (greyscale) indicate when the corresponding inversions dropped below a frequency of $10^-5$, where they became effectively extinct, while red stars indicate when an inversion reached a frequency of ($1 - 10^{-5}$), at which point they were considered to have fixed. Panels (D-F) show the inversion frequency dynamics and illustrate the counterintuitive result that although lightly loaded inversions can rise to high frequencies (especially when deleterious mutations are strongly recessive), they eventually become deleterious and crash. Panels (G-I) illustrate the deleterious allele frequency dynamics at $wt$ loci on the inversion ($q_{Y_I}^{wt}$; red line), and both $wt$ and $del$ loci on X chromosomes in ovules/eggs ($q_{X_f}^wt$ and $q_{X_f}^{del}$; black solid and dashed lines respectively) for the representative case of inversions initially loaded with relatively few deleterious alleles ($r = 1$ for G,H; $r = 10$ for I). Results were generated using the following parameter values: $s = 0.01$, $U = 0.02$, $x = 0.2$, $n_{tot} = 10^4$.}}
+ \end{figure}
+%%%%%%%%%%%%%%%%%%%%%
+
+Importantly, the load carried by inversions due to $del$ loci is dynamic because the frequency of recessive deleterious alleles on X (and non-inverted Y) chromosomes changes over time in response to the inversion frequency (Fig.1G-I). We illustrate this for representative cases of inversions initially loaded with relatively few deleterious mutations ($r = 1$ in panels G,H; $r = 10$ in panel I) by showing the deterministic frequency dynamics for three important loci $\times$ chromosome classes: $wt$ loci on the inversion ($q_{Y_I}^{wt}$), and both $wt$ and $del$ loci on X chromosomes in ovules/eggs ($q_{X_f}^{wt}$ and $q_{X_f}^{del}$). The red line shows the accumulation of deleterious mutations on the inversion at $wt$ loci, which causes the decline in initial fitness benefit due to these loci. The black solid and dashed lines show the corresponding changes in deleterious allele frequency among ovule/egg-derived X chromosomes at $wt$ loci ($q_{X_f}^{wt}$) and $del$ loci ($q_{X_f}^{del}$), respectively. Selection against deleterious alleles at $del$ loci on ovule/egg-derived X chromosomes intensifies as the initially beneficial inversion increases in frequency because all inverted-Y-bearing sons who inherit a deleterious allele from their mother’s X chromosome will automatically be homozygous for the deleterious allele at $del$ loci. This intensified selection drives the frequency of deleterious alleles at $del$ loci on X chromosomes ($q_{X_f}^{del}$) down to lower levels relative to the equilibrium prior to the inversion mutation. Nevertheless, the deleterious load due to $del$ loci persists because of recurrent mutation on X and non-inverted Y chromosomes.  When the transient benefit of the inversion due to $wt$ loci can no longer compensate for this load, the inversion becomes deleterious and declines in frequency, at which point the deleterious allele frequencies return to the pre-inversion equilibrium. These dynamics are especially evident when deleterious mutations are strongly recessive (Fig.1C,F,I). An overview of the deterministic dynamics for inversions of different lengths initially loaded with different numbers of deleterious alleles is presented in Appendix C, Supplementary Figs (S1-S3).
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Wright-Fisher Simulations}
+
+While the deterministic frequency dynamics presented above clearly illustrate the shifting balance between the time-dependent selection processes on inversions due to $wt$ and $del$ loci, they do not consider either the stochastic process of gamete sampling present in finite populations, nor the likelihood that a new inversion captures a given number of mutations. In reality, larger inversions are more likely to capture a greater number of deleterious mutations (see Fig.S2-S3), and the combined effects of $wt$ and $del$ loci on inversion relative fitness will depend on allele frequency dynamics at each of the $n$ loci. To begin tackling the effects of drift, we use Wright-Fisher simulations carried out in R \citep{RSoftware} to estimate the fixation probability for a single Y chromosome bearing an SLR-expanding inversion as a function of inversion length. We make the (strong) simplifying assumption that deleterious allele frequencies at the $n$ loci spanned by the inversion change deterministically, while the inversion itself is subject to genetic drift due to random gamete sampling. This approach qualitatively captures the effects of time-dependent selection on inversion fixation probability in large populations, where ephemeral indirect selection effects are most likely to be important. However, it also makes our simlation results not applicable to smaller populations where deleterious allele frequency dynamics are dominated by drift rather than selection. Unfortunately, relaxing this assumption using an individual based model becomes computationally intractable for relevant values of selection and dominance coefficients. 
+
+In each generation, haplotype frequencies are censused among gametes prior to fertilization, following mutation and indirect selection due to segregating deleterious alleles at each locus, with a total effective population size of $N$. We use our exact deterministic recursions (Appendix B) to generate predictions for the gene frequencies at each of the $n$ loci after indirect selection for each locus $\times$ chromosome class. The realized frequency of the inversion among Y chromosomes in each generation was then simulated using pseudo-random binomial sampling during the gametic phase, with the number of Y chromosomes representing the number of trials ($2/N$), and the deterministic frequency predictions representing the probabilities of sampling the inversion among pollen/sperm. For each replicate simulation, the number of loci spanned by each new inversion was $n = n_{tot} x$ and the number of deleterious alleles initially captured by a new inversion of length $x$ was drawn from a Poisson distribution with mean and variance $Ux/hs$. Fixation probabilities were estimated from the outcomes of at least $100 \ast N/2$ replicate simulations (this was increased to $500 \ast N/2$ for larger inversions because of their low fixation probabilities). For comparison, we also estimated the fixation probability of autosomal inversions using a similar procedure but implementing multinomial pseudo-random sampling of adult genotypes \citep[e.g.,][pp. 229-230]{Charlesworth2010}. All computer code for the simulations is available at \hl{https://www.github.com/XXXX}.
+
+%\hl{Unfortunately}, estimating the fixation probability of new SLR-expanding inversions using W-F simulations requires the rather strong assumption that deleterious allele frequencies in all locus $\times$ chromosome classes change deterministically while the inversion itself experiences genetic drift. To validate our W-F simulation results, we also estimated fixation probabilities for SLR-expanding inversions using an individual-based model (IBM) where we relax this assumption, allowing deleterious allele frequencies at each locus to change in response to both selection and drift. A full description of the IBM is presented in Appendix C).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Inversion fixation probabilities}
+
+We focus on the effect of inversion length on fixation probability because the fitness benefits and costs scale differently with inversion length for autosomal and SLR-expanding inversions. In both cases, the initial fitness benefit of capturing $wt$ alleles at more loci increases with inversion length, but so does the probability of capturing more deleterious alleles and carrying a larger permanent deleterious load. For autosomal inversions, these countervailing effects of inversion size cancel out when deleterious mutations are not strongly recessive, resulting in an expected fixation probability that is independent of inversion length and approximately equal to the initial frequency of the inversion \citep{ConnallonOlito2020}. When deleterious mutations are partially recessive, however, the fixation probability of autosomal inversions declines rapidly with inversion size (Fig. 2A). Small autosomal inversions have the highest fixation probability, which is approximately equal to that of a typical neutral allele, $1/2N$. We focus our analysis on deleterious alleles with equal dominance coefficients of $h_i = h = 0.25$, which corresponds roughly to the average dominance coefficient of deleterious mutations estimated from empirical studies \citep{Manna2011, AgrawalWhitlock2012}, but explore the effects of strong recessivity in Appendix D (see Figs. S4-S5).
+
+For inversions expanding the SLR on Y chromosomes, the fitness costs scale differently with inversion size for reasons that were highlighted by our deterministic model: inversions capturing fewer than the average number of deleterious alleles are initially beneficial and can therefore rise in frequency until they accumulate enough deleterious mutations that they eventually become deleterious. However, because the capture of even a single deleterious allele imparts a permanent deleterious load on a new inversion, initially unloaded inversions benefit most from the time-dependent selection process. Consequently, there is a strong fixation bias towards smaller SLR-expanding inversions (up to two orders of magnitude larger than the neutral expectation of $2/N$) because these are most likely to initially capture no deleterious alleles (see Figs. S1-3). Nevertheless, larger inversions that are lightly loaded are still more likely to go to fixation than similarly sized autosomal inversions. 
+
+
+%%%%%%%%%%%%%%%%%%%%%
+ % Figure 2
+ \begin{figure}[htbp] \label{fig:WF-fig}
+ \centering
+ \includegraphics[scale=0.6]{../../figures/PrFixFig_h0_25.pdf}
+ \caption{\footnotesize{Fixation probabilities estimated from Wright-Fisher simulations plotted as a function of inversion length for (A) autosomal and (B) SLR-expanding inversions on Y chromosomes. Point colors depict different population sizes ($N$), while point shapes indicate different chromosome-arm wide mutation rates relative to selection ($U/s$), which determines the average load of deleterious mutations per wild-type chromosome arm. Solid black horizontal lines indicate the expected fixation probability for a neutral variant for each value of $N$, and hence correspond to values of $1/2N$ for autosomal inversions, and $2/N$ for Y-linked inversions. Other parameter values were set to: $h = 0.25$, $s = 0.01$, $n_{tot} = 10^4$.}}
+ \end{figure}
+%%%%%%%%%%%%%%%%%%%%%
+
+The relative strength of mutation relative to selection ($U/s$), which determines the average load of mutations per wild-type chromosome arm, has a similar effect on the fixation probability for autosomal vs. SLR-expanding inversions. An increased average load on non-inverted chromosomes (higher $U/s$) decreases the fixation probability of larger autosomal inversions (Fig. 2A) because they are more likely to initially capture deleterious mutations and will accumulate new mutations more rapidly, despite having a greater initial fitness benefit over non-inverted chromosomes. The standing deleterious load also influences the threshold inversion size where the fixation probability of SLR-expanding inversions drops below $2/N$, with a higher average load (large $U/s$) corresponding to a smaller threshold size (Fig.2B). 
+
+Despite the involvement of rather complicated time-dependent selection processes, the different evolutionary dynamics of autosomal vs.~SLR-expanding inversions due to deleterious genetic variation can be explained rather simply: the homozygous expression of partially recessive deleterious mutations initially captured by autosomal inversions increases with inversion frequency, while for SLR-expanding inversions they are expressed at a rate equal to their frequency on X chromosomes in ovules/eggs, which remains small ($\leq \hat{q}_i$) and even decreases with inversion frequency. Due to their lower, temporally dynamic, permanent deleterious load, initially beneficial SLR-expanding inversions have a window of time during which they can fix before their fitness benefit decays and they become deleterious. However, initially unloaded inversions benefit most from the time-dependent selection process, resulting in elevated fixation probabilities for smaller inversions which can be significantly higher than that of a neutral allele.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%
+% Figure 2
+% \begin{figure}[htbp]
+% \centering
+% \includegraphics[width=\linewidth]{WF-fig}
+% \caption{\footnotesize{...}
+% \end{figure}
+%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Discussion}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this paper we have integrated and extended two disparate bodies of theory to give new insights into why sex chromosomes might stop recombining. Many theoretical studies have examined the evolution of recombination suppression between sex chromosomes by neutral recombination modifiers under indirect selection, usually caused by linking alleles with sex-antagonistic fitness effects to one or the other sex-determining allele \citep[e.g.,][]{Fisher1931,Nei1969,Charlesworth1980,Bull1983,Rice1987,Lenormand2003,Otto2019}. While the mathematical models are often agnostic about the specific mechanism preventing crossovers between the proto-sex chromosomes, chromosomal inversions are often invoked retrospectively as a plausible physical mechanism that could suppress recombination between a sex-determining allele and a sample of segregating genetic variation - whether sex-antagonistic or deleterious - at other loci on the proto-sex chromosomes \citep[e.g.,][]{Charlesworth1980,Rice1987,CharlesworthMarais2005,BergeroCharlesworth2009,Charlesworth2017,Ponnikas2018}. We have turned this approach on its head to focus explicitly on chromosomal inversions as the recombination modifier of interest and asked how deleterious genetic variation influences the probability that an inversion expanding the SLR on a proto-Y chromosome will fix. To do so we have extended the theory of length distributions of fixed inversions on autosomes to address this special class of inversion on proto-Y chromosomes \citep[e.g.,][]{vanValenLevins1968,Nei1967,Santos1986,ChengKirkpatrick2019,ConnallonOlito2020}.
+
+Our model predictions have several important implications. First, our deterministic model clarifies that the notion proposed by several earlier 'heterozygote advantage hypotheses' - that linking a sample of wild-type and partially recessive deleterious alleles to the permanently heterozygous male-determining factor will prevent or reduce the homozygous expression of deleterious mutations, thereby favoring recombination suppression - is an oversimplification. Loci at which an SLR-expanding inversion captures a wild-type allele can contribute to a transient fitness benefit if the inversion happens to capture fewer than the average number of deleterious alleles over the chromosomal region it spans. Like autosomal inversions, this transient fitness benefit decays over time as new deleterious mutations accumulate on descendent copies of the inversion. However, any deleterious alleles initially captured by an SLR-expanding inversion are not prevented from being expressed as homozygotes, as suggested by earlier verbal and mathematical arguments \citep{Ironside2010, Jay2021}. Rather, they are expressed as homozygotes at a rate equal to their frequencies on X chromosomes in ovules/eggs, which change with inversion frequency. The permanent deleterious load carried by these inversions is therefore dynamic and can drop precipitously as an initially beneficial inversion rises in frequency. Nevertheless, this deleterious load is still permanent, and all initially beneficial inversions carrying even one mutation will eventually become deleterious as they accumulate new mutations. The time-dependent selection process creates a window of time where lightly loaded but initially beneficial inversions can rise to intermediate to high frequencies and potentially fix before they become deleterious. This is the major difference between SLR-expanding and autosomal inversions, for which the expression of any captured recessive deleterious alleles increases with inversion frequency, effectively preventing even lightly loaded inversions from ever fixing \citep{Nei1967,ConnallonOlito2020}. 
+
+Second, our simulation results suggest that small inversions on proto-Y chromosomes are more likely to contribute to permanent suppression of recombination between the sex-chromosomes than large ones when indirect selection is caused by segregating deleterious variation. Moreover, these small SLR-expanding inversions can have surprisingly high fixation probabilities relative to the neutral expectation of $2/N$. The elevated fixation probabilities of small inversions predicted by our  models suggest that a relatively simple alternative to the sex-antagonistic selection hypothesis - a suitably located neutral inversion combined with segregating deleterious variation at loci spanned by that inversion - is all that is needed to drive the evolution of recombination suppression between sex chromosomes. It is difficult to speculate about the relative likelihood of these different scenarios in natural populations given our limited knowledge about the rate and length distribution of new inversion mutations in natural populations. Nevertheless, our results show that under some conditions partially recessive deleterious variation can potentially drive the evolution of recombination suppression between sex chromosomes and suggest that the length of SLR-expanding inversions may offer insight into the selective processes driving their fixation \citep{vanValenLevins1968, Santos1986, ConnallonOlito2020}. 
+
+Our models make several simplifying assumptions that, although beyond the scope of the present paper, represent important avenues for future work. Most notably, we have limited our attention to neutral inversions capturing loci under deleterious mutation pressure. However, the presence of partially recessive deleterious genetic variation should influence the fixation probabilities of differently sized inversions under other selection scenarios, including beneficial inversions and those potentially capturing loci under sexually antagonistic selection \citep[e.g.,][]{OlitoAbbott2020}. We have also focused our analysis on single randomly mating populations and selected loci initially at linkage equilibrium with the SLR. However, both inbreeding and prior linkage disequilibrium with the SLR feature prominently in previous heterozygote advantage hypotheses (see Appendix A). We briefly address these possibilities using mathematical models in Appendices D \& E, where we show that they do not result in indirect positive selection for recombination-suppressing inversions. However, a more complete treatment of these problems is probably warranted. For reasons of tractability and simplicity, we also assumed equal mutation and selection terms in our models. Incorporating such variation (i.e., distributions of dominance and selection coefficients) will likely alter our results by slightly reducing the inversion fixation probabilities and shifting them even further towards smaller inversions, as is the case for autosomal inversions \citep{ConnallonOlito2020}. However, the presence of few loci segregating for highly recessive deleterious alleles (e.g., $h \approx 0.01$) could have the opposite effect (see fig.~S5). Lastly, our W-F simulations made a necessarily strong simplifying assumption that deleterious allele frequencies changed deterministically, while inversions were subject to genetic drift due to random gamete sampling. Although time-dependent indirect selection effects like those we have modeled will be most important in large populations, additional simulation studies are needed to determine at what population sizes they become relevant 
+
+Overall, our results highlight the importance of confronting seemingly intuitive hypotheses and verbal arguments with mathematical models. On one hand, despite the broad intuitive appeal of the sex-antagonism hypothesis for recombination suppression between sex chromosomes, our predictions suggest that a simple alternative hypothesis - the presence of partially recessive deleterious genetic variation on proto-sex chromosomes - is highly plausible and deserves more careful consideration. On the other hand, our models also show that apparently simple verbal arguments, like those proposing that SLR-expanding inversions reduce or prevent expression of recessive deleterious alleles, also deserve scrutiny because the details of the genetic system and emergent selection processes are anything but intuitive. 
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%
+% Bibliography
+%%%%%%%%%%%%%%%%%%%%%
+% You can either type your references following the examples below, or
+% compile your BiBTeX database and paste the contents of your .bbl file
+% here. The amnatnat.bst style file should work for this---but please
+% let us know if you run into any hitches with it!
+%
+% If you upload a .bib file with your submission, please upload the .bbl
+% file as well; this will be required for typesetting.
+%
+% The list below includes sample journal articles, book chapters, and
+% Dryad references.
+\newpage{}
+\bibliography{Refs.bib}
+
+
+
+\renewcommand\thesection{}
+\renewcommand\thesubsection{}
+
+%%%%%%%%%%%%%%%%%%%%%
+% Tables
+%%%%%%%%%%%%%%%%%%%%%
+\section{Tables}
+\renewcommand{\thetable}{\arabic{table}}
+\setcounter{table}{0}
+
+This manuscript has no tables to print
+
+\section{Figure legends}
+
+Figure legends provided beneath each figure in the main text.
+%\begin{figure}[h!]
+%\includegraphics{horn-of-okapi}
+%\caption{Figure legends can be longer than the titles of tables. However, they should not be excessively long.}
+%\label{Fig:OkapiHorn}
+%\end{figure}
+
+%\begin{figure}[h!]
+%\includegraphics{elegance}
+%\caption{In this way, figure legends can be listed at the end of the document, with references that work, even though the graphic itself should be included for final files after acceptance. Instead, upload the relevant figure files separately to Editorial Manager; Editorial Manager should insert them at the end of the PDF automatically.}
+%\label{Fig:AnotherFigure}
+%\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%
+% Videos
+%%%%%%%%%%%%%%%%%%%%%
+% If you have videos, journal style for them is similar to that for
+% figures. You'll want to include a still image (such as a JPEG)
+% to give your readers a preview of what the video looks like.
+
+%%%%% Include the text below if you have videos
+
+%\renewcommand{\figurename}{Video} 
+%\setcounter{figure}{0}
+% Thanks to Flo Debarre for the pro tip of putting
+% \renewcommand{\figurename}{Video} before the Video legend and
+% \renewcommand{\figurename}{Figure} after it!
+
+%\begin{figure}[h!]
+%\includegraphics{VideoScreengrab.jpg}
+%\caption{Video legends can follow the same principles as figure legends. Counters should be set and reset so that videos and figures are enumerated separately.}
+%\label{VideoExample}
+%\end{figure}
+
+%%%%% Include the above if you have videos
+
+%\renewcommand{\figurename}{Figure}
+%\setcounter{figure}{1}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Online figure legends
+%\subsection*{Online figure legends}
+
+%\renewcommand{\thefigure}{A\arabic{figure}}
+%\setcounter{figure}{0}
+
+%\begin{figure}[h!]
+%\includegraphics{jumps20m}
+%\caption{\textit{A}, the quick red fox proceeding to jump 20~m straight into the air over not one, but several lazy dogs. \textit{B}, the quick red fox landing gracefully despite the skepticism of naysayers.}
+%\label{Fig:Jumps}
+%\end{figure}
+
+%\begin{figure}[h!]
+%\includegraphics{jumps20m}
+%\caption{The quicker the red fox jumps, the likelier it is to land near an okapi. For further details,.}
+%\label{Fig:JumpsOk}
+%\end{figure}
+
+%\renewcommand{\thefigure}{B\arabic{figure}}
+%\setcounter{figure}{0}
+
+\end{document}

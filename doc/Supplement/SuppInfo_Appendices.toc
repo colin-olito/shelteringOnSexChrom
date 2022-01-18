@@ -1,0 +1,14 @@
+\select@language {english}
+\contentsline {section}{Appendix \numberline {A}Heterozygote advantage and 'sheltering' hypotheses}{3}{Appendix.a.A}
+\contentsline {section}{Appendix \numberline {B}Development of the deterministic model}{7}{Appendix.a.B}
+\contentsline {subsection}{\numberline {B.1}General 2-locus haplotype recursions}{8}{subsection.a.B.1}
+\contentsline {subsection}{\numberline {B.2}Recursions when inversion captures either a wild-type or deleterious allele}{10}{subsection.a.B.2}
+\contentsline {subsection}{\numberline {B.3}Multilocus recursion for inversion frequency}{11}{subsection.a.B.3}
+\contentsline {section}{Appendix \numberline {C}Supplementary Figures}{11}{Appendix.a.C}
+\contentsline {section}{Appendix \numberline {D}Revisiting the conjecture of Charlesworth \& Wall (1999)}{17}{Appendix.a.D}
+\contentsline {subsection}{\numberline {D.1}Model}{17}{subsection.a.D.1}
+\contentsline {subsection}{\numberline {D.2}Analysis}{17}{subsection.a.D.2}
+\contentsline {subsection}{\numberline {D.3}Simulation results}{18}{subsection.a.D.3}
+\contentsline {section}{Appendix \numberline {E}Revisiting the verbal hypothesis of Branco et al. (2018): Inbreeding and Linkage}{21}{Appendix.a.E}
+\contentsline {subsection}{\numberline {E.1}Model}{21}{subsection.a.E.1}
+\contentsline {subsection}{\numberline {E.2}Analysis}{22}{subsection.a.E.2}

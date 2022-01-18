@@ -1,0 +1,226 @@
+\DeclareRobustCommand{\firstsecond}[2]{#2}
+\begin{thebibliography}{43}
+\providecommand{\natexlab}[1]{#1}
+
+\bibitem[{Agrawal and Whitlock(2011)}]{AgrawalWhitlock2011}
+Agrawal, A.~F. and Whitlock, M.~C. 2011: Inferences about the distribution of
+  dominance drawn from yeast gene knockout data.
+\newblock Genetics 178:553--566.
+
+\bibitem[{Agrawal and Whitlock(2012)}]{AgrawalWhitlock2012}
+---{}---{}---. 2012: Mutation load: the fitness of individuals in populations
+  where deleterious alleles are abundant.
+\newblock Ann.~Rev.~Ecol.~Evol.~Syst. 43:115--135.
+
+\bibitem[{Bachtrog(2006)}]{Bachtrog2006}
+Bachtrog, D. 2006: A dynamic view of sex chromosome evolution.
+\newblock Curr.~Op.~Gen.~Devel. 16:578--585.
+
+\bibitem[{Bachtrog et~al.(2014)Bachtrog, Mank, Peichel, Kirkpatrick, Otto,
+  Ashman, Hahn, Kitano, Mayrose, Ming, Perrin, Ross, Valenzuela, Vamosi, and
+  of~Sex~Consortium}]{Bachtrog2014}
+Bachtrog, D., Mank, J.~E., Peichel, C.~L., Kirkpatrick, M., Otto, S.~P.,
+  Ashman, T.-L., Hahn, M.~W., Kitano, J., Mayrose, I., Ming, R., Perrin, N.,
+  Ross, L., Valenzuela, N., Vamosi, J.~C., and of~Sex~Consortium, T.~T. 2014:
+  Sex determination: why so many ways of doing it?
+\newblock PLoS Biology 12(7):e1001899.
+
+\bibitem[{Bergero and Charlesworth(2009)}]{BergeroCharlesworth2009}
+Bergero, R. and Charlesworth, D. 2009: The evolution of restricted
+  recombination in sex chromosomes.
+\newblock Trends in Ecology and Evolution 24:94--102.
+
+\bibitem[{Beukeboom and Perrin(2014)}]{BeukeboomPerrin2014}
+Beukeboom, L.~W. and Perrin, N. 2014: The evolution of sex determination,
+  chapter~5, pages 89--113.
+\newblock Oxford University Press, Oxford, UK.
+
+\bibitem[{Branco et~al.(2017)Branco, Badouin, Rodr\'{i}guez de~la Vega, Gouzy,
+  Carpentier, Aguileta, Siguenza, Brandenburg, Coelho, Hood, and
+  Giraud}]{Branco2017}
+Branco, S., Badouin, H., Rodr\'{i}guez de~la Vega, R.~C., Gouzy, J.,
+  Carpentier, F., Aguileta, G., Siguenza, S., Brandenburg, J.-T., Coelho,
+  M.~A., Hood, M.~E., and Giraud, T. 2017: Evolutionary strata on young
+  mating-type chromosomes despite lack of sexual antagonism.
+\newblock PNAS 114:7067--7072.
+
+\bibitem[{Bull(1983)}]{Bull1983}
+Bull, J.~J. 1983: Evolution of sex determining systems.
+\newblock The Benjamin/Cummings Publishing Company, California, USA.
+
+\bibitem[{Charlesworth and Charlesworth(1973)}]{Charlesworth1973}
+Charlesworth, B. and Charlesworth, D. 1973: Selection of new inversions in
+  multi-locus genetic systems.
+\newblock Genet.~Res.~Camb. 21:167--183.
+
+\bibitem[{Charlesworth et~al.(1993)Charlesworth, Morgan, and
+  Charlesworth}]{Charlesworth-etal-1993}
+Charlesworth, B., Morgan, M., and Charlesworth, D. 1993: The effect of
+  deleterious mutations on neutral molecular variation.
+\newblock Genetics 134:1289--1303.
+
+\bibitem[{Charlesworth(2017)}]{Charlesworth2017}
+Charlesworth, D. 2017: Evolution of recombination rates between sex
+  chromosomes.
+\newblock Phil.~Trans.~Roy.~Soc.~B 372:20160456.
+
+\bibitem[{Charlesworth and Charlesworth(1980)}]{Charlesworth1980}
+Charlesworth, D. and Charlesworth, B. 1980: Sex differences in fitness and
+  selection for centric fusions between sex-chromosomes and autosomes.
+\newblock Genetical Research 35:205--214.
+
+\bibitem[{Charlesworth and Charlesworth(2010)}]{Charlesworth2010}
+---{}---{}---. 2010: Elements of evolutionary genetics.
+\newblock Roberts and Company Publishers, Colorado, USA.
+
+\bibitem[{Charlesworth et~al.(2005{\natexlab{a}})Charlesworth, Charlesworth,
+  and Marais}]{CharlesworthEtAl2005}
+Charlesworth, D., Charlesworth, B., and Marais, G. 2005{\natexlab{a}}: Steps in
+  the evolution of heteromorphic sex chromosomes.
+\newblock Heredity 95:118--128.
+
+\bibitem[{Charlesworth et~al.(2005{\natexlab{b}})Charlesworth, Charlesworth,
+  and Marais}]{CharlesworthMarais2005}
+---{}---{}---. 2005{\natexlab{b}}: Steps in the evolution of heteromorphic sex
+  chromosomes.
+\newblock Heredity 95:118--128.
+
+\bibitem[{Cheng and Kirkpatrick(2019)}]{ChengKirkpatrick2019}
+Cheng, C. and Kirkpatrick, M. 2019: Inversions are bigger on the X chromosome.
+\newblock Molecular Ecology 28:1238--1245.
+
+\bibitem[{Connallon and Olito(2020)}]{ConnallonOlito2020}
+Connallon, T. and Olito, C. 2020: Impact of chromosomal inversion length on
+  fixation probability.
+\newblock Mol.~Ecol. .
+
+\bibitem[{Corbett-Detig(2016)}]{CorbettDetig2016}
+Corbett-Detig, R.~B. 2016: Selection on inversion breakpoints favors proximity
+  to pairing sensitive sites in {\itshape Drosophila melanogaster}.
+\newblock Genetics 204:259--265.
+
+\bibitem[{Crow(1970)}]{Crow1970b}
+Crow, J. 1970: Genetic loads and the cost of natural selection.
+\newblock pages 128--177. Springer-Verlag, Berlin.
+
+\bibitem[{Fisher(1931)}]{Fisher1931}
+Fisher, R.~A. 1931: The evolution of dominance.
+\newblock Biological Reviews 6:345--368.
+
+\bibitem[{Gillespie(1991)}]{Gillespie1991}
+Gillespie, J.~H. 1991: The causes of molecular evolution.
+\newblock Oxford University Press, New York, USA.
+
+\bibitem[{Ironside(2010)}]{Ironside2010}
+Ironside, J.~E. 2010: No amicable divorce? Challenging the notion that sexual
+  antagonism drives sex chromosome evolution.
+\newblock Bioessays 32:718--726.
+
+\bibitem[{Jay et~al.(2021)Jay, Tezenas, and Giraud}]{Jay2021}
+Jay, P., Tezenas, E., and Giraud, T. 2021: A deleterious mutation-sheltering
+  theory for the evolution of sex chromosomes and supergenes.
+\newblock bioR \textChi v pages 1--19.
+
+\bibitem[{Jefferies et~al.(2021)Jefferies, Gerchen, Scharmann, and
+  Pannell}]{Jefferies2021}
+Jefferies, D., Gerchen, J., Scharmann, M., and Pannell, J. 2021: A neutral
+  model for the loss of recombination on sex chromosomes.
+\newblock Phil.~Trans.~Roy.~Soc.~B 376:20200096.
+
+\bibitem[{Korunes and Noor(2019)}]{KorunesNoor2019}
+Korunes, K.~L. and Noor, M. A.~F. 2019: Pervasive gene conversion in
+  chromosomal inversion heterozygotes.
+\newblock Molecular Ecology 28:1302--1315.
+
+\bibitem[{Krimbas and Powell(1992)}]{KrimbasPowell1992}
+Krimbas, C.~B. and Powell, J.~R. (editors). 1992: {\itshape Drosophila}
+  inversion polymorphism.
+\newblock CRC Press, Florida, USA.
+
+\bibitem[{Lenormand(2003)}]{Lenormand2003}
+Lenormand, T. 2003: The evolution of sex dimorphism in recombination.
+\newblock Genetics 163:811--822.
+
+\bibitem[{Lenormand and Roze(2021)}]{LenormandRoze2021}
+Lenormand, T. and Roze, D. 2021: Y recombination arrest and degeneration in the
+  absence of sexual dimorphism.
+\newblock bioR \textchi v pages 1--8.
+
+\bibitem[{Manna et~al.(2011)Manna, Martin, and Lenormand}]{Manna2011}
+Manna, F., Martin, G., and Lenormand, T. 2011: Fitness landscapes: an
+  alternative theory for the dominance of mutation.
+\newblock Genetics 189:923--937.
+
+\bibitem[{Muller(1950)}]{Muller1950}
+Muller, H. 1950: Our load of mutations.
+\newblock Am.~J.~Human Genetics (2):111--176.
+
+\bibitem[{Nei(1969)}]{Nei1969}
+Nei, M. 1969: Linkage modification and sex difference in recombination.
+\newblock Genetics 63:681--699.
+
+\bibitem[{Nei et~al.(1967)Nei, Kojima, and Schaffer}]{Nei1967}
+Nei, M., Kojima, K.-I., and Schaffer, H.~E. 1967: Frequency changes of new
+  inversions in populations under mutation-selection equilibria.
+\newblock Genetics 57:741--750.
+
+\bibitem[{Olito and Abbott(2020)}]{OlitoAbbott2020}
+Olito, C. and Abbott, J.~K. 2020: The evolution of suppressed recombination
+  between sex chromosomes by chromosomal inversions.
+\newblock {\itshape bioR $\chi$ iv} DOI:
+  \href{https://doi.org/10.1101/2020.03.23.003558}{10.1101/2020.03.23.003558}.
+
+\bibitem[{Otto(2014)}]{Otto2014}
+Otto, S.~P. 2014: Selective maintenance of recombination between the sex
+  chromosomes.
+\newblock J.~Evol.~Biol. 27:1431--1442.
+
+\bibitem[{Otto(2019)}]{Otto2019}
+---{}---{}---. 2019: Evolutionary potential for genomic islands of sexual
+  divergence on recombining sex chromosomes.
+\newblock New Phytologist 224:1241--1251.
+
+\bibitem[{Otto et~al.(2011)Otto, Pannell, Peichel, Ashman, Charlesworth,
+  Chippindale, Delph, Guerrero, Scarpino, and McAllister}]{Otto2011}
+Otto, S.~P., Pannell, J.~R., Peichel, C.~L., Ashman, T.-L., Charlesworth, D.,
+  Chippindale, A.~K., Delph, L.~F., Guerrero, R.~F., Scarpino, S.~V., and
+  McAllister, B.~F. 2011: About PAR: The distinct evolutionary dynamics of the
+  pseudoautosomal region.
+\newblock Trends in Genetics 27:358--367.
+
+\bibitem[{Ponnikas et~al.(2018)Ponnikas, Sigeman, Abbott, and
+  Hansson}]{Ponnikas2018}
+Ponnikas, S., Sigeman, H., Abbott, J.~K., and Hansson, B. 2018: Why do sex
+  chromosomes stop recombining?
+\newblock Trends in Genetics 34:492--503.
+
+\bibitem[{{R Core Team}(2018)}]{RSoftware}
+{R Core Team}. 2018: R: A Language and Environment for Statistical Computing.
+\newblock R Foundation for Statistical Computing, Vienna, Austria.
+
+\bibitem[{Rice(1987)}]{Rice1987}
+Rice, W.~R. 1987: The accumulation of sexually antagonistic genes as a
+  selective agent promoting the evolution of reduced recombination between
+  primitive sex chromosomes.
+\newblock Evolution 41(4):911--914.
+
+\bibitem[{Rice(1996)}]{Rice1996}
+---{}---{}---. 1996: Evolution of the Y sex chromosome in animals.
+\newblock BioScience 46:331--343.
+
+\bibitem[{Santos(1986)}]{Santos1986}
+Santos, M. 1986: The role of genic selection in the establishment of inversion
+  polymorphism in {\itshape Drosophila subobscura}.
+\newblock Genetica 69:35--45.
+
+\bibitem[{Van~Valen and Levins(1968)}]{vanValenLevins1968}
+Van~Valen, L. and Levins, R. 1968: The origins of inversion polymorphisms.
+\newblock American Naturalist 923:5--24.
+
+\bibitem[{Villoutreix et~al.(2021)Villoutreix, Ayala, Joron, Gompert, Feder,
+  and Nosil}]{Villoutreix-etal-2021}
+Villoutreix, R., Ayala, D., Joron, M., Gompert, Z., Feder, J., and Nosil, P.
+  2021: Inversion breakpoints and the evolution of supergenes.
+\newblock Molecular Ecology 30:2838--2755.
+
+\end{thebibliography}
