@@ -7,7 +7,7 @@ This is a GitHub repository for the development of a theoretical population gene
 
 ## Abstract
 
-...
+The evolution of suppressed recombination between sex chromosomes is widely hypothesized to be driven by sex antagonism, where selection favours tighter linkage between the sex-determining gene(s) and nearby loci experienceing sex-differences in selection such that male-beneficial alleles become coupled to the proto-Y chromosome, and female-beneficial alleles to the proto-X. Indeed, the sexual antagonism hypothesis overshadows several alternative hypotheses despite a dearth of supporting empirical evidence. Here, we use population genetic models to evaluate the consequences of segregating deleterious mutational variation on the evolution of otherwise neutral chromosomal inversions expanding the sex-linked region (SLR) on a proto-Y chromosome. We find that SLR-expanding inversions face a race against time: lightly loaded inversions are initially beneficial, but eventually become deleterious as they accumulate new mutations and must fix before this window of opportunity closes. The outcome of this race can be non-intuitive, and is strongly influenced by inversion size, the deleterious mutation rate, and the dominance coefficient of deleterious mutations, but small inversions can have greatly elevated fixation probabilities relative to neutral expectations. Overall, our results demonstrate that deleterious genetic variation can plausibly drive the evolution of suppressed recombination between sex chromosomes, and underscore the importance of confronting seemingly intuitive hypotheses with mathematical models.
 
 
 
