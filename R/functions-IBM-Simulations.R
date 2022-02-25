@@ -12,6 +12,14 @@ library(doParallel)
 library(doSNOW)
 
 
+mutate  <-  function(m, N, U, x,n, ...) {
+	nMutations  <-  rpois(n=1,lambda=N*U*x)
+	for(i in 1:nMutations) {
+		m[sample.int((N/2), size=1), sample.int(n, size=1)]  <-  1
+	}
+	m
+}
+
 mutateReplace  <-  function(x, p, ...) {
 	x[x == 0]     <-  rbinom(n=length(x[x == 0]), size=1, prob=p)
 	x
@@ -127,7 +135,7 @@ freeRecombine.sampSperm.FL  <-  function(m1, m2, n, dads, inverted, sons) {
 #sum(testY.f1[invertedY[4],])
 
 makeDataPrFixIBMSimParallel  <-  function(h = 0.1, s = 0.01, Us.factor = 2,
-										  nTot = 10^3, N = 10^3, invSize = 0.05, 
+										  nTot = 10^3, N = 10^4, invSize = 0.05, 
 										  nCluster = 4, extraFileID = "",
 										  burnin=100) {
 
@@ -186,16 +194,20 @@ mean(colSums(rbind(Xf.mat, Xf.pat, Xm, Y))/(2*N)	)
 #		Xf.pat.f1     <-  t(sapply(1:nrow(Xf.pat), function(X) freeRecombine.sampSperm(v1=Xm[dads[(N/2)+X],], v2=Y[dads[(N/2)+X],], n=n, inversion=dadInverted[(N/2)+X], sons=FALSE), simplify=TRUE ))
 		Xf.mat.f1     <-  freeRecombine.sampOvules.FL(m1=Xf.mat, m2=Xf.pat, n=n, moms=moms[((N/2)+1):N])
 		Xf.pat.f1     <-  freeRecombine.sampSperm.FL(m1=Xm, m2=Y, n=n, dads=dads[((N/2)+1):N], inverted=rep(FALSE, times=(N/2)), sons=FALSE)
-		# Mutation
-		Xf.mat.f1[Xf.mat.f1 == 0]  <-  rbinom(n=length(Xf.mat.f1[Xf.mat.f1 == 0]), size=1, prob=u)
-		Xf.pat.f1[Xf.pat.f1 == 0]  <-  rbinom(n=length(Xf.pat.f1[Xf.pat.f1 == 0]), size=1, prob=u)
-		Xm.f1[Xm.f1 == 0]          <-  rbinom(n=length(Xm.f1[Xm.f1 == 0]),         size=1, prob=u)
-		Y.f1[Y.f1 == 0]            <-  rbinom(n=length(Y.f1[Y.f1 == 0]),           size=1, prob=u)
+		# Mutation & F1's become adults in next generation
+#		Xf.mat.f1[Xf.mat.f1 == 0]  <-  rbinom(n=length(Xf.mat.f1[Xf.mat.f1 == 0]), size=1, prob=u)
+#		Xf.pat.f1[Xf.pat.f1 == 0]  <-  rbinom(n=length(Xf.pat.f1[Xf.pat.f1 == 0]), size=1, prob=u)
+#		Xm.f1[Xm.f1 == 0]          <-  rbinom(n=length(Xm.f1[Xm.f1 == 0]),         size=1, prob=u)
+#		Y.f1[Y.f1 == 0]            <-  rbinom(n=length(Y.f1[Y.f1 == 0]),           size=1, prob=u)
+		Xf.mat  <-  mutate(m=Xf.mat.f1, N=N, U=U, n=n, x=invSize)
+		Xf.pat  <-  mutate(m=Xf.pat.f1, N=N, U=U, n=n, x=invSize)
+		Xm      <-  mutate(m=Xm.f1, N=N, U=U, n=n, x=invSize)
+		Y       <-  mutate(m=Y.f1, N=N, U=U, n=n, x=invSize)
 		# F1's become adults in next generation
-		Xm      <-  Xm.f1
-		Y       <-  Y.f1
-		Xf.mat  <-  Xf.mat.f1
-		Xf.pat  <-  Xf.pat.f1
+#		Xm      <-  Xm.f1
+#		Y       <-  Y.f1
+#		Xf.mat  <-  Xf.mat.f1
+#		Xf.pat  <-  Xf.pat.f1
 	}
 hist(colSums(rbind(Xf.mat, Xf.pat, Xm, Y)), col=2)#, add=T)
 hist(colSums(Y), col=2)#, add=T)
@@ -270,16 +282,20 @@ qHat*n
 #			Xf.pat.f1     <-  t(sapply(1:nrow(Xf.pat), function(X) freeRecombine.sampSperm(v1=Xm[dads[(N/2)+X],], v2=Y[dads[(N/2)+X],], n=n, inversion=dadInverted[(N/2)+X], sons=FALSE), simplify=TRUE ))
 			Xf.mat.f1     <-  freeRecombine.sampOvules.FL(m1=Xf.mat, m2=Xf.pat, n=n, moms=moms[((N/2)+1):N])
 			Xf.pat.f1     <-  freeRecombine.sampSperm.FL(m1=Xm, m2=Y, n=n, dads=dads[((N/2)+1):N], inverted=dadInverted[((N/2)+1):N], sons=FALSE)
-			# Mutation
-			Xf.mat.f1[Xf.mat.f1 == 0]  <-  rbinom(n=length(Xf.mat.f1[Xf.mat.f1 == 0]), size=1, prob=u)
-			Xf.pat.f1[Xf.pat.f1 == 0]  <-  rbinom(n=length(Xf.pat.f1[Xf.pat.f1 == 0]), size=1, prob=u)
-			Xm.f1[Xm.f1 == 0]          <-  rbinom(n=length(Xm.f1[Xm.f1 == 0]),         size=1, prob=u)
-			Y.f1[Y.f1 == 0]            <-  rbinom(n=length(Y.f1[Y.f1 == 0]),           size=1, prob=u)
+			# Mutation & F1's become adults in next generation
+#			Xf.mat.f1[Xf.mat.f1 == 0]  <-  rbinom(n=length(Xf.mat.f1[Xf.mat.f1 == 0]), size=1, prob=u)
+#			Xf.pat.f1[Xf.pat.f1 == 0]  <-  rbinom(n=length(Xf.pat.f1[Xf.pat.f1 == 0]), size=1, prob=u)
+#			Xm.f1[Xm.f1 == 0]          <-  rbinom(n=length(Xm.f1[Xm.f1 == 0]),         size=1, prob=u)
+#			Y.f1[Y.f1 == 0]            <-  rbinom(n=length(Y.f1[Y.f1 == 0]),           size=1, prob=u)
+			Xf.mat  <-  mutate(m=Xf.mat.f1, N=N, U=U, n=n, x=invSize)
+			Xf.pat  <-  mutate(m=Xf.pat.f1, N=N, U=U, n=n, x=invSize)
+			Xm      <-  mutate(m=Xm.f1, N=N, U=U, n=n, x=invSize)
+			Y       <-  mutate(m=Y.f1, N=N, U=U, n=n, x=invSize)
 			# F1's become adults in next generation
-			Xm      <-  Xm.f1
-			Y       <-  Y.f1
-			Xf.mat  <-  Xf.mat.f1
-			Xf.pat  <-  Xf.pat.f1
+#			Xm      <-  Xm.f1
+#			Y       <-  Y.f1
+#			Xf.mat  <-  Xf.mat.f1
+#			Xf.pat  <-  Xf.pat.f1
 		}
 		YI.t
 	}

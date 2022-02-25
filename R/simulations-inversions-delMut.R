@@ -457,6 +457,10 @@ makeDataPrFixInvSizeDetqI  <-  function(h = 0.1, s = 0.01, Us.factor.vals = c(2,
 ########################################
 ##  AUTOSOMAL RECURSIONS for comparison
 
+p.t  <-  function(u, sdHom, h, t) {
+	(u/(sdHom*h))*(1 - exp(-sdHom*h*t))
+}
+
 w.II  <-  function(n, nd, u, sdHom, h, Ud, x, t) {
 	((1 - sdHom)^nd)*(1 - 2*u*(1 - exp(-sdHom*h*t)))^(n - nd)
 }

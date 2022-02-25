@@ -1,4 +1,4 @@
-\begin{thebibliography}{17}
+\begin{thebibliography}{19}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -8,6 +8,12 @@ Agrawal, A.~F. and M.~C. Whitlock, 2012.
 \newblock Mutation load: the fitness of individuals in populations where
   deleterious alleles are abundant.
 \newblock Ann.~Rev.~Ecol.~Evol.~Syst. 43:115--135.
+
+\bibitem[{Billiard et~al.(2021)Billiard, Castric, and
+  Llaurens}]{Billiard-etal-2021}
+Billiard, S., V.~Castric, and V.~Llaurens, 2021.
+\newblock The integrative biology of genetic dominance.
+\newblock Biol.~Rev. 96:2925--2942.
 
 \bibitem[{Branco et~al.(2017)Branco, Badouin, Rodr\'{i}guez de~la Vega, Gouzy,
   Carbentier, Aguileta, Siguenza, Brandenburg, Coelho, Hood, and
@@ -36,6 +42,12 @@ Charlesworth, D., 1991.
 \newblock The apparent selection on neutral marker loci in partially inbreeding
   populations.
 \newblock Genet.~Res.~Camb. 57:159--175.
+
+\bibitem[{Huber et~al.(2018)Huber, Durvasula, Hancock, and
+  Lohmueller}]{Huber2018}
+Huber, C., A.~Durvasula, A.~Hancock, and K.~Lohmueller, 2018.
+\newblock Gene expression drives the evolution of dominance.
+\newblock Nature Communications 9:2750.
 
 \bibitem[{Ironside(2010)}]{Ironside2010}
 Ironside, J.~E., 2010.

@@ -51,7 +51,7 @@ numberOfCluster  <-  2*(detectCores() - 1)
 ## N = 5000
 # x = 0.05
 makeDataPrFixIBMSimParallel(h = 0.1, s = 0.01, Us.factor = 5,
-					nTot = 10^4, N = 5*10^3, invSize = 0.05,  burnin=100,
+					nTot = 10^4, N = 10^4, invSize = 0.05,  burnin=10000,
 					nCluster = numberOfCluster, extraFileID = "_x0.05_freeR_parallel")
 # x = 0.1
 makeDataPrFixIBMSimParallel(h = 0.1, s = 0.01, Us.factor = 5,

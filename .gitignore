@@ -106,9 +106,8 @@ vignettes/*.pdf
 Mathematica/*
 output/*
 papers/*
-doc/sheltering_*/*
-doc/CoverLetter/*
+doc/*
 SexGenMtg/*
+Cpp/*
 # Untracked Files for public repo #
 ###################################
-*CoverLetter*.tex
