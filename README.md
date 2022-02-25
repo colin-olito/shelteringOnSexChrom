@@ -1,8 +1,8 @@
-# Consequences of recessive deleterious genetic variation for the evolution of inversions suppressing recombination between sex chromosomes.
+# Consequences of partially recessive deleterious genetic variation for the evolution of inversions suppressing recombination between sex chromosomes.
 
 ## Overview
 
-This is a GitHub repository for the development of a theoretical population genetics research project that is now published under the title "*Consequences of recessive deleterious genetic variation for the evolution of inversions suppressing recombination between sex chromosomes.*" (doi: XXXXXX). Here you can find all of the necessary code to reproduce the simulations presented in the published paper and appendices. Other supplementary material for the paper can be downloaded as an online appendix from [link](URL).
+This is a GitHub repository for the development of a theoretical population genetics research project that is now published under the title "*Consequences of partially recessive deleterious genetic variation for the evolution of inversions suppressing recombination between sex chromosomes.*" (doi: XXXXXX). Here you can find all of the necessary code to reproduce the simulations and main figures presented in the published paper and appendices. Other supplementary material for the paper can be downloaded as an online appendix from [link](URL).
 
 
 ## Abstract
@@ -12,10 +12,77 @@ The evolution of suppressed recombination between sex chromosomes is widely hypo
 
 
 ## Citing information
+*Please cite the paper as*:
+Colin Olito$^{1,\ast}$, Bengt Hansson$^{1}$, Suvi Ponnikas$^{2}$, Jessica K. Abbott$^{1}$
+Olito, C., B. Hansson, S. Ponnikas, J.K. Abbott. 2022. Consequences of partially recessive deleterious genetic variation for the evolution of inversions suppressing recombination between sex chromosomes. *Evolution* XX: XX--XX. doi: XXX
 
-Citing information for the resulting paper will be provided when it is made [available through the publisher](URL). You can also contact me directly if you would like a reprint. 
+Full citing information will be provided when it is made [available through the publisher](https://onlinelibrary.wiley.com/toc/15585646/0/0). You can also contact me directly if you would like a reprint. 
+
+
+
+##  Instructions
+
+This repository provides all code necessary to (1) rerun the simulations and (2) produce figures as .pdf's. To do so, please follow these basic steps:
+
+1. Clone the repo using the following: `git clone https://https://github.com/colin-olito/shelteringOnSexChrom`. Alternatively, on the project main page on GitHub, click on the green button `clone` or `download` and then click on `Download ZIP`.  
+2. Check that you have a recent version of [`R`](https://www.r-project.org/) installed. 
+3. Make sure that the working directory for your R session is the root directory of this repo (e.g., `shelteringOnSexChrom-master/`).
+4. Run `./R/run-simulations-delMut.R` either interactively in R or in terminal. *We recommend doing this interactively and only running up to L.100*, which will avoid running many simulations contained in a coda to the main simulations.
+5. Run `./R/run-simulations-PartialFullSib.R` either interactively in R or in terminal.
+6. Run `makeFigs.R` (up to L.140), which will read the simulation output files and generate the main figures in the paper and supplementary material.  
+
+
+
+## Repository structure and contents 
+
+The directories/files in this repository needed to reproduce the results for this study are as follows:  
+
+- **`R`**   
+	- `functions-figures-inversion-delMut.R`  
+	- `functions-figures.R`  
+	- `run-simulations-3Loc-PartialFullSib.R`  
+	- `run-simulations-PartialFullSib.R`  
+	- `run-simulations-delMut.R`  
+	- `simulations-3Loc-PartialFullSib.R`  
+	- `simulations-PartialFullSib.R`  
+	- `simulations-inversions-delMut.R`  
+- **`data`***  
+	- data folder will be created locally the first time `run-Simulations-delMut.R` is run (*if needed*), then populated with simulation output files.
+- **`figures`***  
+	- figures folder will be created locally the first time `run-Simulations-delMut.R` is run.
+- `makeFigs.R`  
+- `LICENSE.txt`   
+
+**Note:** * `Data` directory will be created locally the first time `run-Simulations-delMut.R` is run.
+
+
+### File & variable descriptions
+
+Plotting function files
+- `functions-figures-inversion-delMut.R`: plotting functions for figures specific to simulations for inversions with deleterious mutations.  
+- `functions-figures.R`: general plotting functions.   
+
+Simulation function files
+- `simulations-3Loc-PartialFullSib.R`: workhorse simulation functions for 3-locus version of Charlesworth & Wall (1999) model.   
+- `simulations-PartialFullSib.R`: workhorse simulation functions for 2-locus version of Charlesworth & Wall (1999) model.   
+- `simulations-inversions-delMut.R`: workhorse simulation functions deterministic and W-F simulations of inversions under deleterious mutation pressure.   
+
+Executables
+- `run-simulations-3Loc-PartialFullSib.R`: executable functions for 3-locus version of Charlesworth & Wall (1999) model.   
+- `run-simulations-PartialFullSib.R`: executable functions for 2-locus version of Charlesworth & Wall (1999) model.   
+- `run-simulations-delMut.R`: executable functions for deterministic and W-F simulations of inversions under deleterious mutation pressure.   
+- `makeFigs.R`: executable functions to create .pdf figures using simulation output files.
+
+License    
+- `LICENSE.txt`: MIT license for this repository.  
 
 
 ## Contact & bug reporting
 
 Please report any bugs, problems, or issues by opening an issue on the inversionSize github [issues page](https://github.com/colin-olito/shelteringOnSexChrom/issues). If you would like to report a bug/issue, and do not have a github account (and don't want to get one), please send a brief email detailing the problem you encountered to colin.olito at biol dot lu dot se.
+
+
+
+## Licence information
+
+This repository is provided by the authors under the MIT License ([MIT](https://opensource.org/licenses/MIT)).

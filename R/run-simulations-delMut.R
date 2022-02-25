@@ -16,6 +16,20 @@
 rm(list=ls())
 source('R/simulations-inversions-delMut.R')
 
+######################################
+#' Create output directories if they
+#' do not already exist
+dataDirectoryExists  <-  dir.exists("./data")
+
+if(!dataDirectoryExists) {
+	dir.create("./data")
+}
+
+figuresDirectoryExists  <-  dir.exists("./figures")
+
+if(!figuresDirectoryExists) {
+	dir.create("./figures")
+}
 
 ########################################
 # Fixation Probability ~ Inv. Size
