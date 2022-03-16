@@ -13,7 +13,7 @@ The evolution of suppressed recombination between sex chromosomes is widely hypo
 
 ## Citing information
 *Please cite the paper as*:
-Colin Olito$^{1,\ast}$, Bengt Hansson$^{1}$, Suvi Ponnikas$^{2}$, Jessica K. Abbott$^{1}$
+
 Olito, C., B. Hansson, S. Ponnikas, J.K. Abbott. 2022. Consequences of partially recessive deleterious genetic variation for the evolution of inversions suppressing recombination between sex chromosomes. *Evolution* XX: XX--XX. doi: XXX
 
 Full citing information will be provided when it is made [available through the publisher](https://onlinelibrary.wiley.com/toc/15585646/0/0). You can also contact me directly if you would like a reprint. 
@@ -47,13 +47,11 @@ The directories/files in this repository needed to reproduce the results for thi
 	- `simulations-PartialFullSib.R`  
 	- `simulations-inversions-delMut.R`  
 - **`data`***  
-	- data folder will be created locally the first time `run-Simulations-delMut.R` is run (*if needed*), then populated with simulation output files.
 - **`figures`***  
-	- figures folder will be created locally the first time `run-Simulations-delMut.R` is run.
 - `makeFigs.R`  
 - `LICENSE.txt`   
 
-**Note:** * `Data` directory will be created locally the first time `run-Simulations-delMut.R` is run.
+**Note:** * `Data` and `figures` directories will be created locally the first time `run-Simulations-delMut.R` is run (*if needed*).
 
 
 ### File & variable descriptions

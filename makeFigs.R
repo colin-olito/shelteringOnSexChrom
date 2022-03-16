@@ -28,13 +28,10 @@ source('./R/functions-figures-inversions-delMut.R')
 
 
 
-source('./R/functions-figures.R')
-source('./R/functions-figures-inversions-delMut.R')
-
 #  Fig.1 REVISED -- Illustration of deterministic dynamics
 toPdf(deterministicDominanceIllustration(), 
-			figPath(name='deterministicDomIllusFig.pdf'), width=10, height=10)
-embed_fonts(figPath(name='deterministicDomIllusFig.pdf'))
+			figPath(name='deterministicDomIllusFigCol.pdf'), width=10, height=10)
+embed_fonts(figPath(name='deterministicDomIllusFigCol.pdf'))
 
 
 
@@ -42,7 +39,6 @@ embed_fonts(figPath(name='deterministicDomIllusFig.pdf'))
 toPdf(PrFixFig4Panel(), 
 			figPath(name='PrFixFig4Panel_h0_25.pdf'), width=8, height=8)
 embed_fonts(figPath(name='PrFixFig4Panel_h0_25.pdf'))
-
 
 
 # Depricated figures
@@ -97,20 +93,17 @@ embed_fonts(figPath(name='deterministicSuppFig_h0_25.pdf'))
 
 #  Fig.S3 -- Fixation Probability for less recessive del. mut.
 toPdf(PrFixFigRecessive(), 
-			figPath(name='PrFixSuppFix-h0_1.pdf'), width=6, height=6)
-embed_fonts(figPath(name='PrFixSuppFix-h0_1.pdf'))
+			figPath(name='PrFixSuppFix_h0_1.pdf'), width=6, height=6)
+embed_fonts(figPath(name='PrFixSuppFix_h0_1.pdf'))
 
 #  Fig.S4 -- Fixation Probability for strongly recessive del. mut.
 toPdf(PrFixFigStrongRecessive(), 
-			figPath(name='PrFixSuppFix-h0_01.pdf'), width=6, height=6)
-embed_fonts(figPath(name='PrFixSuppFix-h0_01.pdf'))
+			figPath(name='PrFixSuppFix_h0_01.pdf'), width=6, height=6)
+embed_fonts(figPath(name='PrFixSuppFix_h0_01.pdf'))
 
 
 
-rm(list=ls())
-source('./R/functions-figures.R')
-source('./R/functions-figures-inversions-delMut.R')
-#  Fig.S4 -- Deterministic Dynamics Overview Figure (h=0.25)
+#  Fig.S5 -- Accumulation of del. mutations on Auto vs. SLR inversions (h=0.25)
 toPdf(delMutAccumulationAutoVsSLR(), 
 			figPath(name='delMutAccumulationAutoVsSLR.pdf'), width=12, height=5)
 embed_fonts(figPath(name='delMutAccumulationAutoVsSLR.pdf'))
