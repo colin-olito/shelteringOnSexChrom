@@ -18,7 +18,7 @@ Olito, C., B. Hansson, S. Ponnikas, J.K. Abbott. 2022. Consequences of partially
 
 Full citing information will be provided when it is made [available through the publisher](https://onlinelibrary.wiley.com/toc/15585646/0/0). You can also contact me directly if you would like a reprint. 
 
-
+A version of record for this repository at the time of acceptance is archived on Zenodo [![DOI](https://zenodo.org/badge/449208001.svg)](https://zenodo.org/badge/latestdoi/449208001).
 
 ##  Instructions
 
