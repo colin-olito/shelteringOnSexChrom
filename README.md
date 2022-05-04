@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a GitHub repository for the development of a theoretical population genetics research project that is now published under the title "*Consequences of partially recessive deleterious genetic variation for the evolution of inversions suppressing recombination between sex chromosomes.*" (doi: XXXXXX). Here you can find all of the necessary code to reproduce the simulations and main figures presented in the published paper and appendices. Other supplementary material for the paper can be downloaded as an online appendix from [link](URL).
+This is a GitHub repository for the development of a theoretical population genetics research project that is now published under the title "*Consequences of partially recessive deleterious genetic variation for the evolution of inversions suppressing recombination between sex chromosomes.*" (doi: 10.1111/evo.14496). Here you can find all of the necessary code to reproduce the simulations and main figures presented in the published paper and appendices. 
 
 
 ## Abstract
@@ -14,9 +14,9 @@ The evolution of suppressed recombination between sex chromosomes is widely hypo
 ## Citing information
 *Please cite the paper as*:
 
-Olito, C., B. Hansson, S. Ponnikas, J.K. Abbott. 2022. Consequences of partially recessive deleterious genetic variation for the evolution of inversions suppressing recombination between sex chromosomes. *Evolution* XX: XX--XX. doi: XXX
+Olito, C., B. Hansson, S. Ponnikas, J.K. Abbott. 2022. Consequences of partially recessive deleterious genetic variation for the evolution of inversions suppressing recombination between sex chromosomes. *Evolution* XX: XX--XX. doi: 10.1111/evo.14496.
 
-Full citing information will be provided when it is made [available through the publisher](https://onlinelibrary.wiley.com/toc/15585646/0/0). You can also contact me directly if you would like a reprint. 
+The published article, along with all supplementary material, is Open Access and [freely available through the publisher](https://doi.org/10.1111/evo.14496). You can also contact me directly if you would like a copy. 
 
 A version of record for this repository at the time of acceptance is archived on Zenodo [![DOI](https://zenodo.org/badge/449208001.svg)](https://zenodo.org/badge/latestdoi/449208001).
 
