@@ -30,8 +30,13 @@ source('./R/functions-figures-inversions-delMut.R')
 
 #  Fig.1 REVISED -- Illustration of deterministic dynamics
 toPdf(deterministicDominanceIllustration(), 
-			figPath(name='deterministicDomIllusFigCol.pdf'), width=10, height=10)
-embed_fonts(figPath(name='deterministicDomIllusFigCol.pdf'))
+			figPath(name='deterministicDomIllusFigCol_BCharlesworth.pdf'), width=10, height=10)
+embed_fonts(figPath(name='deterministicDomIllusFigCol_BCharlesworth.pdf'))
+
+#  Fig.1 FIXED sh
+toPdf(deterministicDom_Fixed_sh(), 
+			figPath(name='deterministicDom_Fixed_sh.pdf'), width=10, height=10)
+embed_fonts(figPath(name='deterministicDom_Fixed_sh.pdf'))
 
 
 
@@ -71,23 +76,25 @@ embed_fonts(figPath(name='PrFixFig4Panel_h0_25.pdf'))
 # Supplementary Figures
 ########################
 
-
 #  Fig.S1 -- Deterministic Dynamics Overview Figure
 toPdf(deterministicSuppFig(), 
-			figPath(name='deterministicSuppFig_h0_1.pdf'), width=12, height=10)
-embed_fonts(figPath(name='deterministicSuppFig_h0_1.pdf'))
+			figPath(name='deterministicSuppFig_h0_1_CORRECTED.pdf'), width=12, height=10)
+embed_fonts(figPath(name='deterministicSuppFig_h0_1_CORRECTED.pdf'))
 
 
 #  Fig.S2 -- Deterministic Dynamics Overview Figure (h=0.01)
+rm(list=ls())
+source('./R/functions-figures.R')
+source('./R/functions-figures-inversions-delMut.R')
 toPdf(deterministicSuppFig_h0.01(), 
-			figPath(name='deterministicSuppFig_h0_01.pdf'), width=12, height=10)
-embed_fonts(figPath(name='deterministicSuppFig_h0_01.pdf'))
+			figPath(name='deterministicSuppFig_h0_01_CORRECTED.pdf'), width=12, height=10)
+embed_fonts(figPath(name='deterministicSuppFig_h0_01_CORRECTED.pdf'))
 
 
 #  Fig.S2 -- Deterministic Dynamics Overview Figure (h=0.25)
 toPdf(deterministicSuppFig_h0.25(), 
-			figPath(name='deterministicSuppFig_h0_25.pdf'), width=12, height=10)
-embed_fonts(figPath(name='deterministicSuppFig_h0_25.pdf'))
+			figPath(name='deterministicSuppFig_h0_25_CORRECTED.pdf'), width=12, height=10)
+embed_fonts(figPath(name='deterministicSuppFig_h0_25_CORRECTED.pdf'))
 
 
 

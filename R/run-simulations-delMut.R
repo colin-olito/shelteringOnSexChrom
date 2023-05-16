@@ -53,6 +53,13 @@ makeDataPrFixInvSize(h = 0.1, s = 0.01, Us.factor.vals = c(2, 5, 10),
 makeDataPrFixInvSize(h = 0.1, s = 0.01, Us.factor.vals = c(2, 5, 10),
 					 nTot = 10^4, N.vals = c(10^5), Nfname="_N100k_deterministic_q")
 
+# N = 500k, broken up by Us.factor
+makeDataPrFixInvSize(h = 0.1, s = 0.01, Us.factor.vals = c(2),
+					 nTot = 10^4, N.vals = c(5*10^5), Nfname="_N500k_Us2_deterministic_q")
+makeDataPrFixInvSize(h = 0.1, s = 0.01, Us.factor.vals = c(5),
+					 nTot = 10^4, N.vals = c(5*10^5), Nfname="_N500k_Us5_deterministic_q")
+makeDataPrFixInvSize(h = 0.1, s = 0.01, Us.factor.vals = c(10),
+					 nTot = 10^4, N.vals = c(5*10^5), Nfname="_N500k_Us10_deterministic_q")
 
 
 

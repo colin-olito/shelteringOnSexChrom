@@ -13,8 +13,30 @@ wBarY  <-  function(n, r, s, h, YI.t, qt.I.wt, qt.Y.wt, qt.Y.del, XaOv.t.wt, XaO
 	pt.I.wt    <-  1 - qt.I.wt
 	pt.Y.del   <-  1 - qt.Y.del
 	pt.Y.wt    <-  1 - qt.Y.wt
-		  YI.t*(( 1 - s*(h*(1 - XaOv.t.del) + XaOv.t.del) )^r) * (1 - s*(h*(pt.I.wt*XaOv.t.wt + qt.I.wt*(1 - XaOv.t.wt)) + qt.I.wt*XaOv.t.wt))^(n-r) +
-	(1 - YI.t)*( (1 - s*(h*((1 - XaOv.t.del)*qt.Y.del + XaOv.t.del*pt.Y.del) + XaOv.t.del*qt.Y.del)^r) * ((1 - s*(h*((1 - XaOv.t.wt)*qt.Y.wt + XaOv.t.wt*pt.Y.wt) + XaOv.t.wt*qt.Y.wt))^(n - r)) )
+		   YI.t*(  (1 - s*(h*(1 - XaOv.t.del) + XaOv.t.del) )^r) * (1 - s*(h*(pt.I.wt*XaOv.t.wt + qt.I.wt*(1 - XaOv.t.wt)) + qt.I.wt*XaOv.t.wt))^(n-r) +
+	(1 - YI.t)*( (1 - s*(h*((1 - XaOv.t.del)*qt.Y.del + XaOv.t.del*pt.Y.del) + XaOv.t.del*qt.Y.del))^r * ((1 - s*(h*((1 - XaOv.t.wt)*qt.Y.wt + XaOv.t.wt*pt.Y.wt) + XaOv.t.wt*qt.Y.wt))^(n - r)) )
+}
+
+wY.noHom  <-  function(n, r, s, h, YI.t, qt.I.wt, qt.Y.wt, qt.Y.del, XaOv.t.wt, XaOv.t.del) {
+	pt.I.wt    <-  1 - qt.I.wt
+	pt.Y.del   <-  1 - qt.Y.del
+	pt.Y.wt    <-  1 - qt.Y.wt		   
+	( (1 - s*(h*((1 - XaOv.t.del)*qt.Y.del + XaOv.t.del*pt.Y.del) + XaOv.t.del*qt.Y.del))^r * ((1 - s*(h*((1 - XaOv.t.wt)*qt.Y.wt + XaOv.t.wt*pt.Y.wt)))^(n - r)) )
+}
+
+invFit  <-  function(n, r, s, h, YI.t, qt.I.wt, qt.Y.wt, qt.Y.del, XaOv.t.wt, XaOv.t.del){
+	pt.I.wt    <-  1 - qt.I.wt
+	pt.Y.del   <-  1 - qt.Y.del
+	pt.Y.wt    <-  1 - qt.Y.wt
+		  ((( 1 - s*(h*(1 - XaOv.t.del) + XaOv.t.del) )^r) * (1 - s*(h*(pt.I.wt*XaOv.t.wt + qt.I.wt*(1 - XaOv.t.wt)) + qt.I.wt*XaOv.t.wt))^(n-r)) 
+}
+
+invRelFit  <-  function(n, r, s, h, YI.t, qt.I.wt, qt.Y.wt, qt.Y.del, XaOv.t.wt, XaOv.t.del){
+	pt.I.wt    <-  1 - qt.I.wt
+	pt.Y.del   <-  1 - qt.Y.del
+	pt.Y.wt    <-  1 - qt.Y.wt
+		  ((( 1 - s*(h*(1 - XaOv.t.del) + XaOv.t.del) )^r) * (1 - s*(h*(pt.I.wt*XaOv.t.wt + qt.I.wt*(1 - XaOv.t.wt)) + qt.I.wt*XaOv.t.wt))^(n-r)) /
+				( (1 - s*(h*((1 - XaOv.t.del)*qt.Y.del + XaOv.t.del*pt.Y.del) + XaOv.t.del*qt.Y.del))^r * ((1 - s*(h*((1 - XaOv.t.wt)*qt.Y.wt + XaOv.t.wt*pt.Y.wt) + XaOv.t.wt*qt.Y.wt))^(n - r)) )
 }
 
 YI.prime  <-  function(n, r, s, h, YI.t, qt.I.wt, qt.Y.wt, qt.Y.del, XaOv.t.wt, XaOv.t.del, ...) {
@@ -136,10 +158,13 @@ makeDeterministicFigSimData  <-  function(r = 0, x = 0.2, h = 0.1, s = 0.01, Ufa
 	XaSp.del.t  <- c()
 	qY.del.t    <- c()
 	wbarYI.t    <- c()
+	relWYI.t    <- c()
+	YInvW.t     <- c()
+	YWbar.t     <- c()
 
 	# Find equilibrium prior to inversion 
 	eqs  <-  findEq(r=r, h=h, s=s, n=n, u=u, qHat=qHat, qHatDel=qHatDel)
-	
+
 	# First generation (all loci at equilibrium frequencies when inversion arises)
 	YI.t[1]        <-  round(YI.prime(n=n, r=r, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
 	XaOv.wt.t[1]   <-  round(XaOv.wt.prime(u=u, s=s, h=h, XaOv.t.wt=eqs$XaOv.wt.init, XaSp.t.wt=eqs$XaSp.wt.init), digits=9)
@@ -150,6 +175,11 @@ makeDeterministicFigSimData  <-  function(r = 0, x = 0.2, h = 0.1, s = 0.01, Ufa
 	XaSp.del.t[1]  <-  round(XaSp.del.prime(u=u, s=s, h=h, YI.t=YI.0, qt.Y.del=eqs$qY.del.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
 	qY.del.t[1]    <-  round(qY.del.prime(u=u, s=s, h=h, qt.Y.del=eqs$qY.del.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
 	wbarYI.t[1]    <-  round((YI.t[1]/YI.0), digits=9)
+	relWYI.t[1]    <-  round(invRelFit(n=n, r=r, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
+	YInvW.t[1]     <-  round(invFit(n=n, r=r, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
+	YWbar.t[1]     <-  round(wBarY(n=n, r=r, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
+
+
 	# Subsequent generations
 	i=2
 	while(i < generations+1) {
@@ -162,6 +192,9 @@ makeDeterministicFigSimData  <-  function(r = 0, x = 0.2, h = 0.1, s = 0.01, Ufa
 		qY.wt.t[i]     <-  round(qY.wt.prime(u=u, s=s, h=h, qt.Y.wt=qY.wt.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1]), digits=9)
 		qY.del.t[i]    <-  round(qY.del.prime(u=u, s=s, h=h, qt.Y.del=qY.del.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
 		wbarYI.t[i]    <-  round((YI.t[i]/ YI.t[i-1]), digits=9)
+		relWYI.t[i]    <-  round(invRelFit(n=n, r=r, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
+		YInvW.t[i]     <-  round(invFit(n=n, r=r, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
+		YWbar.t[i]     <-  round(wBarY(n=n, r=r, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
 		i  <-  i + 1
 	}
 	# Tack on initial freq.
@@ -173,9 +206,11 @@ makeDeterministicFigSimData  <-  function(r = 0, x = 0.2, h = 0.1, s = 0.01, Ufa
 	qI.wt.t     <-  c(0, qI.wt.t)
 	qY.wt.t     <-  c(eqs$qY.wt.init, qY.wt.t)
 	qY.del.t    <-  c(eqs$qY.del.init, qY.del.t)
-	wbarYI.t    <-  c(NA, wbarYI.t)
-
-	# Return results as df
+	wbarYI.t    <-  c(wbarYI.t[1], wbarYI.t)
+	relWYI.t    <-  c(relWYI.t[1], relWYI.t)
+	YInvW.t     <-  c(YInvW.t[1], YInvW.t)
+	YWbar.t     <-  c(YWbar.t[1], YWbar.t)
+	 # Return results as df
 	results  <-  data.frame(
 							"YI.t"        =  YI.t,
 							"XaOv.wt.t"   =  XaOv.wt.t,
@@ -185,12 +220,107 @@ makeDeterministicFigSimData  <-  function(r = 0, x = 0.2, h = 0.1, s = 0.01, Ufa
 							"qI.wt.t"     =  qI.wt.t,
 							"qY.wt.t"     =  qY.wt.t,
 							"qY.del.t"    =  qY.del.t,
-							"wbar.YI.t"   =  wbarYI.t
-							)
+							"wbar.YI.t"   =  wbarYI.t,
+							"rel.w.YI.t"  =  relWYI.t,
+							"w.YI.t"      =  YInvW.t,
+							"Wbar.Y.t"    =  YWbar.t
+		 					)
 	return(results)
 }
 
 
+
+makeDeterministicFigSimData_Fixed_sh  <-  function(r = 0, x = 0.2, h = 0.1, s = 0.01, U = 0.02, generations = 10^4, ...) {
+	# Parameters
+	nTot  <-  10^4
+	u     <-  U/nTot
+	qHat  <-  (U/(nTot*h*s))
+	if(r == 0) {
+		qHatDel  <-  0
+	} else {qHatDel  <-  qHat}
+	n     <-  nTot*x
+	N     <-  5000
+	YI.0  <-  2/N
+
+	# Empty Frequency Vectors
+	YI.t        <- c()
+	XaOv.wt.t   <- c()
+	XaSp.wt.t   <- c()
+	qI.wt.t     <- c()
+	qY.wt.t     <- c()
+	XaOv.del.t  <- c()
+	XaSp.del.t  <- c()
+	qY.del.t    <- c()
+	wbarYI.t    <- c()
+	relWYI.t    <- c()
+	YInvW.t     <- c()
+	YWbar.t     <- c()
+
+	# Find equilibrium prior to inversion 
+	eqs  <-  findEq(r=r, h=h, s=s, n=n, u=u, qHat=qHat, qHatDel=qHatDel)
+
+	# First generation (all loci at equilibrium frequencies when inversion arises)
+	YI.t[1]        <-  round(YI.prime(n=n, r=r, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
+	XaOv.wt.t[1]   <-  round(XaOv.wt.prime(u=u, s=s, h=h, XaOv.t.wt=eqs$XaOv.wt.init, XaSp.t.wt=eqs$XaSp.wt.init), digits=9)
+	XaSp.wt.t[1]   <-  round(XaSp.wt.prime(u=u, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, XaOv.t.wt=eqs$XaOv.wt.init), digits=9)
+	qI.wt.t[1]     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, YI.t=YI.0, qt.I.wt=0, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
+	qY.wt.t[1]     <-  round(qY.wt.prime(u=u, s=s, h=h, qt.Y.wt=eqs$qY.wt.init, XaOv.t.wt=eqs$XaOv.wt.init), digits=9)
+	XaOv.del.t[1]  <-  round(XaOv.del.prime(u=u, s=s, h=h, XaOv.t.del=eqs$XaOv.del.init, XaSp.t.del=eqs$XaSp.del.init), digits=9)
+	XaSp.del.t[1]  <-  round(XaSp.del.prime(u=u, s=s, h=h, YI.t=YI.0, qt.Y.del=eqs$qY.del.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
+	qY.del.t[1]    <-  round(qY.del.prime(u=u, s=s, h=h, qt.Y.del=eqs$qY.del.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
+	wbarYI.t[1]    <-  round((YI.t[1]/YI.0), digits=9)
+	relWYI.t[1]    <-  round(invRelFit(n=n, r=r, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
+	YInvW.t[1]     <-  round(invFit(n=n, r=r, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
+	YWbar.t[1]     <-  round(wBarY(n=n, r=r, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
+
+
+	# Subsequent generations
+	i=2
+	while(i < generations+1) {
+		YI.t[i]        <-  round(YI.prime(n=n, r=r, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
+		XaOv.wt.t[i]   <-  round(XaOv.wt.prime(u=u, s=s, h=h, XaOv.t.wt=XaOv.wt.t[i-1], XaSp.t.wt=XaSp.wt.t[i-1]), digits=9)
+		XaSp.wt.t[i]   <-  round(XaSp.wt.prime(u=u, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1]), digits=9)
+		XaOv.del.t[i]  <-  round(XaOv.del.prime(u=u, s=s, h=h, XaOv.t.del=XaOv.del.t[i-1], XaSp.t.del=XaSp.del.t[i-1]), digits=9)
+		XaSp.del.t[i]  <-  round(XaSp.del.prime(u=u, s=s, h=h, YI.t=YI.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
+		qI.wt.t[i]     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
+		qY.wt.t[i]     <-  round(qY.wt.prime(u=u, s=s, h=h, qt.Y.wt=qY.wt.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1]), digits=9)
+		qY.del.t[i]    <-  round(qY.del.prime(u=u, s=s, h=h, qt.Y.del=qY.del.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
+		wbarYI.t[i]    <-  round((YI.t[i]/ YI.t[i-1]), digits=9)
+		relWYI.t[i]    <-  round(invRelFit(n=n, r=r, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
+		YInvW.t[i]     <-  round(invFit(n=n, r=r, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
+		YWbar.t[i]     <-  round(wBarY(n=n, r=r, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
+		i  <-  i + 1
+	}
+	# Tack on initial freq.
+	YI.t        <- c(YI.0,YI.t)
+	XaOv.wt.t   <-  c(eqs$XaOv.wt.init, XaOv.wt.t)
+	XaSp.wt.t   <-  c(eqs$XaSp.wt.init, XaSp.wt.t)
+	XaOv.del.t  <-  c(eqs$XaOv.del.init, XaOv.del.t)
+	XaSp.del.t  <-  c(eqs$XaSp.del.init, XaSp.del.t)
+	qI.wt.t     <-  c(0, qI.wt.t)
+	qY.wt.t     <-  c(eqs$qY.wt.init, qY.wt.t)
+	qY.del.t    <-  c(eqs$qY.del.init, qY.del.t)
+	wbarYI.t    <-  c(wbarYI.t[1], wbarYI.t)
+	relWYI.t    <-  c(relWYI.t[1], relWYI.t)
+	YInvW.t     <-  c(YInvW.t[1], YInvW.t)
+	YWbar.t     <-  c(YWbar.t[1], YWbar.t)
+	 # Return results as df
+	results  <-  data.frame(
+							"YI.t"        =  YI.t,
+							"XaOv.wt.t"   =  XaOv.wt.t,
+							"XaSp.wt.t"   =  XaSp.wt.t,
+							"XaOv.del.t"  =  XaOv.del.t,
+							"XaSp.del.t"  =  XaSp.del.t,
+							"qI.wt.t"     =  qI.wt.t,
+							"qY.wt.t"     =  qY.wt.t,
+							"qY.del.t"    =  qY.del.t,
+							"wbar.YI.t"   =  wbarYI.t,
+							"rel.w.YI.t"  =  relWYI.t,
+							"w.YI.t"      =  YInvW.t,
+							"Wbar.Y.t"    =  YWbar.t
+		 					)
+	return(results)
+}
 
 ########################################
 ## Multilocus Wright-Fisher Simulations

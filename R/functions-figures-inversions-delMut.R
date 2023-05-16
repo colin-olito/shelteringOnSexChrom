@@ -5,6 +5,12 @@ source('./R/simulations-inversions-delMut.R')
 
 
 
+ qstar  <-  function(YI.init, U, x, s, h) {
+     (YI.init*exp((U*x)/(1 - exp(-s*h)))) / (1 - YI.init + exp((U*x)/(1 - exp(-h*s)))*YI.init)
+ }
+# qstar  <-  function(YI.init, U, x, s, h) {
+#     YI.init*exp((U*x)/(1 - exp(-s*h)))
+# }
 
 # FIGURE 1. Illustration of deterministic dynamics
 #           for different dominance values
@@ -28,15 +34,15 @@ deterministicDominanceIllustration  <-  function() {
     # h = 0.25
 
     # make data for plotting
-    r.0.Dat  <-  makeDeterministicFigSimData(r = 0, x = x, h = h, generations = 2500)
-    r.1.Dat  <-  makeDeterministicFigSimData(r = 1, x = x, h = h, generations = 2500)
-    r.2.Dat  <-  makeDeterministicFigSimData(r = 2, x = x, h = h, generations = 2500)
-    r.3.Dat  <-  makeDeterministicFigSimData(r = 3, x = x, h = h, generations = 2500)
+    r.0.Dat  <-  makeDeterministicFigSimData(s = s, r = 0, x = x, h = h, generations = 2500)
+    r.1.Dat  <-  makeDeterministicFigSimData(s = s, r = 1, x = x, h = h, generations = 2500)
+#    r.2.Dat  <-  makeDeterministicFigSimData(s = s, r = 2, x = x, h = h, generations = 2500)
+#    r.3.Dat  <-  makeDeterministicFigSimData(s = s, r = 3, x = x, h = h, generations = 2500)
 
-    r.0.wbar.YI.t  <-  r.0.Dat$wbar.YI.t[round(r.0.Dat$YI.t,digits=4) < 1]
-    r.1.wbar.YI.t  <-  r.1.Dat$wbar.YI.t[round(r.1.Dat$YI.t,digits=4) > 0]
-    r.2.wbar.YI.t  <-  r.2.Dat$wbar.YI.t[round(r.2.Dat$YI.t,digits=4) > 0]
-    r.3.wbar.YI.t  <-  r.3.Dat$wbar.YI.t[round(r.3.Dat$YI.t,digits=4) > 0]
+    r.0.rel.w.YI.t  <-  r.0.Dat$rel.w.YI.t[round(r.0.Dat$YI.t,digits=4) < 1]
+    r.1.rel.w.YI.t  <-  r.1.Dat$rel.w.YI.t[round(r.1.Dat$YI.t,digits=4) > 0]
+#    r.2.rel.w.YI.t  <-  r.2.Dat$rel.w.YI.t[round(r.2.Dat$YI.t,digits=4) > 0]
+#    r.3.rel.w.YI.t  <-  r.3.Dat$rel.w.YI.t[round(r.3.Dat$YI.t,digits=4) > 0]
 
     autotime  <-  c(1:2500)
     q.wt.Auto  <-  p.t(u=10^-6, sdHom=0.01, h=h, t=autotime) 
@@ -44,11 +50,11 @@ deterministicDominanceIllustration  <-  function() {
    # Colors
 #    colfunc  <-  colorRampPalette(c('#252525', 'grey70'))
 #    COLS     <-  rev(colfunc(5))
-COLS  <-  colorRampPalette(wes_palette("Zissou1"), interpolate = c("linear"))(2)
-
+#COLS  <-  colorRampPalette(wes_palette("Zissou1"), interpolate = c("linear"))(4)
+COLS  <- colorRampPalette(wes_palette("Zissou1"))(4)
     # Axes limits
-    relFitMin  <-  0.995
-    relFitMax  <-  1.015
+    relFitMin  <-  0.996
+    relFitMax  <-  1.005
 
 
 ## Panel A
@@ -62,21 +68,29 @@ COLS  <-  colorRampPalette(wes_palette("Zissou1"), interpolate = c("linear"))(2)
         box()
         # lines
         abline(h=1, lwd=1, lty=2, col=1)
-        lines(r.0.wbar.YI.t ~ seq_along(r.0.wbar.YI.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1))
-        lines(r.1.wbar.YI.t ~ seq_along(r.1.wbar.YI.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1))
-#        lines(r.2.wbar.YI.t ~ seq_along(r.2.wbar.YI.t), lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1))
-#        lines(r.3.wbar.YI.t ~ seq_along(r.3.wbar.YI.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1))
+#        abline(h=(1+U*x), lwd=1, lty=3, col=2)
+#        proportionalLabel(0.15, 0.89, expression(italic(1+italic(Ux))), cex=1, adj=c(0.5, 0.5), xpd=NA)
+        lines(r.0.rel.w.YI.t ~ seq_along(r.0.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1))
+        lines(r.1.rel.w.YI.t ~ seq_along(r.1.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1))
+#        lines(r.2.rel.w.YI.t ~ seq_along(r.2.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1))
+#        lines(r.3.rel.w.YI.t ~ seq_along(r.3.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1))
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='#252525')
-        points(r.1.wbar.YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
-#        points(r.2.wbar.YI.t[length(r.2.wbar.YI.t)] ~ length(r.2.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
-#        points(r.3.wbar.YI.t[length(r.3.wbar.YI.t)] ~ length(r.3.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
+#        points(r.0.rel.w.YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525')
+        points(r.1.rel.w.YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
+#        points(r.2.rel.w.YI.t[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
+#        points(r.3.rel.w.YI.t[length(r.3.rel.w.YI.t)] ~ length(r.3.rel.w.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
+        # Annotate 1 + Ux approximation
+        points(r.0.rel.w.YI.t[1] ~ 1, pch=23, bg=transparentColor('#252525', opacity=0.7), col='#252525')
+#        abline(h=(1+U*x), lwd=1, lty=3, col=2)
+        proportionalArrows(0.125, 0.86, 0.06, 0.86, cex=1, adj=c(0.5, 0.5), xpd=NA, log=FALSE, length=0.05)
+        proportionalLabel(0.25, 0.86, expression(1+italic(Ux)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         # axes
         axis(1, las=1, labels=NA)
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, substitute(italic(h)==xx, list(xx=h)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(0.5, 1.15, substitute(italic(h)==xx, list(xx=h)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.3,  0.5,   expression(paste("Inversion Relative Fitness")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
         # Legend
         legend(
@@ -100,6 +114,470 @@ COLS  <-  colorRampPalette(wes_palette("Zissou1"), interpolate = c("linear"))(2)
                border  =  NA
                )
 
+qstr  <-  qstar(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h)
+
+## Panel D
+# Effect of initial del. mut. load on inversion frequency dynamics 
+    # make plot
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,0.1), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Lines
+        lines(YI.t[1:length(r.0.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.0.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.0.Dat)
+        lines(YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+#        lines(YI.t[1:length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.2.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.2.Dat)
+#        lines(YI.t[1:length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.3.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.3.Dat)
+        # Points
+#        points(YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525', data=r.0.Dat)
+        points(YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+#        points(YI.t[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
+#        points(YI.t[length(r.3.rel.w.YI.t)] ~ length(r.3.rel.w.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.3.Dat)
+        # benchmark qstar
+        abline(h=qstr, lty=2)
+        proportionalLabel(0.9, 0.1, expression(paste(italic(q),"*")), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        # axes
+        axis(1, las=1, labels=NA)
+        axis(2, las=1, cex=1.3)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(-0.3,  0.5,   expression(paste("Inversion Frequency (", italic(Y[I]), ")")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+
+    # reset Colors
+     COLS  <-  c('red',
+                 '#252525')
+## Panel G
+# deleterious allele frequencies for r = 1
+     # Make plot
+    delMax  <-  r.1.Dat$XaOv.wt.t[1]*1.05
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,delMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Points
+        lines(XaOv.wt.t ~ seq_along(XaOv.wt.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(XaOv.del.t ~ seq_along(XaOv.del.t), lwd=2, lty=3, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(qI.wt.t ~ seq_along(qI.wt.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.1.Dat)
+#        lines(q.wt.Auto ~ autotime, lwd=2, lty=1, col="tomato")
+        # axes
+        axis(1, las=1, cex=1.3)
+        axis(2, las=1, cex=1.3)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'G', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(-0.3,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
+        # Legend
+        legend(
+               x       =  usr[2],
+               y       =  usr[4]*0.9,
+               legend = c(expression(italic(q)[italic(X[f])]^italic(W)), 
+                          expression(italic(q)[italic(Y[I])]^italic(W)), 
+                          expression(italic(q)[italic(X[f])]^italic(D))),
+               lty     =  c(1,1,3),
+               lwd     =  2,
+               col     =  c(transparentColor(COLS[2], opacity=1),
+                            transparentColor(COLS[1], opacity=1),
+                            transparentColor(COLS[2], opacity=1)),
+               cex     =  1.5,
+               xjust   =  1,
+               yjust   =  1,
+               bty     =  'n',
+               border  =  NA
+               )
+
+
+
+    ###########
+    # h = 0.1
+#   s        <-  0.025
+#    h        <-  0.1
+#    Ufactor  <-  2
+#    nTot     <-  10^4 
+#    U        <-  Ufactor*s
+#    u        <-  U/nTot
+#    x        <-  0.2
+
+    # make data for plotting
+    h  <-  0.1
+    r.0.Dat  <-  makeDeterministicFigSimData(s = s, r = 0, x = x, h = h, generations = 8000)
+    r.1.Dat  <-  makeDeterministicFigSimData(s = s, r = 1, x = x, h = h, generations = 8000)
+    r.2.Dat  <-  makeDeterministicFigSimData(s = s, r = 2, x = x, h = h, generations = 8000)
+    r.3.Dat  <-  makeDeterministicFigSimData(s = s, r = 3, x = x, h = h, generations = 8000)
+
+    r.0.rel.w.YI.t  <-  r.0.Dat$rel.w.YI.t[round(r.0.Dat$YI.t,digits=4) < 1]
+    r.1.rel.w.YI.t  <-  r.1.Dat$rel.w.YI.t[round(r.1.Dat$YI.t,digits=4) > 0]
+    r.2.rel.w.YI.t  <-  r.2.Dat$rel.w.YI.t[round(r.2.Dat$YI.t,digits=4) > 0]
+    r.3.rel.w.YI.t  <-  r.3.Dat$rel.w.YI.t[round(r.3.Dat$YI.t,digits=4) > 0]
+
+    autotime  <-  c(1:8000)
+     q.wt.Auto  <-  p.t(u=10^-6, sdHom=0.01, h=h, t=autotime) 
+
+   # Colors
+#    colfunc  <-  colorRampPalette(c('#252525', 'grey70'))
+#    COLS     <-  rev(colfunc(5))
+    COLS     <-  colorRampPalette(wes_palette("Zissou1"))(4)
+
+## Panel B
+# Effect of initial del. mut. load on inversion frequency dynamics 
+    # make plot
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(relFitMin,relFitMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # lines
+        abline(h=1, lwd=1, lty=2, col=1)
+        lines(r.3.rel.w.YI.t ~ seq_along(r.3.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1))
+        lines(r.2.rel.w.YI.t ~ seq_along(r.2.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1))
+        lines(r.1.rel.w.YI.t ~ seq_along(r.1.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1))
+        lines(r.0.rel.w.YI.t ~ seq_along(r.0.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1))
+        # Points depicting (arbitrary) extinction frequency of 0.00001
+#        points(r.0.rel.w.YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525')
+        points(r.1.rel.w.YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
+        points(r.2.rel.w.YI.t[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
+        points(r.3.rel.w.YI.t[length(r.3.rel.w.YI.t)] ~ length(r.3.rel.w.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
+        # Annotate 1 + Ux approximation
+        points(r.0.rel.w.YI.t[1] ~ 1, pch=23, bg=transparentColor('#252525', opacity=0.7), col='#252525')
+#        abline(h=(1+U*x), lwd=1, lty=3, col=2)
+#        proportionalArrows(0.125, 0.86, 0.06, 0.86, cex=1, adj=c(0.5, 0.5), xpd=NA, log=FALSE, length=0.05)
+#        proportionalLabel(0.2, 0.86, expression(italic(1+italic(Ux))), cex=1, adj=c(0.5, 0.5), xpd=NA)
+        # axes
+        axis(1, las=1, labels=NA)
+        axis(2, las=1, labels=NA)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+#       proportionalLabel(0.5, 1.15, substitute(italic(h)==xx, list(xx=h)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==4))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        # Legend
+        legend(
+               x       =  usr[2],
+               y       =  usr[4],
+               legend  =  c(
+                            expression(italic(r)==0),
+                            expression(italic(r)==1),
+                            expression(italic(r)==2),
+                            expression(italic(r)==3)),
+               lty     =  1,
+               lwd     =  2,
+               col     =  c(transparentColor(COLS[1], opacity=1),
+                            transparentColor(COLS[2], opacity=1),
+                            transparentColor(COLS[3], opacity=1),
+                            transparentColor(COLS[4], opacity=1)),
+               cex     =  1.5,
+               xjust   =  1,
+               yjust   =  1,
+               bty     =  'n',
+               border  =  NA
+               )
+
+
+
+qstr  <-  qstar(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h)
+
+## Panel E
+# Effect of initial del. mut. load on inversion frequency dynamics 
+    # make plot
+#    par(omi=c(0.5, 0.5, 0.75, 0.5), mar = c(3,3,1,1), bty='o', xaxt='s', yaxt='s')    
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,0.1), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # lines
+        lines(YI.t[1:length(r.0.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.0.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.0.Dat)
+        lines(YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(YI.t[1:length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.2.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.2.Dat)
+        lines(YI.t[1:length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.3.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.3.Dat)
+        # Points
+#        points(YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525', data=r.0.Dat)
+        points(YI.t[length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.1.rel.w.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+        points(YI.t[length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.2.rel.w.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
+        points(YI.t[length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.3.rel.w.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.3.Dat)
+        # benchmark qstar
+        abline(h=qstr, lty=2)
+        proportionalLabel(0.9, 0.28, expression(paste(italic(q),"*")), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        # axes
+        axis(1, las=1, labels=NA)
+        axis(2, las=1)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'E', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+    # reset Colors
+     COLS  <-  c('red',
+                 '#252525')
+## Panel H
+# deleterious allele frequencies for r = 5
+     # Make plot
+     delMax  <-  r.1.Dat$XaOv.wt.t[1]*1.05
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,delMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Points
+        lines(XaOv.wt.t ~ seq_along(XaOv.wt.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(XaOv.del.t ~ seq_along(XaOv.del.t), lwd=2, lty=3, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(qI.wt.t ~ seq_along(qI.wt.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.1.Dat)
+#        lines(q.wt.Auto ~ autotime, lwd=2, lty=1, col="tomato")
+        # axes
+        axis(1, las=1, cex=1.3)
+        axis(2, las=1, cex=1.3)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'H', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
+
+
+
+
+    ###########
+    # h = 0.01
+#   s        <-  0.25
+#    h        <-  0.01
+#    Ufactor  <-  2
+#    nTot     <-  10^4 
+#    U        <-  Ufactor*s
+#    u        <-  U/nTot
+#    x        <-  0.2
+    
+    # make data for plotting
+    h  <-  0.01
+    r.0.Dat   <-  makeDeterministicFigSimData(s = s, r = 0,  x = x, h = h, generations = 40000)
+    r.5.Dat   <-  makeDeterministicFigSimData(s = s, r = 5,  x = x, h = h, generations = 40000)
+    r.10.Dat  <-  makeDeterministicFigSimData(s = s, r = 10, x = x, h = h, generations = 40000)
+    r.15.Dat  <-  makeDeterministicFigSimData(s = s, r = 15, x = x, h = h, generations = 40000)
+    r.20.Dat  <-  makeDeterministicFigSimData(s = s, r = 20, x = x, h = h, generations = 40000)
+
+    r.0.rel.w.YI.t   <-  r.0.Dat$rel.w.YI.t[round(r.0.Dat$YI.t,digits=4) < 1]
+    r.5.rel.w.YI.t   <-  r.5.Dat$rel.w.YI.t[round(r.5.Dat$YI.t,digits=4) > 0]
+    r.10.rel.w.YI.t  <-  r.10.Dat$rel.w.YI.t[round(r.10.Dat$YI.t,digits=4) > 0]
+    r.15.rel.w.YI.t  <-  r.15.Dat$rel.w.YI.t[round(r.15.Dat$YI.t,digits=4) > 0]
+    r.20.rel.w.YI.t  <-  r.20.Dat$rel.w.YI.t[round(r.20.Dat$YI.t,digits=4) > 0]
+
+    autotime  <-  c(1:40000)
+    q.wt.Auto  <-  p.t(u=10^-6, sdHom=0.01, h=h, t=autotime) 
+
+   # Colors
+#    colfunc  <-  colorRampPalette(c('#252525', 'grey70'))
+#    COLS     <-  rev(colfunc(5))
+    COLS     <-  colorRampPalette(wes_palette("Zissou1"))(4)
+
+    qHat  <-  r.0.Dat$qY.wt.t[1]
+    rBar  <-  round(nTot*x*qHat)
+
+
+## Panel C
+# Effect of initial del. mut. load on inversion relative fitness 
+    # make plot
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(relFitMin,relFitMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # lines
+        abline(h=1, lwd=1, lty=2, col=1)
+#        abline(h=(1+U*x), lwd=1, lty=3, col=2)
+#        proportionalLabel(0.15, 0.89, expression(italic(1+italic(Ux))), cex=1, adj=c(0.5, 0.5), xpd=NA)
+        lines(r.0.rel.w.YI.t ~ seq_along(r.0.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1))
+        lines(r.5.rel.w.YI.t ~ seq_along(r.5.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1))
+        lines(r.10.rel.w.YI.t ~ seq_along(r.10.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1))
+        lines(r.15.rel.w.YI.t ~ seq_along(r.15.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1))
+#        lines(r.20.rel.w.YI.t ~ seq_along(r.20.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[5], opacity=1))
+        # Points depicting (arbitrary) extinction frequency of 0.00001
+        points(r.0.rel.w.YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525')
+        points(r.5.rel.w.YI.t[length(r.5.rel.w.YI.t)] ~ length(r.5.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
+        points(r.10.rel.w.YI.t[length(r.10.rel.w.YI.t)] ~ length(r.10.rel.w.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
+        points(r.15.rel.w.YI.t[length(r.15.rel.w.YI.t)] ~ length(r.15.rel.w.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
+#        points(r.20.rel.w.YI.t[length(r.20.rel.w.YI.t)] ~ length(r.20.rel.w.YI.t), pch=21, col=transparentColor(COLS[5], opacity=1), bg=transparentColor(COLS[5], opacity=0.7))
+        # Annotate 1 + Ux approximation
+        points(r.0.rel.w.YI.t[1] ~ 1, pch=23, bg=transparentColor('#252525', opacity=0.7), col='#252525')
+#        abline(h=(1+U*x), lwd=1, lty=3, col=2)
+#        proportionalArrows(0.125, 0.86, 0.06, 0.86, cex=1, adj=c(0.5, 0.5), xpd=NA, log=FALSE, length=0.05)
+#        proportionalLabel(0.2, 0.86, expression(italic(1+italic(Ux))), cex=1, adj=c(0.5, 0.5), xpd=NA)
+        # axes
+        axis(1, las=1, labels=NA)
+        axis(2, las=1, labels=NA)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(0.5, 1.15, substitute(italic(h)==xx, list(xx=h)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==40))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        # Legend
+        legend(
+               x       =  usr[2],
+               y       =  usr[4],
+               legend  =  c(
+                            expression(italic(r)==0),
+                            expression(italic(r)==5),
+                            expression(italic(r)==10),
+                            expression(italic(r)==15)),
+#                            expression(italic(r)==20)),
+               lty     =  1,
+               lwd     =  2,
+               col     =  c(transparentColor(COLS[1], opacity=1),
+                            transparentColor(COLS[2], opacity=1),
+                            transparentColor(COLS[3], opacity=1),
+                            transparentColor(COLS[4], opacity=1)),
+#                            transparentColor(COLS[5], opacity=1)),
+               cex     =  1.5,
+               xjust   =  1,
+               yjust   =  1,
+               bty     =  'n',
+               border  =  NA
+               )
+
+## Panel F
+# Effect of initial del. mut. load on inversion frequency dynamics 
+    # make plot
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,1.05), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Lines
+        lines(YI.t[1:length(r.0.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.0.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.0.Dat)
+        lines(YI.t[1:length(r.5.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.5.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.5.Dat)
+        lines(YI.t[1:length(r.10.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.10.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.10.Dat)
+        lines(YI.t[1:length(r.15.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.15.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.15.Dat)
+#        lines(YI.t[1:length(r.20.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.20.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[5], opacity=1), data=r.20.Dat)
+        # Points
+        points(YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525', data=r.0.Dat)
+        points(YI.t[length(r.5.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.5.rel.w.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.5.Dat)
+        points(YI.t[length(r.10.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.10.rel.w.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.10.Dat)
+        points(YI.t[length(r.15.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.15.rel.w.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.15.Dat)
+#        points(YI.t[length(r.20.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.20.rel.w.YI.t)], pch=21, col=transparentColor(COLS[5], opacity=1), bg=transparentColor(COLS[5], opacity=0.7), data=r.20.Dat)
+        # axes
+        axis(1, las=1, labels=NA)
+        axis(2, las=1)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'F', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+    # reset Colors
+     COLS  <-  c('red',
+                 '#252525')
+
+## Panel I
+# deleterious allele frequencies for r = 5
+     # Make plot
+    delMax  <-  r.10.Dat$XaOv.wt.t[1]*1.05
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,delMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Points
+        lines(XaOv.wt.t ~ seq_along(XaOv.wt.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.10.Dat)
+        lines(XaOv.del.t ~ seq_along(XaOv.del.t), lwd=2, lty=3, col=transparentColor(COLS[2], opacity=1), data=r.10.Dat)
+        lines(qI.wt.t ~ seq_along(qI.wt.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.10.Dat)
+#        lines(q.wt.Auto ~ autotime, lwd=1.5, lty=1, col="tomato")
+        # axes
+        axis(1, las=1, cex=1.2)
+        axis(2, las=1, cex=1.2)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'I', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(r)==10), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
+
+}
+
+
+
+#  FIXED SH
+deterministicDom_Fixed_sh  <-  function() {
+
+    # set plot layout
+    layout.mat <- matrix(c(1:9), nrow=3, ncol=3, byrow=FALSE)
+    layout     <- layout(layout.mat,respect=TRUE)
+
+    # Make data for plotting 
+    s        <-  0.01
+    h        <-  0.25
+    sh       <-  s*h
+    nTot     <-  10^4 
+    U        <-  0.02
+    u        <-  U/nTot
+    x        <-  0.2
+
+
+    ###########
+    # h = 0.25
+
+    # make data for plotting
+    r.0.Dat  <-  makeDeterministicFigSimData_Fixed_sh(s = s, r = 0, x = x, h = h, generations = 2500)
+    r.1.Dat  <-  makeDeterministicFigSimData_Fixed_sh(s = s, r = 1, x = x, h = h, generations = 2500)
+    r.2.Dat  <-  makeDeterministicFigSimData_Fixed_sh(s = s, r = 2, x = x, h = h, generations = 2500)
+    r.3.Dat  <-  makeDeterministicFigSimData_Fixed_sh(s = s, r = 3, x = x, h = h, generations = 2500)
+
+    r.0.rel.w.YI.t  <-  r.0.Dat$rel.w.YI.t[round(r.0.Dat$YI.t,digits=4) < 1]
+    r.1.rel.w.YI.t  <-  r.1.Dat$rel.w.YI.t[round(r.1.Dat$YI.t,digits=4) > 0]
+    r.2.rel.w.YI.t  <-  r.2.Dat$rel.w.YI.t[round(r.2.Dat$YI.t,digits=4) > 0]
+    r.3.rel.w.YI.t  <-  r.3.Dat$rel.w.YI.t[round(r.3.Dat$YI.t,digits=4) > 0]
+
+    autotime  <-  c(1:2500)
+    q.wt.Auto  <-  p.t(u=10^-6, sdHom=0.01, h=h, t=autotime) 
+
+   # Colors
+#    colfunc  <-  colorRampPalette(c('#252525', 'grey70'))
+#    COLS     <-  rev(colfunc(5))
+#COLS  <-  colorRampPalette(wes_palette("Zissou1"), interpolate = c("linear"))(4)
+COLS  <- colorRampPalette(wes_palette("Zissou1"))(4)
+    # Axes limits
+    relFitMin  <-  0.992
+    relFitMax  <-  1.005
+
+
+## Panel A
+# Effect of initial del. mut. load on inversion relative fitness 
+    # make plot
+    par(omi=c(0.5, 0.5, 0.75, 0.5), mar = c(3,3,1,1), bty='o', xaxt='s', yaxt='s')
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(relFitMin, relFitMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # lines
+        abline(h=1, lwd=1, lty=2, col=1)
+        lines(r.0.rel.w.YI.t ~ seq_along(r.0.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1))
+        lines(r.1.rel.w.YI.t ~ seq_along(r.1.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1))
+        lines(r.2.rel.w.YI.t ~ seq_along(r.2.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1))
+        lines(r.3.rel.w.YI.t ~ seq_along(r.3.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1))
+        # Points depicting (arbitrary) extinction frequency of 0.00001
+#        points(r.0.rel.w.YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525')
+        points(r.1.rel.w.YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
+        points(r.2.rel.w.YI.t[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
+        points(r.3.rel.w.YI.t[length(r.3.rel.w.YI.t)] ~ length(r.3.rel.w.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
+        # axes
+        axis(1, las=1, labels=NA)
+        axis(2, las=1, cex=1.3)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.25, 1.15, substitute(italic(h)==xx, list(xx=h)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.75, 1.15, substitute(italic(sh)==xx, list(xx=sh)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(-0.3,  0.5,   expression(paste("Inversion Relative Fitness")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+        # Legend
+        legend(
+               x       =  usr[2],
+               y       =  usr[4],
+               legend  =  c(
+                            expression(italic(r)==0),
+                            expression(italic(r)==1),
+                            expression(italic(r)==2),
+                            expression(italic(r)==3)),
+               lty     =  1,
+               lwd     =  2,
+               col     =  c(transparentColor(COLS[1], opacity=1),
+                            transparentColor(COLS[2], opacity=1),
+                            transparentColor(COLS[3], opacity=1),
+                            transparentColor(COLS[4], opacity=1)),
+               cex     =  1.5,
+               xjust   =  1,
+               yjust   =  1,
+               bty     =  'n',
+               border  =  NA
+               )
+
 ## Panel D
 # Effect of initial del. mut. load on inversion frequency dynamics 
     # make plot
@@ -109,15 +587,15 @@ COLS  <-  colorRampPalette(wes_palette("Zissou1"), interpolate = c("linear"))(2)
         plotGrid(lineCol='grey80')
         box()
         # Lines
-        lines(YI.t[1:length(r.0.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.0.wbar.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.0.Dat)
-        lines(YI.t[1:length(r.1.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.1.wbar.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
-#        lines(YI.t[1:length(r.2.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.2.wbar.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.2.Dat)
-#        lines(YI.t[1:length(r.3.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.3.wbar.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.3.Dat)
+        lines(YI.t[1:length(r.0.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.0.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.0.Dat)
+        lines(YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(YI.t[1:length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.2.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.2.Dat)
+        lines(YI.t[1:length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.3.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.3.Dat)
         # Points
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='#252525', data=r.0.Dat)
-        points(YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
-#        points(YI.t[length(r.2.wbar.YI.t)] ~ length(r.2.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
-#        points(YI.t[length(r.3.wbar.YI.t)] ~ length(r.3.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.3.Dat)
+#        points(YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525', data=r.0.Dat)
+        points(YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+        points(YI.t[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
+        points(YI.t[length(r.3.rel.w.YI.t)] ~ length(r.3.rel.w.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.3.Dat)
         # axes
         axis(1, las=1, labels=NA)
         axis(2, las=1, cex=1.3)
@@ -175,16 +653,18 @@ COLS  <-  colorRampPalette(wes_palette("Zissou1"), interpolate = c("linear"))(2)
     # h = 0.1
 
     # make data for plotting
+    s  <-  0.025
     h  <-  0.1
-    r.0.Dat  <-  makeDeterministicFigSimData(r = 0, x = x, h = h, generations = 8000)
-    r.1.Dat  <-  makeDeterministicFigSimData(r = 1, x = x, h = h, generations = 8000)
-    r.2.Dat  <-  makeDeterministicFigSimData(r = 2, x = x, h = h, generations = 8000)
-    r.3.Dat  <-  makeDeterministicFigSimData(r = 3, x = x, h = h, generations = 8000)
+    sh <-  s*h
+    r.0.Dat  <-  makeDeterministicFigSimData_Fixed_sh(s = s, r = 0, x = x, h = h, generations = 2500)
+    r.1.Dat  <-  makeDeterministicFigSimData_Fixed_sh(s = s, r = 1, x = x, h = h, generations = 2500)
+    r.2.Dat  <-  makeDeterministicFigSimData_Fixed_sh(s = s, r = 2, x = x, h = h, generations = 2500)
+    r.3.Dat  <-  makeDeterministicFigSimData_Fixed_sh(s = s, r = 3, x = x, h = h, generations = 2500)
 
-    r.0.wbar.YI.t  <-  r.0.Dat$wbar.YI.t[round(r.0.Dat$YI.t,digits=4) < 1]
-    r.1.wbar.YI.t  <-  r.1.Dat$wbar.YI.t[round(r.1.Dat$YI.t,digits=4) > 0]
-    r.2.wbar.YI.t  <-  r.2.Dat$wbar.YI.t[round(r.2.Dat$YI.t,digits=4) > 0]
-    r.3.wbar.YI.t  <-  r.3.Dat$wbar.YI.t[round(r.3.Dat$YI.t,digits=4) > 0]
+    r.0.rel.w.YI.t  <-  r.0.Dat$rel.w.YI.t[round(r.0.Dat$YI.t,digits=4) < 1]
+    r.1.rel.w.YI.t  <-  r.1.Dat$rel.w.YI.t[round(r.1.Dat$YI.t,digits=4) > 0]
+    r.2.rel.w.YI.t  <-  r.2.Dat$rel.w.YI.t[round(r.2.Dat$YI.t,digits=4) > 0]
+    r.3.rel.w.YI.t  <-  r.3.Dat$rel.w.YI.t[round(r.3.Dat$YI.t,digits=4) > 0]
 
     autotime  <-  c(1:8000)
      q.wt.Auto  <-  p.t(u=10^-6, sdHom=0.01, h=h, t=autotime) 
@@ -204,21 +684,22 @@ COLS  <-  colorRampPalette(wes_palette("Zissou1"), interpolate = c("linear"))(2)
         box()
         # lines
         abline(h=1, lwd=1, lty=2, col=1)
-        lines(r.3.wbar.YI.t ~ seq_along(r.3.wbar.YI.t), lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1))
-        lines(r.2.wbar.YI.t ~ seq_along(r.2.wbar.YI.t), lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1))
-        lines(r.1.wbar.YI.t ~ seq_along(r.1.wbar.YI.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1))
-        lines(r.0.wbar.YI.t ~ seq_along(r.0.wbar.YI.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1))
+        lines(r.3.rel.w.YI.t ~ seq_along(r.3.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1))
+        lines(r.2.rel.w.YI.t ~ seq_along(r.2.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1))
+        lines(r.1.rel.w.YI.t ~ seq_along(r.1.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1))
+        lines(r.0.rel.w.YI.t ~ seq_along(r.0.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1))
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='#252525')
-        points(r.1.wbar.YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
-        points(r.2.wbar.YI.t[length(r.2.wbar.YI.t)] ~ length(r.2.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
-        points(r.3.wbar.YI.t[length(r.3.wbar.YI.t)] ~ length(r.3.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
+#        points(r.0.rel.w.YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525')
+        points(r.1.rel.w.YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
+        points(r.2.rel.w.YI.t[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
+        points(r.3.rel.w.YI.t[length(r.3.rel.w.YI.t)] ~ length(r.3.rel.w.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
         # axes
         axis(1, las=1, labels=NA)
         axis(2, las=1, labels=NA)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, substitute(italic(h)==xx, list(xx=h)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.25, 1.15, substitute(italic(h)==xx, list(xx=h)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.75, 1.15, substitute(italic(sh)==xx, list(xx=sh)), cex=2, adj=c(0.5, 0.5), xpd=NA)
         # Legend
         legend(
                x       =  usr[2],
@@ -251,15 +732,15 @@ COLS  <-  colorRampPalette(wes_palette("Zissou1"), interpolate = c("linear"))(2)
         plotGrid(lineCol='grey80')
         box()
         # lines
-        lines(YI.t[1:length(r.0.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.0.wbar.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.0.Dat)
-        lines(YI.t[1:length(r.1.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.1.wbar.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
-        lines(YI.t[1:length(r.2.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.2.wbar.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.2.Dat)
-        lines(YI.t[1:length(r.3.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.3.wbar.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.3.Dat)
+        lines(YI.t[1:length(r.0.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.0.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.0.Dat)
+        lines(YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(YI.t[1:length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.2.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.2.Dat)
+        lines(YI.t[1:length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.3.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.3.Dat)
         # Points
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='#252525', data=r.0.Dat)
-        points(YI.t[length(r.1.wbar.YI.t)] ~ seq_along(YI.t)[length(r.1.wbar.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
-        points(YI.t[length(r.2.wbar.YI.t)] ~ seq_along(YI.t)[length(r.2.wbar.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
-        points(YI.t[length(r.3.wbar.YI.t)] ~ seq_along(YI.t)[length(r.3.wbar.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.3.Dat)
+#        points(YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525', data=r.0.Dat)
+        points(YI.t[length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.1.rel.w.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+        points(YI.t[length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.2.rel.w.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
+        points(YI.t[length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.3.rel.w.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.3.Dat)
         # axes
         axis(1, las=1, labels=NA)
         axis(2, las=1, labels=NA)
@@ -296,20 +777,28 @@ COLS  <-  colorRampPalette(wes_palette("Zissou1"), interpolate = c("linear"))(2)
 
     ###########
     # h = 0.01
+#   s        <-  0.25
+#    h        <-  0.01
+#    Ufactor  <-  2
+#    nTot     <-  10^4 
+#    U        <-  Ufactor*s
+#    u        <-  U/nTot
+#    x        <-  0.2
     
     # make data for plotting
+    s  <-  0.25
     h  <-  0.01
-    r.0.Dat   <-  makeDeterministicFigSimData(r = 0,  x = x, h = h, generations = 40000)
-    r.5.Dat   <-  makeDeterministicFigSimData(r = 5,  x = x, h = h, generations = 40000)
-    r.10.Dat  <-  makeDeterministicFigSimData(r = 10, x = x, h = h, generations = 40000)
-    r.15.Dat  <-  makeDeterministicFigSimData(r = 15, x = x, h = h, generations = 40000)
-    r.20.Dat  <-  makeDeterministicFigSimData(r = 20, x = x, h = h, generations = 40000)
+    sh <-  s*h
+    r.0.Dat  <-  makeDeterministicFigSimData_Fixed_sh(s = s, r = 0, x = x, h = h, generations = 2500)
+    r.1.Dat  <-  makeDeterministicFigSimData_Fixed_sh(s = s, r = 1, x = x, h = h, generations = 2500)
+    r.2.Dat  <-  makeDeterministicFigSimData_Fixed_sh(s = s, r = 2, x = x, h = h, generations = 2500)
+    r.3.Dat  <-  makeDeterministicFigSimData_Fixed_sh(s = s, r = 3, x = x, h = h, generations = 2500)
 
-    r.0.wbar.YI.t   <-  r.0.Dat$wbar.YI.t[round(r.0.Dat$YI.t,digits=4) < 1]
-    r.5.wbar.YI.t   <-  r.5.Dat$wbar.YI.t[round(r.5.Dat$YI.t,digits=4) > 0]
-    r.10.wbar.YI.t  <-  r.10.Dat$wbar.YI.t[round(r.10.Dat$YI.t,digits=4) > 0]
-    r.15.wbar.YI.t  <-  r.15.Dat$wbar.YI.t[round(r.15.Dat$YI.t,digits=4) > 0]
-    r.20.wbar.YI.t  <-  r.20.Dat$wbar.YI.t[round(r.20.Dat$YI.t,digits=4) > 0]
+    r.0.rel.w.YI.t  <-  r.0.Dat$rel.w.YI.t[round(r.0.Dat$YI.t,digits=4) < 1]
+    r.1.rel.w.YI.t  <-  r.1.Dat$rel.w.YI.t[round(r.1.Dat$YI.t,digits=4) > 0]
+    r.2.rel.w.YI.t  <-  r.2.Dat$rel.w.YI.t[round(r.2.Dat$YI.t,digits=4) > 0]
+    r.3.rel.w.YI.t  <-  r.3.Dat$rel.w.YI.t[round(r.3.Dat$YI.t,digits=4) > 0]
+
 
     autotime  <-  c(1:40000)
     q.wt.Auto  <-  p.t(u=10^-6, sdHom=0.01, h=h, t=autotime) 
@@ -333,40 +822,38 @@ COLS  <-  colorRampPalette(wes_palette("Zissou1"), interpolate = c("linear"))(2)
         box()
         # lines
         abline(h=1, lwd=1, lty=2, col=1)
-        lines(r.0.wbar.YI.t ~ seq_along(r.0.wbar.YI.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1))
-        lines(r.5.wbar.YI.t ~ seq_along(r.5.wbar.YI.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1))
-        lines(r.10.wbar.YI.t ~ seq_along(r.10.wbar.YI.t), lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1))
-        lines(r.15.wbar.YI.t ~ seq_along(r.15.wbar.YI.t), lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1))
-#        lines(r.20.wbar.YI.t ~ seq_along(r.20.wbar.YI.t), lwd=2, lty=1, col=transparentColor(COLS[5], opacity=1))
+        lines(r.3.rel.w.YI.t ~ seq_along(r.3.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1))
+        lines(r.2.rel.w.YI.t ~ seq_along(r.2.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1))
+        lines(r.1.rel.w.YI.t ~ seq_along(r.1.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1))
+        lines(r.0.rel.w.YI.t ~ seq_along(r.0.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1))
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='#252525')
-        points(r.5.wbar.YI.t[length(r.5.wbar.YI.t)] ~ length(r.5.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
-        points(r.10.wbar.YI.t[length(r.10.wbar.YI.t)] ~ length(r.10.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
-        points(r.15.wbar.YI.t[length(r.15.wbar.YI.t)] ~ length(r.15.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
-#        points(r.20.wbar.YI.t[length(r.20.wbar.YI.t)] ~ length(r.20.wbar.YI.t), pch=21, col=transparentColor(COLS[5], opacity=1), bg=transparentColor(COLS[5], opacity=0.7))
+#        points(r.0.rel.w.YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525')
+        points(r.1.rel.w.YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
+        points(r.2.rel.w.YI.t[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
+        points(r.3.rel.w.YI.t[length(r.3.rel.w.YI.t)] ~ length(r.3.rel.w.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
         # axes
         axis(1, las=1, labels=NA)
         axis(2, las=1, labels=NA)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, substitute(italic(h)==xx, list(xx=h)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.25, 1.15, substitute(italic(h)==xx, list(xx=h)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.75, 1.15, substitute(italic(sh)==xx, list(xx=sh)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        # Legend
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
                             expression(italic(r)==0),
-                            expression(italic(r)==5),
-                            expression(italic(r)==10),
-                            expression(italic(r)==15)),
-#                            expression(italic(r)==20)),
+                            expression(italic(r)==1),
+                            expression(italic(r)==2),
+                            expression(italic(r)==3)),
                lty     =  1,
                lwd     =  2,
                col     =  c(transparentColor(COLS[1], opacity=1),
                             transparentColor(COLS[2], opacity=1),
                             transparentColor(COLS[3], opacity=1),
                             transparentColor(COLS[4], opacity=1)),
-#                            transparentColor(COLS[5], opacity=1)),
                cex     =  1.5,
                xjust   =  1,
                yjust   =  1,
@@ -383,17 +870,15 @@ COLS  <-  colorRampPalette(wes_palette("Zissou1"), interpolate = c("linear"))(2)
         plotGrid(lineCol='grey80')
         box()
         # Lines
-        lines(YI.t[1:length(r.0.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.0.wbar.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.0.Dat)
-        lines(YI.t[1:length(r.5.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.5.wbar.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.5.Dat)
-        lines(YI.t[1:length(r.10.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.10.wbar.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.10.Dat)
-        lines(YI.t[1:length(r.15.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.15.wbar.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.15.Dat)
-#        lines(YI.t[1:length(r.20.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.20.wbar.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[5], opacity=1), data=r.20.Dat)
+        lines(YI.t[1:length(r.0.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.0.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.0.Dat)
+        lines(YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(YI.t[1:length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.2.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.2.Dat)
+        lines(YI.t[1:length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.3.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.3.Dat)
         # Points
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='#252525', data=r.0.Dat)
-        points(YI.t[length(r.5.wbar.YI.t)] ~ seq_along(YI.t)[length(r.5.wbar.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.5.Dat)
-        points(YI.t[length(r.10.wbar.YI.t)] ~ seq_along(YI.t)[length(r.10.wbar.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.10.Dat)
-        points(YI.t[length(r.15.wbar.YI.t)] ~ seq_along(YI.t)[length(r.15.wbar.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.15.Dat)
-#        points(YI.t[length(r.20.wbar.YI.t)] ~ seq_along(YI.t)[length(r.20.wbar.YI.t)], pch=21, col=transparentColor(COLS[5], opacity=1), bg=transparentColor(COLS[5], opacity=0.7), data=r.20.Dat)
+#        points(YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525', data=r.0.Dat)
+        points(YI.t[length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.1.rel.w.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+        points(YI.t[length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.2.rel.w.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
+        points(YI.t[length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.3.rel.w.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.3.Dat)
         # axes
         axis(1, las=1, labels=NA)
         axis(2, las=1, labels=NA)
@@ -406,31 +891,470 @@ COLS  <-  colorRampPalette(wes_palette("Zissou1"), interpolate = c("linear"))(2)
 ## Panel I
 # deleterious allele frequencies for r = 5
      # Make plot
-    delMax  <-  r.10.Dat$XaOv.wt.t[1]*1.05
+    delMax  <-  r.1.Dat$XaOv.wt.t[1]*1.05
      plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,delMax), ylab='', xlab='', cex.lab=1.2)
         usr  <-  par('usr')
         rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
         plotGrid(lineCol='grey80')
         box()
         # Points
-        lines(XaOv.wt.t ~ seq_along(XaOv.wt.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.10.Dat)
-        lines(XaOv.del.t ~ seq_along(XaOv.del.t), lwd=2, lty=3, col=transparentColor(COLS[2], opacity=1), data=r.10.Dat)
-        lines(qI.wt.t ~ seq_along(qI.wt.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.10.Dat)
+        lines(XaOv.wt.t ~ seq_along(XaOv.wt.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(XaOv.del.t ~ seq_along(XaOv.del.t), lwd=2, lty=3, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(qI.wt.t ~ seq_along(qI.wt.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.1.Dat)
 #        lines(q.wt.Auto ~ autotime, lwd=1.5, lty=1, col="tomato")
         # axes
         axis(1, las=1, cex=1.2)
         axis(2, las=1, cex=1.2)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'I', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(italic(r)==10), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
+
+}
+
+
+
+
+
+
+
+
+#  
+deterministic_U_sh  <-  function() {
+
+    # set plot layout
+    layout.mat <- matrix(c(1:9), nrow=3, ncol=3, byrow=FALSE)
+    layout     <- layout(layout.mat,respect=TRUE)
+
+    # Make data for plotting 
+    s        <-  0.01
+    h        <-  0.25
+    sh       <-  s*h
+    nTot     <-  10^4 
+    U        <-  0.02
+    u        <-  U/nTot
+    x        <-  0.2
+
+
+    ###########
+    # U  <-  0.02
+
+    # make data for plotting
+    r.0.Dat  <-  makeDeterministicFigSimData_Fixed_sh(U = U, s = s, r = 0, x = x, h = h, generations = 2500)
+    r.1.Dat  <-  makeDeterministicFigSimData_Fixed_sh(U = U, s = s, r = 1, x = x, h = h, generations = 2500)
+    r.2.Dat  <-  makeDeterministicFigSimData_Fixed_sh(U = U, s = s, r = 2, x = x, h = h, generations = 2500)
+    r.3.Dat  <-  makeDeterministicFigSimData_Fixed_sh(U = U, s = s, r = 3, x = x, h = h, generations = 2500)
+
+    r.0.rel.w.YI.t  <-  r.0.Dat$rel.w.YI.t[round(r.0.Dat$YI.t,digits=4) < 1]
+    r.1.rel.w.YI.t  <-  r.1.Dat$rel.w.YI.t[round(r.1.Dat$YI.t,digits=4) > 0]
+    r.2.rel.w.YI.t  <-  r.2.Dat$rel.w.YI.t[round(r.2.Dat$YI.t,digits=4) > 0]
+    r.3.rel.w.YI.t  <-  r.3.Dat$rel.w.YI.t[round(r.3.Dat$YI.t,digits=4) > 0]
+
+    autotime  <-  c(1:2500)
+    q.wt.Auto  <-  p.t(u=10^-6, sdHom=0.01, h=h, t=autotime) 
+
+   # Colors
+#    colfunc  <-  colorRampPalette(c('#252525', 'grey70'))
+#    COLS     <-  rev(colfunc(5))
+#COLS  <-  colorRampPalette(wes_palette("Zissou1"), interpolate = c("linear"))(4)
+COLS  <- colorRampPalette(wes_palette("Zissou1"))(4)
+    # Axes limits
+    relFitMin  <-  0.992
+    relFitMax  <-  1.005
+
+
+## Panel A
+# Effect of initial del. mut. load on inversion relative fitness 
+    # make plot
+    par(omi=c(0.5, 0.5, 0.75, 0.5), mar = c(3,3,1,1), bty='o', xaxt='s', yaxt='s')
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(relFitMin, relFitMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # lines
+        abline(h=1, lwd=1, lty=2, col=1)
+        lines(r.0.rel.w.YI.t ~ seq_along(r.0.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1))
+        lines(r.1.rel.w.YI.t ~ seq_along(r.1.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1))
+        lines(r.2.rel.w.YI.t ~ seq_along(r.2.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1))
+        lines(r.3.rel.w.YI.t ~ seq_along(r.3.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1))
+        # Points depicting (arbitrary) extinction frequency of 0.00001
+#        points(r.0.rel.w.YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525')
+        points(r.1.rel.w.YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
+        points(r.2.rel.w.YI.t[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
+        points(r.3.rel.w.YI.t[length(r.3.rel.w.YI.t)] ~ length(r.3.rel.w.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
+        # axes
+        axis(1, las=1, labels=NA)
+        axis(2, las=1, cex=1.3)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.25, 1.15, substitute(italic(h)==xx, list(xx=h)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.75, 1.15, substitute(italic(sh)==xx, list(xx=sh)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(-0.3,  0.5,   expression(paste("Inversion Relative Fitness")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+        # Legend
+        legend(
+               x       =  usr[2],
+               y       =  usr[4],
+               legend  =  c(
+                            expression(italic(r)==0),
+                            expression(italic(r)==1),
+                            expression(italic(r)==2),
+                            expression(italic(r)==3)),
+               lty     =  1,
+               lwd     =  2,
+               col     =  c(transparentColor(COLS[1], opacity=1),
+                            transparentColor(COLS[2], opacity=1),
+                            transparentColor(COLS[3], opacity=1),
+                            transparentColor(COLS[4], opacity=1)),
+               cex     =  1.5,
+               xjust   =  1,
+               yjust   =  1,
+               bty     =  'n',
+               border  =  NA
+               )
+
+## Panel D
+# Effect of initial del. mut. load on inversion frequency dynamics 
+    # make plot
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,1.05), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Lines
+        lines(YI.t[1:length(r.0.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.0.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.0.Dat)
+        lines(YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(YI.t[1:length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.2.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.2.Dat)
+        lines(YI.t[1:length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.3.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.3.Dat)
+        # Points
+#        points(YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525', data=r.0.Dat)
+        points(YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+        points(YI.t[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
+        points(YI.t[length(r.3.rel.w.YI.t)] ~ length(r.3.rel.w.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.3.Dat)
+        # axes
+        axis(1, las=1, labels=NA)
+        axis(2, las=1, cex=1.3)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(-0.3,  0.5,   expression(paste("Inversion Frequency (", italic(Y[I]), ")")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+
+    # reset Colors
+     COLS  <-  c('red',
+                 '#252525')
+## Panel G
+# deleterious allele frequencies for r = 1
+     # Make plot
+    delMax  <-  r.1.Dat$XaOv.wt.t[1]*1.05
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,delMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Points
+        lines(XaOv.wt.t ~ seq_along(XaOv.wt.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(XaOv.del.t ~ seq_along(XaOv.del.t), lwd=2, lty=3, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(qI.wt.t ~ seq_along(qI.wt.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.1.Dat)
+#        lines(q.wt.Auto ~ autotime, lwd=2, lty=1, col="tomato")
+        # axes
+        axis(1, las=1, cex=1.3)
+        axis(2, las=1, cex=1.3)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'G', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(-0.3,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
+        # Legend
+        legend(
+               x       =  usr[2],
+               y       =  usr[4]*0.9,
+               legend = c(expression(italic(q)[italic(X[f])]^italic(W)), 
+                          expression(italic(q)[italic(Y[I])]^italic(W)), 
+                          expression(italic(q)[italic(X[f])]^italic(D))),
+               lty     =  c(1,1,3),
+               lwd     =  2,
+               col     =  c(transparentColor(COLS[2], opacity=1),
+                            transparentColor(COLS[1], opacity=1),
+                            transparentColor(COLS[2], opacity=1)),
+               cex     =  1.5,
+               xjust   =  1,
+               yjust   =  1,
+               bty     =  'n',
+               border  =  NA
+               )
+
+
+
+    ###########
+    # U = 0.2
+
+    
+
+    # make data for plotting
+    U  <-  0.2
+    r.0.Dat  <-  makeDeterministicFigSimData_Fixed_sh(U = U, s = s, r = 0, x = x, h = h, generations = 2500)
+    r.1.Dat  <-  makeDeterministicFigSimData_Fixed_sh(U = U, s = s, r = 1, x = x, h = h, generations = 2500)
+    r.2.Dat  <-  makeDeterministicFigSimData_Fixed_sh(U = U, s = s, r = 2, x = x, h = h, generations = 2500)
+    r.3.Dat  <-  makeDeterministicFigSimData_Fixed_sh(U = U, s = s, r = 3, x = x, h = h, generations = 2500)
+
+    r.0.rel.w.YI.t  <-  r.0.Dat$rel.w.YI.t[round(r.0.Dat$YI.t,digits=4) < 1]
+    r.1.rel.w.YI.t  <-  r.1.Dat$rel.w.YI.t[round(r.1.Dat$YI.t,digits=4) > 0]
+    r.2.rel.w.YI.t  <-  r.2.Dat$rel.w.YI.t[round(r.2.Dat$YI.t,digits=4) > 0]
+    r.3.rel.w.YI.t  <-  r.3.Dat$rel.w.YI.t[round(r.3.Dat$YI.t,digits=4) > 0]
+
+    autotime  <-  c(1:8000)
+     q.wt.Auto  <-  p.t(u=10^-6, sdHom=0.01, h=h, t=autotime) 
+
+   # Colors
+    COLS     <-  colorRampPalette(wes_palette("Zissou1"))(4)
+
+    # Analytic expectation of initial fitness for r = 0
+    ylim  <-  exp(-U*x)/exp(-2*U*x)
+    ylim  <-  1.05
+
+## Panel B
+# Effect of initial del. mut. load on inversion frequency dynamics 
+    # make plot
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(relFitMin,ylim*1.01), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # lines
+        abline(h=1, lwd=1, lty=2, col=1)
+        lines(r.3.rel.w.YI.t ~ seq_along(r.3.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1))
+        lines(r.2.rel.w.YI.t ~ seq_along(r.2.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1))
+        lines(r.1.rel.w.YI.t ~ seq_along(r.1.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1))
+        lines(r.0.rel.w.YI.t ~ seq_along(r.0.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1))
+        # Points depicting (arbitrary) extinction frequency of 0.00001
+#        points(r.0.rel.w.YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525')
+        points(r.1.rel.w.YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
+        points(r.2.rel.w.YI.t[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
+        points(r.3.rel.w.YI.t[length(r.3.rel.w.YI.t)] ~ length(r.3.rel.w.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
+        # axes
+        axis(1, las=1, labels=NA)
+        axis(2, las=1, labels=NA)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.25, 1.15, substitute(italic(h)==xx, list(xx=h)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.75, 1.15, substitute(italic(sh)==xx, list(xx=sh)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        # Legend
+        legend(
+               x       =  usr[2],
+               y       =  usr[4],
+               legend  =  c(
+                            expression(italic(r)==0),
+                            expression(italic(r)==1),
+                            expression(italic(r)==2),
+                            expression(italic(r)==3)),
+               lty     =  1,
+               lwd     =  2,
+               col     =  c(transparentColor(COLS[1], opacity=1),
+                            transparentColor(COLS[2], opacity=1),
+                            transparentColor(COLS[3], opacity=1),
+                            transparentColor(COLS[4], opacity=1)),
+               cex     =  1.5,
+               xjust   =  1,
+               yjust   =  1,
+               bty     =  'n',
+               border  =  NA
+               )
+
+## Panel E
+# Effect of initial del. mut. load on inversion frequency dynamics 
+    # make plot
+#    par(omi=c(0.5, 0.5, 0.75, 0.5), mar = c(3,3,1,1), bty='o', xaxt='s', yaxt='s')    
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,1.05), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # lines
+        lines(YI.t[1:length(r.0.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.0.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.0.Dat)
+        lines(YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(YI.t[1:length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.2.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.2.Dat)
+        lines(YI.t[1:length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.3.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.3.Dat)
+        # Points
+#        points(YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525', data=r.0.Dat)
+        points(YI.t[length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.1.rel.w.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+        points(YI.t[length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.2.rel.w.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
+        points(YI.t[length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.3.rel.w.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.3.Dat)
+        # axes
+        axis(1, las=1, labels=NA)
+        axis(2, las=1, labels=NA)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'E', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+    # reset Colors
+     COLS  <-  c('red',
+                 '#252525')
+## Panel H
+# deleterious allele frequencies for r = 5
+     # Make plot
+     delMax  <-  r.1.Dat$XaOv.wt.t[1]*1.05
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,delMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Points
+        lines(XaOv.wt.t ~ seq_along(XaOv.wt.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(XaOv.del.t ~ seq_along(XaOv.del.t), lwd=2, lty=3, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(qI.wt.t ~ seq_along(qI.wt.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.1.Dat)
+#        lines(q.wt.Auto ~ autotime, lwd=2, lty=1, col="tomato")
+        # axes
+        axis(1, las=1, cex=1.3)
+        axis(2, las=1, cex=1.3)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'H', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
 
 
 
 
+    ###########
+    # h = 0.01
+#   s        <-  0.25
+#    h        <-  0.01
+#    Ufactor  <-  2
+#    nTot     <-  10^4 
+#    U        <-  Ufactor*s
+#    u        <-  U/nTot
+#    x        <-  0.2
+    
+    # make data for plotting
+    s  <-  0.25
+    h  <-  0.01
+    sh <-  s*h
+    r.0.Dat  <-  makeDeterministicFigSimData_Fixed_sh(s = s, r = 0, x = x, h = h, generations = 2500)
+    r.1.Dat  <-  makeDeterministicFigSimData_Fixed_sh(s = s, r = 1, x = x, h = h, generations = 2500)
+    r.2.Dat  <-  makeDeterministicFigSimData_Fixed_sh(s = s, r = 2, x = x, h = h, generations = 2500)
+    r.3.Dat  <-  makeDeterministicFigSimData_Fixed_sh(s = s, r = 3, x = x, h = h, generations = 2500)
 
+    r.0.rel.w.YI.t  <-  r.0.Dat$rel.w.YI.t[round(r.0.Dat$YI.t,digits=4) < 1]
+    r.1.rel.w.YI.t  <-  r.1.Dat$rel.w.YI.t[round(r.1.Dat$YI.t,digits=4) > 0]
+    r.2.rel.w.YI.t  <-  r.2.Dat$rel.w.YI.t[round(r.2.Dat$YI.t,digits=4) > 0]
+    r.3.rel.w.YI.t  <-  r.3.Dat$rel.w.YI.t[round(r.3.Dat$YI.t,digits=4) > 0]
+
+
+    autotime  <-  c(1:40000)
+    q.wt.Auto  <-  p.t(u=10^-6, sdHom=0.01, h=h, t=autotime) 
+
+   # Colors
+#    colfunc  <-  colorRampPalette(c('#252525', 'grey70'))
+#    COLS     <-  rev(colfunc(5))
+    COLS     <-  colorRampPalette(wes_palette("Zissou1"))(4)
+
+    qHat  <-  r.0.Dat$qY.wt.t[1]
+    rBar  <-  round(nTot*x*qHat)
+
+
+## Panel C
+# Effect of initial del. mut. load on inversion relative fitness 
+    # make plot
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(relFitMin,relFitMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # lines
+        abline(h=1, lwd=1, lty=2, col=1)
+        lines(r.3.rel.w.YI.t ~ seq_along(r.3.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1))
+        lines(r.2.rel.w.YI.t ~ seq_along(r.2.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1))
+        lines(r.1.rel.w.YI.t ~ seq_along(r.1.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1))
+        lines(r.0.rel.w.YI.t ~ seq_along(r.0.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1))
+        # Points depicting (arbitrary) extinction frequency of 0.00001
+#        points(r.0.rel.w.YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525')
+        points(r.1.rel.w.YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
+        points(r.2.rel.w.YI.t[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
+        points(r.3.rel.w.YI.t[length(r.3.rel.w.YI.t)] ~ length(r.3.rel.w.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
+        # axes
+        axis(1, las=1, labels=NA)
+        axis(2, las=1, labels=NA)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.25, 1.15, substitute(italic(h)==xx, list(xx=h)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.75, 1.15, substitute(italic(sh)==xx, list(xx=sh)), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        # Legend
+        # Legend
+        legend(
+               x       =  usr[2],
+               y       =  usr[4],
+               legend  =  c(
+                            expression(italic(r)==0),
+                            expression(italic(r)==1),
+                            expression(italic(r)==2),
+                            expression(italic(r)==3)),
+               lty     =  1,
+               lwd     =  2,
+               col     =  c(transparentColor(COLS[1], opacity=1),
+                            transparentColor(COLS[2], opacity=1),
+                            transparentColor(COLS[3], opacity=1),
+                            transparentColor(COLS[4], opacity=1)),
+               cex     =  1.5,
+               xjust   =  1,
+               yjust   =  1,
+               bty     =  'n',
+               border  =  NA
+               )
+
+## Panel F
+# Effect of initial del. mut. load on inversion frequency dynamics 
+    # make plot
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,1.05), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Lines
+        lines(YI.t[1:length(r.0.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.0.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.0.Dat)
+        lines(YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(YI.t[1:length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.2.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.2.Dat)
+        lines(YI.t[1:length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.3.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.3.Dat)
+        # Points
+#        points(YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525', data=r.0.Dat)
+        points(YI.t[length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.1.rel.w.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+        points(YI.t[length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.2.rel.w.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
+        points(YI.t[length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.3.rel.w.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.3.Dat)
+        # axes
+        axis(1, las=1, labels=NA)
+        axis(2, las=1, labels=NA)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'F', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+    # reset Colors
+     COLS  <-  c('red',
+                 '#252525')
+## Panel I
+# deleterious allele frequencies for r = 5
+     # Make plot
+    delMax  <-  r.1.Dat$XaOv.wt.t[1]*1.05
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,delMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Points
+        lines(XaOv.wt.t ~ seq_along(XaOv.wt.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(XaOv.del.t ~ seq_along(XaOv.del.t), lwd=2, lty=3, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(qI.wt.t ~ seq_along(qI.wt.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.1.Dat)
+#        lines(q.wt.Auto ~ autotime, lwd=1.5, lty=1, col="tomato")
+        # axes
+        axis(1, las=1, cex=1.2)
+        axis(2, las=1, cex=1.2)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'I', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
 
 }
+
+
+
+
+
+
+
 
 
 #' Deterministic dynamics of inversions expanding the SDR on a Y chromosome:
@@ -1704,7 +2628,7 @@ deterministicSuppFig  <-  function() {
         lines(r.1.wbar.YI.t ~ seq_along(r.1.wbar.YI.t), lwd=1.5, lty=1, col=transparentColor(COLS[4], opacity=1))
         abline(h=1, lwd=1, lty=2, col=2)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
+#        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=21, col=transparentColor(COLS[5], opacity=1), bg=transparentColor(COLS[5], opacity=0.7))
         points(r.1.wbar.YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
         # axes
         axis(1, las=1, labels=NA)
@@ -1743,7 +2667,7 @@ deterministicSuppFig  <-  function() {
         lines(YI.t[1:length(r.0.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.0.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[5], opacity=1), data=r.0.Dat)
         lines(YI.t[1:length(r.1.wbar.YI.t)] ~ seq_along(YI.t[1:length(r.1.wbar.YI.t)]), lwd=1.5, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.1.Dat)
         # Points
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
+#        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=21, col=transparentColor(COLS[5], opacity=1), bg=transparentColor(COLS[5], opacity=0.7), data=r.0.Dat)
         points(YI.t[length(r.1.wbar.YI.t)] ~ seq_along(YI.t)[length(r.1.wbar.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.1.Dat)
         # axes
         axis(1, las=1, labels=NA)
@@ -1870,7 +2794,7 @@ deterministicSuppFig  <-  function() {
         lines(r.2.wbar.YI.t ~ seq_along(r.2.wbar.YI.t), lwd=1.5, lty=1, col=transparentColor(COLS[3], opacity=1))
         abline(h=1, lwd=1, lty=2, col=2)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
+#        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
         points(r.1.wbar.YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
         points(r.2.wbar.YI.t[length(r.2.wbar.YI.t)] ~ length(r.2.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
         # axes
@@ -1913,7 +2837,7 @@ deterministicSuppFig  <-  function() {
         lines(YI.t[1:length(r.1.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.1.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.1.Dat)
         lines(YI.t[1:length(r.2.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.2.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.2.Dat)
         # Points
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
+#        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
         points(YI.t[length(r.1.wbar.YI.t)] ~ seq_along(YI.t)[length(r.1.wbar.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.1.Dat)
         points(YI.t[length(r.2.wbar.YI.t)] ~ seq_along(YI.t)[length(r.2.wbar.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
         # axes
@@ -2028,7 +2952,7 @@ deterministicSuppFig  <-  function() {
         lines(r.3.wbar.YI.t ~ seq_along(r.3.wbar.YI.t), lwd=1.5, lty=1, col=transparentColor(COLS[2], opacity=1))
         abline(h=1, lwd=1, lty=2, col=2)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
+#        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
         points(r.1.wbar.YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
         points(r.2.wbar.YI.t[length(r.2.wbar.YI.t)] ~ length(r.2.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
         points(r.3.wbar.YI.t[length(r.3.wbar.YI.t)] ~ length(r.3.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
@@ -2074,7 +2998,7 @@ deterministicSuppFig  <-  function() {
         lines(YI.t[1:length(r.2.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.2.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.2.Dat)
         lines(YI.t[1:length(r.3.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.3.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.3.Dat)
         # Points
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
+#        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
         points(YI.t[length(r.1.wbar.YI.t)] ~ seq_along(YI.t)[length(r.1.wbar.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.1.Dat)
         points(YI.t[length(r.2.wbar.YI.t)] ~ seq_along(YI.t)[length(r.2.wbar.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
         points(YI.t[length(r.3.wbar.YI.t)] ~ seq_along(YI.t)[length(r.3.wbar.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.3.Dat)
@@ -2192,7 +3116,7 @@ deterministicSuppFig  <-  function() {
         lines(r.8.wbar.YI.t ~ seq_along(r.8.wbar.YI.t), lwd=1.5, lty=1, col=transparentColor(COLS[1], opacity=1))
         abline(h=1, lwd=1, lty=2, col=2)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
+#        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
         points(r.2.wbar.YI.t[length(r.2.wbar.YI.t)] ~ length(r.2.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
         points(r.4.wbar.YI.t[length(r.4.wbar.YI.t)] ~ length(r.4.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
         points(r.6.wbar.YI.t[length(r.6.wbar.YI.t)] ~ length(r.6.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
@@ -2242,7 +3166,7 @@ deterministicSuppFig  <-  function() {
         lines(YI.t[1:length(r.6.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.6.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.6.Dat)
         lines(YI.t[1:length(r.8.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.8.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.8.Dat)
         # Points
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
+#        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
         points(YI.t[length(r.2.wbar.YI.t)] ~ seq_along(YI.t)[length(r.2.wbar.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.2.Dat)
         points(YI.t[length(r.4.wbar.YI.t)] ~ seq_along(YI.t)[length(r.4.wbar.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.4.Dat)
         points(YI.t[length(r.6.wbar.YI.t)] ~ seq_along(YI.t)[length(r.6.wbar.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.6.Dat)
@@ -2362,7 +3286,7 @@ deterministicSuppFig  <-  function() {
         lines(r.12.wbar.YI.t ~ seq_along(r.12.wbar.YI.t), lwd=1.5, lty=1, col=transparentColor(COLS[1], opacity=1))
         abline(h=1, lwd=1, lty=2, col=2)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
+#        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
 #        points(r.1.wbar.YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
         points(r.4.wbar.YI.t[length(r.4.wbar.YI.t)] ~ length(r.4.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
         points(r.8.wbar.YI.t[length(r.8.wbar.YI.t)] ~ length(r.8.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
@@ -2413,7 +3337,7 @@ deterministicSuppFig  <-  function() {
         lines(YI.t[1:length(r.8.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.8.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.8.Dat)
         lines(YI.t[1:length(r.12.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.12.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.12.Dat)
         # Points
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
+#        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
 #        points(YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
         points(YI.t[length(r.4.wbar.YI.t)] ~ length(r.4.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.4.Dat)
         points(YI.t[length(r.8.wbar.YI.t)] ~ length(r.8.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.8.Dat)
@@ -2536,7 +3460,7 @@ deterministicSuppFig_h0.25  <-  function() {
         lines(r.1.wbar.YI.t ~ seq_along(r.1.wbar.YI.t), lwd=1.5, lty=1, col=transparentColor(COLS[4], opacity=1))
         abline(h=1, lwd=1, lty=2, col=2)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
+        #points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
         points(r.1.wbar.YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
         # axes
         axis(1, las=1, labels=NA)
@@ -2574,7 +3498,7 @@ deterministicSuppFig_h0.25  <-  function() {
         lines(YI.t[1:length(r.0.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.0.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[5], opacity=1), data=r.0.Dat)
         lines(YI.t[1:length(r.1.wbar.YI.t)] ~ seq_along(YI.t[1:length(r.1.wbar.YI.t)]), lwd=1.5, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.1.Dat)
         # Points
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
+#        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
         points(YI.t[length(r.1.wbar.YI.t)] ~ seq_along(YI.t)[length(r.1.wbar.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.1.Dat)
         # axes
         axis(1, las=1, labels=NA)
@@ -2698,7 +3622,7 @@ deterministicSuppFig_h0.25  <-  function() {
         lines(r.2.wbar.YI.t ~ seq_along(r.2.wbar.YI.t), lwd=1.5, lty=1, col=transparentColor(COLS[3], opacity=1))
         abline(h=1, lwd=1, lty=2, col=2)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
+#        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
         points(r.1.wbar.YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
         points(r.2.wbar.YI.t[length(r.2.wbar.YI.t)] ~ length(r.2.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
         # axes
@@ -2741,7 +3665,7 @@ deterministicSuppFig_h0.25  <-  function() {
         lines(YI.t[1:length(r.1.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.1.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.1.Dat)
         lines(YI.t[1:length(r.2.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.2.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.2.Dat)
         # Points
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
+#        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
         points(YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.1.Dat)
         points(YI.t[length(r.2.wbar.YI.t)] ~ length(r.2.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
         # axes
@@ -2852,7 +3776,7 @@ deterministicSuppFig_h0.25  <-  function() {
         lines(r.3.wbar.YI.t ~ seq_along(r.3.wbar.YI.t), lwd=1.5, lty=1, col=transparentColor(COLS[2], opacity=1))
         abline(h=1, lwd=1, lty=2, col=2)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
+#        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
         points(r.1.wbar.YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
         points(r.2.wbar.YI.t[length(r.2.wbar.YI.t)] ~ length(r.2.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
         points(r.3.wbar.YI.t[length(r.3.wbar.YI.t)] ~ length(r.3.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
@@ -2897,7 +3821,7 @@ deterministicSuppFig_h0.25  <-  function() {
         lines(YI.t[1:length(r.2.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.2.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.2.Dat)
         lines(YI.t[1:length(r.3.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.3.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.3.Dat)
         # Points
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
+#        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
         points(YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.1.Dat)
         points(YI.t[length(r.2.wbar.YI.t)] ~ length(r.2.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
         points(YI.t[length(r.3.wbar.YI.t)] ~ length(r.3.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.3.Dat)
@@ -3010,7 +3934,7 @@ deterministicSuppFig_h0.25  <-  function() {
         lines(r.4.wbar.YI.t ~ seq_along(r.4.wbar.YI.t), lwd=1.5, lty=1, col=transparentColor(COLS[1], opacity=1))
         abline(h=1, lwd=1, lty=2, col=2)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
+#        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
         points(r.1.wbar.YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
         points(r.2.wbar.YI.t[length(r.2.wbar.YI.t)] ~ length(r.2.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
         points(r.3.wbar.YI.t[length(r.3.wbar.YI.t)] ~ length(r.3.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
@@ -3059,7 +3983,7 @@ deterministicSuppFig_h0.25  <-  function() {
         lines(YI.t[1:length(r.3.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.3.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.3.Dat)
         lines(YI.t[1:length(r.4.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.4.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.4.Dat)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
+#        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
         points(YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.1.Dat)
         points(YI.t[length(r.2.wbar.YI.t)] ~ length(r.2.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
         points(YI.t[length(r.3.wbar.YI.t)] ~ length(r.3.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.3.Dat)
@@ -3174,7 +4098,7 @@ deterministicSuppFig_h0.25  <-  function() {
         lines(r.6.wbar.YI.t ~ seq_along(r.6.wbar.YI.t), lwd=1.5, lty=1, col=transparentColor(COLS[1], opacity=1))
         abline(h=1, lwd=1, lty=2, col=2)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
+#        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
         points(r.1.wbar.YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
         points(r.2.wbar.YI.t[length(r.2.wbar.YI.t)] ~ length(r.2.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
         points(r.4.wbar.YI.t[length(r.4.wbar.YI.t)] ~ length(r.4.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
@@ -3223,7 +4147,7 @@ deterministicSuppFig_h0.25  <-  function() {
         lines(YI.t[1:length(r.4.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.4.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.4.Dat)
         lines(YI.t[1:length(r.6.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.6.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.6.Dat)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
+#        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
         points(YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.1.Dat)
         points(YI.t[length(r.2.wbar.YI.t)] ~ length(r.2.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
         points(YI.t[length(r.4.wbar.YI.t)] ~ length(r.4.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.4.Dat)
@@ -3331,7 +4255,7 @@ deterministicSuppFig_h0.01  <-  function() {
                y       =  usr[4],
                legend  =  c(
                             expression(italic(r)=="{0,1,2,3,4}"),
-                            expression(bar(italic(r)))),
+                            expression(bar(italic(r))==frac(italic(U*x),italic(h*s)))),
                lty     =  c(2,1),
                lwd     =  c(1,1),
                col     =  c(2,1),
@@ -3359,7 +4283,7 @@ deterministicSuppFig_h0.01  <-  function() {
         lines(r.4.wbar.YI.t ~ seq_along(r.4.wbar.YI.t), lwd=1.5, lty=1, col=transparentColor(COLS[1], opacity=1))
         abline(h=1, lwd=1, lty=2, col=2)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
+#        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
         points(r.1.wbar.YI.t[length(r.1.wbar.YI.t)] ~ length(r.1.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
         points(r.2.wbar.YI.t[length(r.2.wbar.YI.t)] ~ length(r.2.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
         points(r.3.wbar.YI.t[length(r.3.wbar.YI.t)] ~ length(r.3.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
@@ -3409,7 +4333,7 @@ deterministicSuppFig_h0.01  <-  function() {
         lines(YI.t[1:length(r.3.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.3.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.3.Dat)
         lines(YI.t[1:length(r.4.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.4.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.4.Dat)
         # Points
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
+#        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
         points(YI.t[length(r.1.wbar.YI.t)] ~ seq_along(YI.t)[length(r.1.wbar.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.1.Dat)
         points(YI.t[length(r.2.wbar.YI.t)] ~ seq_along(YI.t)[length(r.2.wbar.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
         points(YI.t[length(r.3.wbar.YI.t)] ~ seq_along(YI.t)[length(r.3.wbar.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.3.Dat)
@@ -3516,7 +4440,7 @@ deterministicSuppFig_h0.01  <-  function() {
                y       =  usr[4],
                legend  =  c(
                             expression(italic(r)=="{0,2,4,6,8}"),
-                            expression(bar(italic(r)))),
+                            expression(bar(italic(r))==frac(italic(U*x),italic(h*s)))),
                lty     =  c(2,1),
                lwd     =  c(1,1),
                col     =  c(2,1),
@@ -3544,7 +4468,7 @@ deterministicSuppFig_h0.01  <-  function() {
         lines(r.8.wbar.YI.t ~ seq_along(r.8.wbar.YI.t), lwd=1.5, lty=1, col=transparentColor(COLS[1], opacity=1))
         abline(h=1, lwd=1, lty=2, col=2)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
+#        points(r.0.wbar.YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato')
 #        points(r.2.wbar.YI.t[length(r.2.wbar.YI.t)] ~ length(r.2.wbar.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
 #        points(r.4.wbar.YI.t[length(r.4.wbar.YI.t)] ~ length(r.4.wbar.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
         points(r.6.wbar.YI.t[length(r.6.wbar.YI.t)] ~ length(r.6.wbar.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
@@ -3594,9 +4518,9 @@ deterministicSuppFig_h0.01  <-  function() {
         lines(YI.t[1:length(r.6.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.6.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.6.Dat)
         lines(YI.t[1:length(r.8.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.8.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.8.Dat)
         # Points
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
+#        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
 #        points(YI.t[length(r.2.wbar.YI.t)] ~ seq_along(YI.t)[length(r.2.wbar.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.2.Dat)
-        points(YI.t[length(r.4.wbar.YI.t)] ~ seq_along(YI.t)[length(r.4.wbar.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.4.Dat)
+#        points(YI.t[length(r.4.wbar.YI.t)] ~ seq_along(YI.t)[length(r.4.wbar.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.4.Dat)
         points(YI.t[length(r.6.wbar.YI.t)] ~ seq_along(YI.t)[length(r.6.wbar.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.6.Dat)
         points(YI.t[length(r.8.wbar.YI.t)] ~ seq_along(YI.t)[length(r.8.wbar.YI.t)], pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[1], opacity=0.7), data=r.8.Dat)
         # axes
@@ -3682,7 +4606,7 @@ deterministicSuppFig_h0.01  <-  function() {
                y       =  usr[4],
                legend  =  c(
                             expression(italic(r)=="{0,5,10,15,20}"),
-                            expression(bar(italic(r)))),
+                            expression(bar(italic(r))==frac(italic(U*x),italic(h*s)))),
                lty     =  c(2,1),
                lwd     =  c(1,1),
                col     =  c(2,1),
@@ -3845,7 +4769,7 @@ deterministicSuppFig_h0.01  <-  function() {
                y       =  usr[4],
                legend  =  c(
                             expression(italic(r)=="{0,10,20,30,40}"),
-                            expression(bar(italic(r)))),
+                            expression(bar(italic(r))==frac(italic(U*x),italic(h*s)))),
                lty     =  c(2,1),
                lwd     =  c(1,1),
                col     =  c(2,1),
@@ -3922,7 +4846,7 @@ deterministicSuppFig_h0.01  <-  function() {
         lines(YI.t[1:length(r.30.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.30.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.30.Dat)
         lines(YI.t[1:length(r.40.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.40.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.40.Dat)
         # Points
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
+#        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
         points(YI.t[length(r.10.wbar.YI.t)] ~ seq_along(YI.t)[length(r.10.wbar.YI.t)], pch=8, col='tomato', data=r.10.Dat)
         points(YI.t[length(r.20.wbar.YI.t)] ~ seq_along(YI.t)[length(r.20.wbar.YI.t)], pch=8, col='tomato', data=r.20.Dat)
         points(YI.t[length(r.30.wbar.YI.t)] ~ seq_along(YI.t)[length(r.30.wbar.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.30.Dat)
@@ -4009,7 +4933,7 @@ deterministicSuppFig_h0.01  <-  function() {
                y       =  usr[4],
                legend  =  c(
                             expression(italic(r)=="{0,20,40,60,80}"),
-                            expression(bar(italic(r)))),
+                            expression(bar(italic(r))==frac(italic(U*x),italic(h*s)))),
                lty     =  c(2,1),
                lwd     =  c(1,1),
                col     =  c(2,1),
@@ -4086,7 +5010,7 @@ deterministicSuppFig_h0.01  <-  function() {
         lines(YI.t[1:length(r.60.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.60.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.60.Dat)
         lines(YI.t[1:length(r.80.wbar.YI.t)] ~ seq_along(YI.t)[1:length(r.80.wbar.YI.t)], lwd=1.5, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.80.Dat)
         # Points
-        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
+#        points(YI.t[length(r.0.wbar.YI.t)] ~ length(r.0.wbar.YI.t), pch=8, col='tomato', data=r.0.Dat)
         points(YI.t[length(r.20.wbar.YI.t)] ~ seq_along(YI.t)[length(r.20.wbar.YI.t)], pch=8, col='tomato', data=r.20.Dat)
         points(YI.t[length(r.40.wbar.YI.t)] ~ seq_along(YI.t)[length(r.40.wbar.YI.t)], pch=8, col='tomato', data=r.40.Dat)
         points(YI.t[length(r.60.wbar.YI.t)] ~ seq_along(YI.t)[length(r.60.wbar.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.60.Dat)
