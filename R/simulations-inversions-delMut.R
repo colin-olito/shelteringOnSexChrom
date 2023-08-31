@@ -13,37 +13,30 @@ wBarY  <-  function(n, r, s, h, YI.t, qt.I.wt, qt.Y.wt, qt.Y.del, XaOv.t.wt, XaO
 	pt.I.wt    <-  1 - qt.I.wt
 	pt.Y.del   <-  1 - qt.Y.del
 	pt.Y.wt    <-  1 - qt.Y.wt
-		   YI.t*(  (1 - s*(h*(1 - XaOv.t.del) + XaOv.t.del) )^r) * (1 - s*(h*(pt.I.wt*XaOv.t.wt + qt.I.wt*(1 - XaOv.t.wt)) + qt.I.wt*XaOv.t.wt))^(n-r) +
-	(1 - YI.t)*( (1 - s*(h*((1 - XaOv.t.del)*qt.Y.del + XaOv.t.del*pt.Y.del) + XaOv.t.del*qt.Y.del))^r * ((1 - s*(h*((1 - XaOv.t.wt)*qt.Y.wt + XaOv.t.wt*pt.Y.wt) + XaOv.t.wt*qt.Y.wt))^(n - r)) )
+		   YI.t*(  (1 - s*(h*(1 - XaOv.t.del) + XaOv.t.del) )^r * (1 - s*(h*(pt.I.wt*XaOv.t.wt + qt.I.wt*(1 - XaOv.t.wt)) + qt.I.wt*XaOv.t.wt))^(n-r) ) +
+	(1 - YI.t)*( (1 - s*(h*((1 - XaOv.t.del)*qt.Y.del + XaOv.t.del*pt.Y.del) + XaOv.t.del*qt.Y.del))^r * (1 - s*(h*((1 - XaOv.t.wt)*qt.Y.wt + XaOv.t.wt*pt.Y.wt) + XaOv.t.wt*qt.Y.wt))^(n - r) )
 }
 
-wY.noHom  <-  function(n, r, s, h, YI.t, qt.I.wt, qt.Y.wt, qt.Y.del, XaOv.t.wt, XaOv.t.del) {
-	pt.I.wt    <-  1 - qt.I.wt
-	pt.Y.del   <-  1 - qt.Y.del
-	pt.Y.wt    <-  1 - qt.Y.wt		   
-	( (1 - s*(h*((1 - XaOv.t.del)*qt.Y.del + XaOv.t.del*pt.Y.del) + XaOv.t.del*qt.Y.del))^r * ((1 - s*(h*((1 - XaOv.t.wt)*qt.Y.wt + XaOv.t.wt*pt.Y.wt)))^(n - r)) )
-}
-
-invFit  <-  function(n, r, s, h, YI.t, qt.I.wt, qt.Y.wt, qt.Y.del, XaOv.t.wt, XaOv.t.del){
+invFit  <-  function(n, r, s, h, qt.I.wt, qt.Y.wt, qt.Y.del, XaOv.t.wt, XaOv.t.del){
 	pt.I.wt    <-  1 - qt.I.wt
 	pt.Y.del   <-  1 - qt.Y.del
 	pt.Y.wt    <-  1 - qt.Y.wt
 		  ((( 1 - s*(h*(1 - XaOv.t.del) + XaOv.t.del) )^r) * (1 - s*(h*(pt.I.wt*XaOv.t.wt + qt.I.wt*(1 - XaOv.t.wt)) + qt.I.wt*XaOv.t.wt))^(n-r)) 
 }
 
-invRelFit  <-  function(n, r, s, h, YI.t, qt.I.wt, qt.Y.wt, qt.Y.del, XaOv.t.wt, XaOv.t.del){
+invRelFit  <-  function(n, r, s, h, qt.I.wt, qt.Y.wt, qt.Y.del, XaOv.t.wt, XaOv.t.del){
 	pt.I.wt    <-  1 - qt.I.wt
 	pt.Y.del   <-  1 - qt.Y.del
 	pt.Y.wt    <-  1 - qt.Y.wt
-		  ((( 1 - s*(h*(1 - XaOv.t.del) + XaOv.t.del) )^r) * (1 - s*(h*(pt.I.wt*XaOv.t.wt + qt.I.wt*(1 - XaOv.t.wt)) + qt.I.wt*XaOv.t.wt))^(n-r)) /
-				( (1 - s*(h*((1 - XaOv.t.del)*qt.Y.del + XaOv.t.del*pt.Y.del) + XaOv.t.del*qt.Y.del))^r * ((1 - s*(h*((1 - XaOv.t.wt)*qt.Y.wt + XaOv.t.wt*pt.Y.wt) + XaOv.t.wt*qt.Y.wt))^(n - r)) )
+		  (( 1 - s*(h*(1 - XaOv.t.del) + XaOv.t.del) )^r * (1 - s*(h*(pt.I.wt*XaOv.t.wt + qt.I.wt*(1 - XaOv.t.wt)) + qt.I.wt*XaOv.t.wt))^(n-r)) /
+				( (1 - s*(h*((1 - XaOv.t.del)*qt.Y.del + XaOv.t.del*pt.Y.del) + XaOv.t.del*qt.Y.del))^r * (1 - s*(h*((1 - XaOv.t.wt)*qt.Y.wt + XaOv.t.wt*pt.Y.wt) + XaOv.t.wt*qt.Y.wt))^(n - r) )
 }
 
 YI.prime  <-  function(n, r, s, h, YI.t, qt.I.wt, qt.Y.wt, qt.Y.del, XaOv.t.wt, XaOv.t.del, ...) {
-	(YI.t*(( 1 - s*(h*(1 - XaOv.t.del) + XaOv.t.del) )^r) * (1 - s*(h*((1 - qt.I.wt)*XaOv.t.wt + qt.I.wt*(1 - XaOv.t.wt)) + qt.I.wt*XaOv.t.wt))^(n-r)) / wBarY(n=n, r=r, s=s, h=h, YI.t=YI.t, qt.I.wt=qt.I.wt, qt.Y.wt=qt.Y.wt, qt.Y.del=qt.Y.del, XaOv.t.wt=XaOv.t.wt, XaOv.t.del=XaOv.t.del)
+	YI.t*( ( 1 - s*(h*(1 - XaOv.t.del) + XaOv.t.del))^r * (1 - s*(h*((1 - qt.I.wt)*XaOv.t.wt + qt.I.wt*(1 - XaOv.t.wt)) + qt.I.wt*XaOv.t.wt))^(n-r)) / wBarY(n=n, r=r, s=s, h=h, YI.t=YI.t, qt.I.wt=qt.I.wt, qt.Y.wt=qt.Y.wt, qt.Y.del=qt.Y.del, XaOv.t.wt=XaOv.t.wt, XaOv.t.del=XaOv.t.del)
 }
 
-qI.wt.prime  <-  function(n, r, u, s, h, YI.t, qt.I.wt, XaOv.t.wt, XaOv.t.del) {
+qI.wt.prime  <-  function(n, r, u, s, h, qt.I.wt, XaOv.t.wt, XaOv.t.del) {
 		(qt.I.wt*(1 - u - s*(XaOv.t.wt + u*(1 - 2*XaOv.t.wt) + h*(1 - XaOv.t.wt)*(1 - 2*u))) + u*(1 - s*(XaOv.t.wt + h*(1 - XaOv.t.wt)))) / 
 			(1 - s*XaOv.t.wt*u - qt.I.wt*s*(XaOv.t.wt + u*(1 - 2*XaOv.t.wt)) - h*s*(qt.I.wt + XaOv.t.wt*(1 - 2*qt.I.wt) + u*(2 - 3*XaOv.t.wt - qt.I.wt*(3 - 4*XaOv.t.wt))))
 }
@@ -101,7 +94,7 @@ findEq  <- function(r, h, s, n, u, qHat, qHatDel) {
 	YI.t[1]        <-  round(YI.prime(n=n, r=r, s=s, h=h, YI.t=0, qt.I.wt=0, qt.Y.wt=qHat, qt.Y.del=qHatDel, XaOv.t.wt=qHat, XaOv.t.del=qHatDel), digits=9)
 	XaOv.wt.t[1]   <-  round(XaOv.wt.prime(u=u, s=s, h=h, XaOv.t.wt=qHat, XaSp.t.wt=qHat), digits=9)
 	XaSp.wt.t[1]   <-  round(XaSp.wt.prime(u=u, s=s, h=h, YI.t=0, qt.I.wt=0, qt.Y.wt=qHat, XaOv.t.wt=qHat), digits=9)
-	qI.wt.t[1]     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, YI.t=0, qt.I.wt=0, XaOv.t.wt=qHat, XaOv.t.del=qHatDel), digits=9)
+	qI.wt.t[1]     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, qt.I.wt=0, XaOv.t.wt=qHat, XaOv.t.del=qHatDel), digits=9)
 	qY.wt.t[1]     <-  round(qY.wt.prime(u=u, s=s, h=h, qt.Y.wt=qHat, XaOv.t.wt=qHat), digits=9)
 	XaOv.del.t[1]  <-  round(XaOv.del.prime(u=u, s=s, h=h, XaOv.t.del=qHatDel, XaSp.t.del=qHatDel), digits=9)
 	XaSp.del.t[1]  <-  round(XaSp.del.prime(u=u, s=s, h=h, YI.t=0, qt.Y.del=qHatDel, XaOv.t.del=qHatDel), digits=9)
@@ -116,7 +109,7 @@ findEq  <- function(r, h, s, n, u, qHat, qHatDel) {
 		XaSp.wt.t[i]   <-  round(XaSp.wt.prime(u=u, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1]), digits=9)
 		XaOv.del.t[i]  <-  round(XaOv.del.prime(u=u, s=s, h=h, XaOv.t.del=XaOv.del.t[i-1], XaSp.t.del=XaSp.del.t[i-1]), digits=9)
 		XaSp.del.t[i]  <-  round(XaSp.del.prime(u=u, s=s, h=h, YI.t=YI.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
-		qI.wt.t[i]     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
+		qI.wt.t[i]     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, qt.I.wt=qI.wt.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
 		qY.wt.t[i]     <-  round(qY.wt.prime(u=u, s=s, h=h, qt.Y.wt=qY.wt.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1]), digits=9)
 		qY.del.t[i]    <-  round(qY.del.prime(u=u, s=s, h=h, qt.Y.del=qY.del.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
 		diff  <-  eucDist(c(XaOv.wt.t[i-1],XaSp.wt.t[i-1],XaOv.del.t[i-1],XaSp.del.t[i-1],qY.wt.t[i-1],qY.del.t[i-1]),
@@ -135,9 +128,8 @@ findEq  <- function(r, h, s, n, u, qHat, qHatDel) {
 	return(res)
 }
 
-makeDeterministicFigSimData  <-  function(r = 0, x = 0.2, h = 0.1, s = 0.01, Ufactor = 2, generations = 10^4, ...) {
+makeDeterministicFigSimData  <-  function(U = 0.02, r = 0, x = 0.2, h = 0.1, s = 0.01, Ufactor = 2, generations = 10^4, ...) {
 	# Parameters
-	U     <-  Ufactor*s
 	nTot  <-  10^4
 	u     <-  U/nTot
 	qHat  <-  (U/(nTot*h*s))
@@ -169,14 +161,14 @@ makeDeterministicFigSimData  <-  function(r = 0, x = 0.2, h = 0.1, s = 0.01, Ufa
 	YI.t[1]        <-  round(YI.prime(n=n, r=r, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
 	XaOv.wt.t[1]   <-  round(XaOv.wt.prime(u=u, s=s, h=h, XaOv.t.wt=eqs$XaOv.wt.init, XaSp.t.wt=eqs$XaSp.wt.init), digits=9)
 	XaSp.wt.t[1]   <-  round(XaSp.wt.prime(u=u, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, XaOv.t.wt=eqs$XaOv.wt.init), digits=9)
-	qI.wt.t[1]     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, YI.t=YI.0, qt.I.wt=0, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
+	qI.wt.t[1]     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, qt.I.wt=0, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
 	qY.wt.t[1]     <-  round(qY.wt.prime(u=u, s=s, h=h, qt.Y.wt=eqs$qY.wt.init, XaOv.t.wt=eqs$XaOv.wt.init), digits=9)
 	XaOv.del.t[1]  <-  round(XaOv.del.prime(u=u, s=s, h=h, XaOv.t.del=eqs$XaOv.del.init, XaSp.t.del=eqs$XaSp.del.init), digits=9)
 	XaSp.del.t[1]  <-  round(XaSp.del.prime(u=u, s=s, h=h, YI.t=YI.0, qt.Y.del=eqs$qY.del.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
 	qY.del.t[1]    <-  round(qY.del.prime(u=u, s=s, h=h, qt.Y.del=eqs$qY.del.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
 	wbarYI.t[1]    <-  round((YI.t[1]/YI.0), digits=9)
-	relWYI.t[1]    <-  round(invRelFit(n=n, r=r, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
-	YInvW.t[1]     <-  round(invFit(n=n, r=r, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
+	relWYI.t[1]    <-  round(invRelFit(n=n, r=r, s=s, h=h, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
+	YInvW.t[1]     <-  round(invFit(n=n, r=r, s=s, h=h, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
 	YWbar.t[1]     <-  round(wBarY(n=n, r=r, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
 
 
@@ -188,12 +180,12 @@ makeDeterministicFigSimData  <-  function(r = 0, x = 0.2, h = 0.1, s = 0.01, Ufa
 		XaSp.wt.t[i]   <-  round(XaSp.wt.prime(u=u, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1]), digits=9)
 		XaOv.del.t[i]  <-  round(XaOv.del.prime(u=u, s=s, h=h, XaOv.t.del=XaOv.del.t[i-1], XaSp.t.del=XaSp.del.t[i-1]), digits=9)
 		XaSp.del.t[i]  <-  round(XaSp.del.prime(u=u, s=s, h=h, YI.t=YI.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
-		qI.wt.t[i]     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
+		qI.wt.t[i]     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, qt.I.wt=qI.wt.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
 		qY.wt.t[i]     <-  round(qY.wt.prime(u=u, s=s, h=h, qt.Y.wt=qY.wt.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1]), digits=9)
 		qY.del.t[i]    <-  round(qY.del.prime(u=u, s=s, h=h, qt.Y.del=qY.del.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
 		wbarYI.t[i]    <-  round((YI.t[i]/ YI.t[i-1]), digits=9)
-		relWYI.t[i]    <-  round(invRelFit(n=n, r=r, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
-		YInvW.t[i]     <-  round(invFit(n=n, r=r, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
+		relWYI.t[i]    <-  round(invRelFit(n=n, r=r, s=s, h=h, qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
+		YInvW.t[i]     <-  round(invFit(n=n, r=r, s=s, h=h, qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
 		YWbar.t[i]     <-  round(wBarY(n=n, r=r, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
 		i  <-  i + 1
 	}
@@ -263,14 +255,14 @@ makeDeterministicFigSimData_Fixed_sh  <-  function(r = 0, x = 0.2, h = 0.1, s = 
 	YI.t[1]        <-  round(YI.prime(n=n, r=r, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
 	XaOv.wt.t[1]   <-  round(XaOv.wt.prime(u=u, s=s, h=h, XaOv.t.wt=eqs$XaOv.wt.init, XaSp.t.wt=eqs$XaSp.wt.init), digits=9)
 	XaSp.wt.t[1]   <-  round(XaSp.wt.prime(u=u, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, XaOv.t.wt=eqs$XaOv.wt.init), digits=9)
-	qI.wt.t[1]     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, YI.t=YI.0, qt.I.wt=0, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
+	qI.wt.t[1]     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, qt.I.wt=0, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
 	qY.wt.t[1]     <-  round(qY.wt.prime(u=u, s=s, h=h, qt.Y.wt=eqs$qY.wt.init, XaOv.t.wt=eqs$XaOv.wt.init), digits=9)
 	XaOv.del.t[1]  <-  round(XaOv.del.prime(u=u, s=s, h=h, XaOv.t.del=eqs$XaOv.del.init, XaSp.t.del=eqs$XaSp.del.init), digits=9)
 	XaSp.del.t[1]  <-  round(XaSp.del.prime(u=u, s=s, h=h, YI.t=YI.0, qt.Y.del=eqs$qY.del.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
 	qY.del.t[1]    <-  round(qY.del.prime(u=u, s=s, h=h, qt.Y.del=eqs$qY.del.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
 	wbarYI.t[1]    <-  round((YI.t[1]/YI.0), digits=9)
-	relWYI.t[1]    <-  round(invRelFit(n=n, r=r, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
-	YInvW.t[1]     <-  round(invFit(n=n, r=r, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
+	relWYI.t[1]    <-  round(invRelFit(n=n, r=r, s=s, h=h, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
+	YInvW.t[1]     <-  round(invFit(n=n, r=r, s=s, h=h, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
 	YWbar.t[1]     <-  round(wBarY(n=n, r=r, s=s, h=h, YI.t=YI.0, qt.I.wt=0, qt.Y.wt=eqs$qY.wt.init, qt.Y.del=eqs$qY.del.init, XaOv.t.wt=eqs$XaOv.wt.init, XaOv.t.del=eqs$XaOv.del.init), digits=9)
 
 
@@ -282,12 +274,12 @@ makeDeterministicFigSimData_Fixed_sh  <-  function(r = 0, x = 0.2, h = 0.1, s = 
 		XaSp.wt.t[i]   <-  round(XaSp.wt.prime(u=u, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1]), digits=9)
 		XaOv.del.t[i]  <-  round(XaOv.del.prime(u=u, s=s, h=h, XaOv.t.del=XaOv.del.t[i-1], XaSp.t.del=XaSp.del.t[i-1]), digits=9)
 		XaSp.del.t[i]  <-  round(XaSp.del.prime(u=u, s=s, h=h, YI.t=YI.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
-		qI.wt.t[i]     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
+		qI.wt.t[i]     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, qt.I.wt=qI.wt.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
 		qY.wt.t[i]     <-  round(qY.wt.prime(u=u, s=s, h=h, qt.Y.wt=qY.wt.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1]), digits=9)
 		qY.del.t[i]    <-  round(qY.del.prime(u=u, s=s, h=h, qt.Y.del=qY.del.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
 		wbarYI.t[i]    <-  round((YI.t[i]/ YI.t[i-1]), digits=9)
-		relWYI.t[i]    <-  round(invRelFit(n=n, r=r, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
-		YInvW.t[i]     <-  round(invFit(n=n, r=r, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
+		relWYI.t[i]    <-  round(invRelFit(n=n, r=r, s=s, h=h, qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
+		YInvW.t[i]     <-  round(invFit(n=n, r=r, s=s, h=h, qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
 		YWbar.t[i]     <-  round(wBarY(n=n, r=r, s=s, h=h, YI.t=YI.t[i-1], qt.I.wt=qI.wt.t[i-1], qt.Y.wt=qY.wt.t[i-1], qt.Y.del=qY.del.t[i-1], XaOv.t.wt=XaOv.wt.t[i-1], XaOv.t.del=XaOv.del.t[i-1]), digits=9)
 		i  <-  i + 1
 	}
@@ -339,13 +331,17 @@ YI.multi.prime  <-  function(n, r, s, h, YI.t, qt.I.wt, qt.Y.wt, qt.Y.del, XaOv.
 	(YI.t*(prod( 1 - s*(h*(1 - XaOv.t.del) + XaOv.t.del))) * prod(1 - s*(h*((1 - qt.I.wt)*XaOv.t.wt + qt.I.wt*(1 - XaOv.t.wt)) + qt.I.wt*XaOv.t.wt))) / wBarY.multi(n=n, r=r, s=s, h=h, YI.t=YI.t, qt.I.wt=qt.I.wt, qt.Y.wt=qt.Y.wt, qt.Y.del=qt.Y.del, XaOv.t.wt=XaOv.t.wt, XaOv.t.del=XaOv.t.del)
 }
 
+
+
+####################################################################
 # Function to estimate Pr(fix | x) for different inversion sizes (x)
 # Looping over different Population size and U/s ratios
-makeDataPrFixInvSize  <-  function(h = 0.1, s = 0.01, Us.factor.vals = c(2, 5, 10),
+makeDataPrFixInvSize  <-  function(h = 0.25, s = 0.01, Us.factor.vals = c(2, 5, 10),
 																	 nTot = 10^4, N.vals = c(10^3, 10^4), Nfname = "") {
 
 	# Containers
 	PrFix       <-  c()
+	rFixedInv   <-  c()
 	YI.t        <-  c()
 	XaOv.wt.t   <-  c()
 	XaSp.wt.t   <-  c()
@@ -354,6 +350,11 @@ makeDataPrFixInvSize  <-  function(h = 0.1, s = 0.01, Us.factor.vals = c(2, 5, 1
 	XaOv.del.t  <-  c()
 	XaSp.del.t  <-  c()
 	qY.del.t    <-  c()
+
+	rFixedInvTab  <-  data.frame()
+	rInvSize      <-  c()
+	rNs           <-  c()
+	rUs           <-  c()
 
 	# inversion sizes
 	invSize  <-  c(0.5,1:9)/10
@@ -380,12 +381,15 @@ makeDataPrFixInvSize  <-  function(h = 0.1, s = 0.01, Us.factor.vals = c(2, 5, 1
 				# counter for fixations
 				fix   = 0
 
+					# Draw random value for # del. mutations captured by inversion (r) given x
+					rs   <-  rpois(sims, lambda=(U*invSize[k]/(s*h)))
+					rFixedInv   <-  c()
+
 				# Loop over replicate simulations
 				for(l in 1:sims){
 
-
-					# Draw random value for # del. mutations captured by inversion (r) given x
-					r   <-  rpois(1, lambda=(U*invSize[k]/(s*h)))
+					# take randomly drawn r value
+					r  <-  rs[l]
 
 					# Assign frequencies
 					# Note implicit assumption of equal initial
@@ -411,7 +415,7 @@ makeDataPrFixInvSize  <-  function(h = 0.1, s = 0.01, Us.factor.vals = c(2, 5, 1
 						XaSp.del.t  <-  round(XaSp.del.prime(u=u, s=s, h=h, YI.t=YI.t, qt.Y.del=qY.del.t, XaOv.t.del=XaOv.del.t), digits=9)
 						qY.wt.t     <-  round(qY.wt.prime(u=u, s=s, h=h, qt.Y.wt=qY.wt.t, XaOv.t.wt=XaOv.wt.t), digits=9)
 						qY.del.t    <-  round(qY.del.prime(u=u, s=s, h=h, qt.Y.del=qY.del.t, XaOv.t.del=XaOv.del.t), digits=9)
-						qI.wt.t     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, YI.t=YI.t, qt.I.wt=qI.wt.t, XaOv.t.wt=XaOv.wt.t, XaOv.t.del=XaOv.del.t), digits=9)
+						qI.wt.t     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, qt.I.wt=qI.wt.t, XaOv.t.wt=XaOv.wt.t, XaOv.t.del=XaOv.del.t), digits=9)
 						YI.sel      <-  round(YI.prime(n=n, r=r, s=s, h=h, YI.t=YI.t, qt.I.wt=qI.wt.t, qt.Y.wt=qY.wt.t, qt.Y.del=qY.del.t, XaOv.t.wt=XaOv.wt.t, XaOv.t.del=XaOv.del.t), digits=9)
 #points(YI.sel/YI.t ~ t, col=2)
 
@@ -422,9 +426,20 @@ makeDataPrFixInvSize  <-  function(h = 0.1, s = 0.01, Us.factor.vals = c(2, 5, 1
 #points(qI.wt.t ~ t, col=2)
 #t=t+1
 					}
-					fix  <-  fix + YI.t
+					if(YI.t == 1) {
+						fix  <-  fix + 1
+						rFixedInv  <-  c(rFixedInv, rs[l])
+					}
+
 				}
+
 			PrFix  <-  c(PrFix, (fix/sims))
+			rTab  <-  as.data.frame(table(rFixedInv))
+			rTab$Freq  <-  rTab$Freq/sims
+			rFixedInvTab  <-  rbind(rFixedInvTab, rTab)
+			rNs  <-  c(rNs, rep(N.vals[i], times = nrow(rTab)))
+			rUs  <-  c(rUs, rep(Us.factor.vals[j], times = nrow(rTab)))
+			rInvSize  <-  c(rInvSize, rep(invSize[k], times = nrow(rTab)))
 			cat('\r', paste("N: ", i, "/", length(N.vals), 
 										", U: ", j, "/", length(Us.factor.vals), 
 										", x: ", round(100*(k/length(invSize))), "% complete", sep=""))
@@ -452,6 +467,10 @@ makeDataPrFixInvSize  <-  function(h = 0.1, s = 0.01, Us.factor.vals = c(2, 5, 1
 										"PrFix"  =  PrFix
 										)
 	write.csv(d, file=filename, row.names=FALSE)
+
+	filename  <-  paste("./data/PrFixFig_rFixedInv_h", h, "_s", s, Nfname, ".csv", sep="")
+	r.d       <-  as.data.frame(cbind(rNs, rUs, rInvSize, rFixedInvTab))
+	write.csv(r.d, file=filename, row.names=FALSE)
 
 }
 
@@ -532,7 +551,7 @@ makeDataPrFixInvSizeDetqI  <-  function(h = 0.1, s = 0.01, Us.factor.vals = c(2,
 						XaSp.del.sel  <-  round(XaSp.del.prime(u=u, s=s, h=h, YI.t=YI.t, qt.Y.del=qY.del.t, XaOv.t.del=XaOv.del.t), digits=9)
 						qY.wt.sel     <-  round(qY.wt.prime(u=u, s=s, h=h, qt.Y.wt=qY.wt.t, XaOv.t.wt=XaOv.wt.t), digits=9)
 						qY.del.sel    <-  round(qY.del.prime(u=u, s=s, h=h, qt.Y.del=qY.del.t, XaOv.t.del=XaOv.del.t), digits=9)
-						qI.wt.t       <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, YI.t=YI.t, qt.I.wt=qI.wt.t, XaOv.t.wt=XaOv.wt.t, XaOv.t.del=XaOv.del.t), digits=9)
+						qI.wt.t       <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, qt.I.wt=qI.wt.t, XaOv.t.wt=XaOv.wt.t, XaOv.t.del=XaOv.del.t), digits=9)
 						YI.sel        <-  round(YI.multi.prime(n=n, r=r, s=s, h=h, YI.t=YI.t, qt.I.wt=qI.wt.t, qt.Y.wt=qY.wt.t, qt.Y.del=qY.del.t, XaOv.t.wt=XaOv.wt.t, XaOv.t.del=XaOv.del.t), digits=9)
 #points(YI.sel/YI.t ~ t, col=2)
 
@@ -583,7 +602,6 @@ makeDataPrFixInvSizeDetqI  <-  function(h = 0.1, s = 0.01, Us.factor.vals = c(2,
 }
 
 
-
 ########################################
 ##  AUTOSOMAL RECURSIONS for comparison
 
@@ -602,11 +620,12 @@ w.SS  <-  function(n, nd, u, sdHom, h, Ud, x, t) {
 }
 
 makeDataAutoPrFixInvSize  <-  function(h = 0.1, s = 0.01, Us.factor.vals = c(2, 5, 10),
-																	 nTot = 10^4, N.vals = c(10^3, 10^4)) {
+																	 nTot = 10^4, N.vals = c(10^3, 10^4), Nfname = "") {
 
 	# Containers
-	PrFix  <-  c()
-	q.t    <-  c()
+	PrFix   <-  c()
+	PrFix0  <-  c()
+	q.t     <-  c()
 	
 	# inversion sizes
 	invSize  <-  c(0.5,1:9)/10
@@ -628,6 +647,7 @@ makeDataAutoPrFixInvSize  <-  function(h = 0.1, s = 0.01, Us.factor.vals = c(2, 
 				# Loop over inversion size
 				for(k in 1:length(invSize)) {
 					fix   = 0
+					fix0  = 0
 
 					# Loop over replicate simulations
 					for(l in 1:sims){
@@ -659,7 +679,7 @@ makeDataAutoPrFixInvSize  <-  function(h = 0.1, s = 0.01, Us.factor.vals = c(2, 
 	          	II.sel  <-  q.t^2*w_II/w.avg
 							
 							# multinomial sampling
-							drift  <-  rmultinom(1, N, c(SS.sel, IS.sel, II.sel))/N          
+							drift  <-  rmultinom(1, N, c(SS.sel, IS.sel, II.sel)) / N          
           		p.t    <-  drift[1] + drift[2]/2
           		q.t    <-  drift[2]/2 + drift[3]
 
@@ -667,10 +687,14 @@ makeDataAutoPrFixInvSize  <-  function(h = 0.1, s = 0.01, Us.factor.vals = c(2, 
 							t  <-  t + 1
 						}
 						if(q.t == 1){
-						fix  <-  fix + 1
+							fix  <-  fix + 1
+							if(r  == 0){
+								fix0  <-  fix0 + 1
+							}
 						}
 					}
 				PrFix  <-  c(PrFix, (fix/sims))
+				PrFix0  <-  c(PrFix0, (fix0/sims))
 				cat('\r', paste("N: ", i, "/", length(N.vals), 
 											", U: ", j, "/", length(Us.factor.vals), 
 											", x: ", round(100*(k/length(invSize))), "% complete", sep=""))
@@ -687,7 +711,7 @@ makeDataAutoPrFixInvSize  <-  function(h = 0.1, s = 0.01, Us.factor.vals = c(2, 
 	invSizes  <-  rep(invSize, times=length(N.vals)*length(Us.factor.vals))
 	
 	# Export Results Dataframe
-	filename  <-  paste("./data/PrFixAutoFig_h", h, "_s", s, ".csv", sep="")
+	filename  <-  paste("./data/PrFixAutoFig_h", h, "_s", s, Nfname, ".csv", sep="")
 	d  <-  data.frame(
 										"h"      =  rep(h, times=length(PrFix)),
 										"s"      =  rep(s, times=length(PrFix)),
@@ -695,7 +719,8 @@ makeDataAutoPrFixInvSize  <-  function(h = 0.1, s = 0.01, Us.factor.vals = c(2, 
 										"U"      =  Us,
 										"Ufac"   =  Ufac,
 										"x"      =  invSizes,
-										"PrFix"  =  PrFix
+										"PrFix"  =  PrFix,
+										"PrFix0"  =  PrFix0
 										)
 	write.csv(d, file=filename, row.names=FALSE)
 
@@ -791,7 +816,7 @@ makeDataTimeBen_Fix  <-  function(h = 0.1, s = 0.01, Us.factor = 2, x = 0.2,
 						XaSp.del.sel  <-  round(XaSp.del.prime(u=u, s=s, h=h, YI.t=YI.t, qt.Y.del=qY.del.t, XaOv.t.del=XaOv.del.t), digits=9)
 						qY.wt.sel     <-  round(qY.wt.prime(u=u, s=s, h=h, qt.Y.wt=qY.wt.t, XaOv.t.wt=XaOv.wt.t), digits=9)
 						qY.del.sel    <-  round(qY.del.prime(u=u, s=s, h=h, qt.Y.del=qY.del.t, XaOv.t.del=XaOv.del.t), digits=9)
-						qI.wt.sel     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, YI.t=YI.t, qt.I.wt=qI.wt.t, XaOv.t.wt=XaOv.wt.t, XaOv.t.del=XaOv.del.t), digits=9)
+						qI.wt.sel     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, qt.I.wt=qI.wt.t, XaOv.t.wt=XaOv.wt.t, XaOv.t.del=XaOv.del.t), digits=9)
 						YI.sel        <-  round(YI.multi.prime(n=n, r=r, s=s, h=h, YI.t=YI.t, qt.I.wt=qI.wt.t, qt.Y.wt=qY.wt.t, qt.Y.del=qY.del.t, XaOv.t.wt=XaOv.wt.t, XaOv.t.del=XaOv.del.t), digits=9)
 						wbarYI.t[t]   <-  (YI.sel/ YI.t)
 						if(t == 1 && wbarYI.t[1] < 1) {
@@ -1001,7 +1026,7 @@ makeDataPrFixInvSizeHybridSim  <-  function(h = 0.1, s = 0.01, Us.factor.vals = 
 						XaSp.del.sel  <-  round(XaSp.del.prime(u=u, s=s, h=h, YI.t=YI.t, qt.Y.del=qY.del.t, XaOv.t.del=XaOv.del.t), digits=9)
 						qY.wt.sel     <-  round(qY.wt.prime(u=u, s=s, h=h, qt.Y.wt=qY.wt.t, XaOv.t.wt=XaOv.wt.t), digits=9)
 						qY.del.sel    <-  round(qY.del.prime(u=u, s=s, h=h, qt.Y.del=qY.del.t, XaOv.t.del=XaOv.del.t), digits=9)
-						qI.wt.sel     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, YI.t=YI.t, qt.I.wt=qI.wt.t, XaOv.t.wt=XaOv.wt.t, XaOv.t.del=XaOv.del.t), digits=9)
+						qI.wt.sel     <-  round(qI.wt.prime(n=n, r=r, u=u, s=s, h=h, qt.I.wt=qI.wt.t, XaOv.t.wt=XaOv.wt.t, XaOv.t.del=XaOv.del.t), digits=9)
 						YI.sel        <-  round(YI.multi.prime(n=n, r=r, s=s, h=h, YI.t=YI.t, qt.I.wt=qI.wt.t, qt.Y.wt=qY.wt.t, qt.Y.del=qY.del.t, XaOv.t.wt=XaOv.wt.t, XaOv.t.del=XaOv.del.t), digits=9)
 
 						# ind. simulation of inverted Y's
@@ -1188,7 +1213,7 @@ t=1
 						XaSp.del.mut  <-  XaSp.del.prime(u=u, s=0, h=h, YI.t=YI.t, qt.Y.del=qY.del.t, XaOv.t.del=XaOv.del.t)
 						qY.wt.mut     <-  qY.wt.prime(u=u, s=0, h=h, qt.Y.wt=qY.wt.t, XaOv.t.wt=XaOv.wt.t)
 						qY.del.mut    <-  qY.del.prime(u=u, s=0, h=h, qt.Y.del=qY.del.t, XaOv.t.del=XaOv.del.t)
-						qI.wt.mut     <-  qI.wt.prime(n=n, r=r, u=u, s=0, h=h, YI.t=YI.t, qt.I.wt=qI.wt.t, XaOv.t.wt=XaOv.wt.t, XaOv.t.del=XaOv.del.t)
+						qI.wt.mut     <-  qI.wt.prime(n=n, r=r, u=u, s=0, h=h, qt.I.wt=qI.wt.t, XaOv.t.wt=XaOv.wt.t, XaOv.t.del=XaOv.del.t)
 						# 2) adult genotypic frequencies
 						Fii.f.wt    <-  cbind((1 - XaOv.wt.mut)*(1 - XaSp.wt.mut), ((1 - XaOv.wt.mut)*XaSp.wt.mut + XaOv.wt.mut*(1 - XaSp.wt.mut)), XaOv.wt.mut*XaSp.wt.mut)
 #						colnames(Fii.f.wt)  <-  c("AA", "Aa", "aa")
@@ -1226,7 +1251,7 @@ t=1
 							qY.del.t     <-  (R.Fii.Y.del[,3] + R.Fii.Y.del[,2])/2
 						}
 						# deterministic change in allele frequency at wt loci on inversion
-						qI.wt.t      <-  qI.wt.prime(n=n, r=r, u=0, s=s, h=h, YI.t=YI.t, qt.I.wt=qI.wt.mut, XaOv.t.wt=XaOv.wt.mut, XaOv.t.del=XaOv.del.mut)
+						qI.wt.t      <-  qI.wt.prime(n=n, r=r, u=0, s=s, h=h, qt.I.wt=qI.wt.mut, XaOv.t.wt=XaOv.wt.mut, XaOv.t.del=XaOv.del.mut)
 points(YI.t ~ t)
 points(qI.wt.t[1] ~ t, col=2)
 t=t + 1

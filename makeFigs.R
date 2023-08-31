@@ -20,7 +20,6 @@ rm(list=ls())
 source('./R/functions-figures.R')
 source('./R/functions-figures-inversions-delMut.R')
 
-
 ########################
 # Figures for the paper
 ########################
@@ -30,8 +29,31 @@ source('./R/functions-figures-inversions-delMut.R')
 
 #  Fig.1 REVISED -- Illustration of deterministic dynamics
 toPdf(deterministicDominanceIllustration(), 
-			figPath(name='deterministicDomIllusFigCol_BCharlesworth.pdf'), width=10, height=10)
-embed_fonts(figPath(name='deterministicDomIllusFigCol_BCharlesworth.pdf'))
+			figPath(name='./RECODE/deterministicDomIllusFigCol_BCharlesworth.pdf'), width=10, height=10)
+embed_fonts(figPath(name='./RECODE/deterministicDomIllusFigCol_BCharlesworth.pdf'))
+
+
+
+rm(list=ls())
+source('./R/functions-figures.R')
+source('./R/functions-figures-inversions-delMut.R')
+#PrFixFig4Panel()
+
+
+#  Fig.2 REVISED -- Pr(fix) ~ x for Autosomal vs. SLR-expanding
+toPdf(PrFixFig4Panel(), 
+			figPath(name='PrFixFig4Panel_h0_25_CORRECTION.pdf'), width=8, height=8)
+embed_fonts(figPath(name='PrFixFig4Panel_h0_25_CORRECTION.pdf'))
+
+
+########################
+# New figures for the correction
+########################
+
+toPdf(deterministicMutRateIllustration(), 
+			figPath(name='deterministicMutRateIllusFigCol_BCharlesworth.pdf'), width=10, height=10)
+embed_fonts(figPath(name='deterministicMutRateIllusFigCol_BCharlesworth.pdf'))
+
 
 #  Fig.1 FIXED sh
 toPdf(deterministicDom_Fixed_sh(), 
@@ -39,11 +61,6 @@ toPdf(deterministicDom_Fixed_sh(),
 embed_fonts(figPath(name='deterministicDom_Fixed_sh.pdf'))
 
 
-
-#  Fig.2 REVISED -- Pr(fix) ~ x for Autosomal vs. SLR-expanding
-toPdf(PrFixFig4Panel(), 
-			figPath(name='PrFixFig4Panel_h0_25.pdf'), width=8, height=8)
-embed_fonts(figPath(name='PrFixFig4Panel_h0_25.pdf'))
 
 
 # Depricated figures
@@ -76,13 +93,17 @@ embed_fonts(figPath(name='PrFixFig4Panel_h0_25.pdf'))
 # Supplementary Figures
 ########################
 
-#  Fig.S1 -- Deterministic Dynamics Overview Figure
+#  Fig.S1 -- Deterministic Dynamics Overview Figure (h=0.25)
+toPdf(deterministicSuppFig_h0.25(), 
+			figPath(name='deterministicSuppFig_h0_25_CORRECTED.pdf'), width=12, height=10)
+embed_fonts(figPath(name='deterministicSuppFig_h0_25_CORRECTED.pdf'))
+
+#  Fig.S2 -- Deterministic Dynamics Overview Figure (h=0.1)
 toPdf(deterministicSuppFig(), 
 			figPath(name='deterministicSuppFig_h0_1_CORRECTED.pdf'), width=12, height=10)
 embed_fonts(figPath(name='deterministicSuppFig_h0_1_CORRECTED.pdf'))
 
-
-#  Fig.S2 -- Deterministic Dynamics Overview Figure (h=0.01)
+#  Fig.S3 -- Deterministic Dynamics Overview Figure (h=0.01)
 rm(list=ls())
 source('./R/functions-figures.R')
 source('./R/functions-figures-inversions-delMut.R')
@@ -90,11 +111,6 @@ toPdf(deterministicSuppFig_h0.01(),
 			figPath(name='deterministicSuppFig_h0_01_CORRECTED.pdf'), width=12, height=10)
 embed_fonts(figPath(name='deterministicSuppFig_h0_01_CORRECTED.pdf'))
 
-
-#  Fig.S2 -- Deterministic Dynamics Overview Figure (h=0.25)
-toPdf(deterministicSuppFig_h0.25(), 
-			figPath(name='deterministicSuppFig_h0_25_CORRECTED.pdf'), width=12, height=10)
-embed_fonts(figPath(name='deterministicSuppFig_h0_25_CORRECTED.pdf'))
 
 
 
