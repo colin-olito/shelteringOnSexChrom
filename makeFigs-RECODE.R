@@ -34,6 +34,10 @@ embed_fonts(figPath(name='./RECODE/PrFixFig4Panel_Approx_h0_25_RECODE_Haploid.pd
 
 
 
+########################
+# Supplementary Figures 
+########################
+
 #' Supp. fig. -- Pr(fix) ~ x for Autosomal vs. SLR-expanding
 #' 					using Exact recursions for both Autosomal & SLR-
 #' 					expanding inversions
@@ -45,9 +49,6 @@ toPdf(PrFixFig4Panel_Exact(),
 embed_fonts(figPath(name='./RECODE/PrFixFig4Panel_h0_25_RECODE_Exact.pdf'))
 
 
-########################
-# Supplementary Figures 
-########################
 
 #' Deterministic dynamics for Y-linked inversions 
 #' Illustrating effect of mutation rate where U = {0.02, 0.05, 0.1}
@@ -157,9 +158,7 @@ embed_fonts(figPath(name='./RECODE/AutoExact-deterministicSuppFig_h0_1_U1_RECODE
 
 
 
-
-
-#!!!!! FINISH RUNNING SIMULATIONS FOR AUTO-APPROX where N = 10^6
+## WF simulation figure for h = 0.1
 rm(list=ls())
 source('./R/functions-figures-inversions-delMut-RECODE.R')
 
@@ -168,7 +167,7 @@ toPdf(PrFixFig4Panel_SuppFig(),
 embed_fonts(figPath(name='./RECODE/PrFixFig4Panel_SuppFig_h0_1_RECODE.pdf'))
 
 
-
+## Figures examining frequency dynamics during WF simulations.
 rm(list=ls())
 source('./R/functions-figures.R')
 source('./R/functions-figures-inversions-delMut-RECODE.R')

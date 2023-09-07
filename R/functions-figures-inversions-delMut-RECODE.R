@@ -2999,17 +2999,18 @@ PrFixFig4Panel_Approx  <-  function() {
     # Import data for plotting
 
     ## Autosomal Inversion Data
-    Adat  <-  read.csv(file = './data/PrFixAutoFig_h0.25_s0.01_N100k.csv', header=TRUE)
-    Adat$PrFixNe  <-  Adat$PrFix*(2*Adat$N)
-    uniqueU  <-  unique(Adat$Ufac)
-    Adat$PrFixAdj  <-  Adat$PrFix
-    Adat$PrFixAdj[Adat$PrFixAdj < (1/(2*10^8))]  <-  (1/(2*10^8))
-    AdatN100k   <-  Adat[Adat$N == 100000,]
-        AdatN100kUf1  <-  AdatN100k[AdatN100k$Ufac == uniqueU[1],]
-        AdatN100kUf2  <-  AdatN100k[AdatN100k$Ufac == uniqueU[2],]
-        AdatN100kUf3  <-  AdatN100k[AdatN100k$Ufac == uniqueU[3],]
-
     ## N = 100k data
+    AdatN100kU02  <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.25_s0.01_N100k_U02.csv', header=TRUE)
+    AdatN100kU05  <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.25_s0.01_N100k_U05.csv', header=TRUE)
+    AdatN100kU1  <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.25_s0.01_N100k_U1.csv', header=TRUE)
+    AdatN100kU02$PrFixNe  <-  AdatN100kU02$PrFix*(2*AdatN100kU02$N)
+    AdatN100kU05$PrFixNe  <-  AdatN100kU05$PrFix*(2*AdatN100kU05$N)
+    AdatN100kU1$PrFixNe  <-  AdatN100kU1$PrFix*(AdatN100kU1$N/2)
+    AdatN100kU02$PrFix[AdatN100kU02$PrFix < (1/(2*10^8))]  <-  (1/(2*10^8))
+    AdatN100kU05$PrFix[AdatN100kU05$PrFix < (1/(2*10^8))]  <-  (1/(2*10^8))
+    AdatN100kU1$PrFix[AdatN100kU1$PrFix < (1/(2*10^8))]    <-  (1/(2*10^8))
+
+    ## N = 1mil data
     AdatN1milU02  <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.25_s0.01_N1mil_U02.csv', header=TRUE)
     AdatN1milU05  <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.25_s0.01_N1mil_U05.csv', header=TRUE)
     AdatN1milU1  <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.25_s0.01_N1mil_U1.csv', header=TRUE)
@@ -3018,7 +3019,7 @@ PrFixFig4Panel_Approx  <-  function() {
     AdatN1milU1$PrFixNe  <-  AdatN1milU1$PrFix*(AdatN1milU1$N/2)
     AdatN1milU02$PrFix[AdatN1milU02$PrFix < (1/(2*10^8))]  <-  (1/(2*10^8))
     AdatN1milU05$PrFix[AdatN1milU05$PrFix < (1/(2*10^8))]  <-  (1/(2*10^8))
-    AdatN1milU1$PrFix[AdatN1milU1$PrFix < (1/(2*10^8))]  <-  (1/(2*10^8))
+    AdatN1milU1$PrFix[AdatN1milU1$PrFix < (1/(2*10^8))]    <-  (1/(2*10^8))
 
     ## SLR Expanding Inversion data
     ## N = 100k data
@@ -3112,9 +3113,9 @@ PrFixFig4Panel_Approx  <-  function() {
         box()
         # Points
         abline(h=(1/(2*10^5)), lwd=1, lty=2, col=1)
-        points(PrFixAdj ~ x, pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=AdatN100kUf1)
-        points(PrFixAdj ~ x, pch=22, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=AdatN100kUf2)
-        points(PrFixAdj ~ x, pch=24, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=AdatN100kUf3)
+        points(PrFixAdj ~ x, pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=AdatN100kU02)
+        points(PrFixAdj ~ x, pch=22, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=AdatN100kU05)
+        points(PrFixAdj ~ x, pch=24, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=AdatN100kU1)
         # axes
         axis(1, las=1, labels=NA)
         axis(2, las=1, at=c((1/(2*10^8)), 
