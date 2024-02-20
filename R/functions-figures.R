@@ -5,6 +5,7 @@ library(extrafont)
 library(fontcm)
 loadfonts(quiet = TRUE)
 library(wesanderson)
+#library(latex2exp)
 
 #######################
 # AUXILLIARY FUNCTIONS

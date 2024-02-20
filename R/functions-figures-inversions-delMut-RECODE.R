@@ -23,10 +23,10 @@ qstar  <-  function(q.0, U, x, s, h) {
 
 #' FIGURE 1. Illustration of deterministic dynamics
 #'           for different dominance values
-deterministicDominanceIllustration  <-  function(wHap = FALSE) {
+deterministicDominanceIllustration  <-  function(wHap = FALSE, x=0.2) {
 
     # set plot layout
-    layout.mat <- matrix(c(1:9), nrow=3, ncol=3, byrow=FALSE)
+    layout.mat <- matrix(c(1:12), nrow=4, ncol=3, byrow=FALSE)
     layout     <- layout(layout.mat,respect=TRUE)
 
     # Make data for plotting 
@@ -68,7 +68,7 @@ deterministicDominanceIllustration  <-  function(wHap = FALSE) {
 ## Panel A
 # Effect of initial del. mut. load on inversion relative fitness 
     # make plot
-    par(omi=c(0.5, 0.5, 0.75, 0.5), mar = c(3,3,1,1), bty='o', xaxt='s', yaxt='s')
+    par(omi=c(0.5, 0.25, 0.5, 0.5), mar = c(3,6,1,0), bty='o', xaxt='s', yaxt='s')
      plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(relFitMin, relFitMax), ylab='', xlab='', cex.lab=1.2)
         usr  <-  par('usr')
         rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
@@ -88,22 +88,22 @@ deterministicDominanceIllustration  <-  function(wHap = FALSE) {
         points(r.1.rel.w.YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
         # Annotate 1 + Ux approximation
         points((1 + U*x) ~ 1, pch=23, bg=transparentColor('#252525', opacity=0.7), col='#252525')
-        proportionalArrows(0.125, 0.86, 0.06, 0.86, cex=1, adj=c(0.5, 0.5), xpd=NA, log=FALSE, length=0.05)
-        proportionalLabel(0.25, 0.86, expression(1+italic(Ux)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalArrows(0.127, 0.86, 0.06, 0.86, cex=1, adj=c(0.5, 0.5), xpd=NA, log=FALSE, length=0.05)
+        proportionalLabel(0.275, 0.86, expression(1+italic(Ux)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         # axes
         axis(1, las=1, labels=NA)
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(-0.3,  0.5,   expression(paste("Inversion Relative Fitness")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(-0.45,  0.5,   expression(paste("Inversion Relative Fitness")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==1)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==1)),
                lty     =  1,
                lwd     =  2,
                col     =  c(transparentColor(COLS[1], opacity=1),
@@ -145,13 +145,13 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(-0.3,  0.5,   expression(paste("Inversion Frequency (", italic(Y[I]), ")")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+        proportionalLabel(-0.45,  0.5,   expression(paste("Inversion Frequency (", italic(Y[I]), ")")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
         # Legend
         legend(
                x       =  usr[2]*0.95,
                y       =  usr[4],
                legend  =  c(
-                            expression(paste("General solution for ", italic(Y[I]), " when ", italic(r)==0))),
+                            expression(paste("Gen. sol. for ", italic(Y[I]), " when ", italic(d)==0))),
                lty     =  3,
                lwd     =  2,
                col     =  1,
@@ -164,6 +164,7 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
 
     # reset Colors
      COLS  <-  c('red', '#252525')
+
 ## Panel G
 # deleterious allele frequencies for r = 1
      # Make plot
@@ -182,13 +183,13 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         points(qt.Xf.D[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
         points(qt.YI.W[length(r.1.rel.w.YI.t)]/YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[1], opacity=0.7), data=r.1.Dat)
         # axes
-        axis(1, las=1, cex=1.3)
+        axis(1, las=1, cex=1.3, labels=NA)
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'G', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(-0.3,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
-        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(-0.45,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+#        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
         # Legend
         legend(
                x       =  usr[2],
@@ -209,11 +210,60 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
                )
 
 
+## Panel J
+# deleterious allele frequencies for r = 1
+     # Make plot
+    delMax  <-  max(r.1.Dat$qt.Xf.W)
+    delMin  <-  min(r.1.Dat$qt.Xf.D)
+    delRange  <-  delMax - delMin
+    delMax  <-  delMax + 0.05*delRange
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(delMin,delMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Lines for deleterious allele frequencies
+        lines(qt.Xf.W[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.Xf.W[1:length(r.1.rel.w.YI.t)]), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(qt.Xf.D[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.Xf.D[1:length(r.1.rel.w.YI.t)]), lwd=2, lty=3, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+#        lines(qt.YI.W[1:length(r.1.rel.w.YI.t)]/YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.YI.W[1:length(r.1.rel.w.YI.t)]), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.1.Dat)
+        # Points indicating inversion extinctions
+        points(qt.Xf.W[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+        points(qt.Xf.D[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+#        points(qt.YI.W[length(r.1.rel.w.YI.t)]/YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[1], opacity=0.7), data=r.1.Dat)
+        # axes
+        axis(1, las=1, cex=1.3)
+        axis(2, las=1, cex=1.3)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'J', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(-0.45,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
+        # Legend
+        legend(
+               x       =  usr[2],
+               y       =  usr[4],
+               legend = c(expression(italic(q)[italic(X[f])]^italic(W)), 
+#                          expression(italic(q)[italic(Y[I])]^italic(W)), 
+                          expression(italic(q)[italic(X[f])]^italic(D))),
+               lty     =  c(1,3),
+               lwd     =  2,
+               col     =  c(transparentColor(COLS[2], opacity=1),
+#                            transparentColor(COLS[1], opacity=1),
+                            transparentColor(COLS[2], opacity=1)),
+               cex     =  1.5,
+               xjust   =  1,
+               yjust   =  1,
+               bty     =  'n',
+               border  =  NA
+               )
+
+
 
     ###########
     # h = 0.1
     # make data for plotting
     h  <-  0.1
+
     # Nei-style model
     r.0.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 0, x = x, h = h, generations = 8000)
     r.1.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 1, x = x, h = h, generations = 8000)
@@ -266,16 +316,16 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1, labels=NA)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==4))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==4))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==1),
-                            expression(italic(r)==2),
-                            expression(italic(r)==3)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==1),
+                            expression(italic(d)==2),
+                            expression(italic(d)==3)),
                lty     =  1,
                lwd     =  2,
                col     =  c(transparentColor(COLS[1], opacity=1),
@@ -332,15 +382,15 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
      COLS  <-  c('red', '#252525')
 
 ## Panel H
-# deleterious allele frequencies for r = 5
+# deleterious allele frequencies for r = 1
      # Make plot
-     delMax  <-  r.1.Dat$qt.Xf.W[1]*1.05
+    delMax  <-  r.1.Dat$qt.Xf.W[1]*1.05
      plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,delMax), ylab='', xlab='', cex.lab=1.2)
         usr  <-  par('usr')
         rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
         plotGrid(lineCol='grey80')
         box()
-        # Points
+        # Lines for deleterious allele frequencies
         lines(qt.Xf.W[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.Xf.W[1:length(r.1.rel.w.YI.t)]), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
         lines(qt.Xf.D[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.Xf.D[1:length(r.1.rel.w.YI.t)]), lwd=2, lty=3, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
         lines(qt.YI.W[1:length(r.1.rel.w.YI.t)]/YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.YI.W[1:length(r.1.rel.w.YI.t)]), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.1.Dat)
@@ -349,37 +399,63 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         points(qt.Xf.D[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
         points(qt.YI.W[length(r.1.rel.w.YI.t)]/YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[1], opacity=0.7), data=r.1.Dat)
         # axes
-        axis(1, las=1, cex=1.3)
+        axis(1, las=1, cex=1.3, labels=NA)
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'H', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(-0.3,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+#        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
+
+     # Make plot
+    delMax  <-  max(r.1.Dat$qt.Xf.W)
+    delMin  <-  min(r.1.Dat$qt.Xf.D)
+    delRange  <-  delMax - delMin
+    delMax  <-  delMax + 0.05*delRange
+
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(delMin,delMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Deleterious allele frequencies
+        lines(qt.Xf.W[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.Xf.W)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(qt.Xf.D[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.Xf.D)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+#        lines(qt.YI.W[1:length(r.1.rel.w.YI.t)]/YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.YI.W)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.1.Dat)
+        # Points indicating inversion extinctions
+        points(qt.Xf.W[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+        points(qt.Xf.D[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+#        points(qt.YI.W[length(r.1.rel.w.YI.t)]/YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[1], opacity=0.7), data=r.1.Dat)
+        # axes
+        axis(1, las=1, cex=1.2)
+        axis(2, las=1, cex=1.2)        
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'K', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
 
 
-
-
     ###########
-    # h = 0.01
+    # h = 0.05
 
     # make data for plotting
-    h  <-  0.01
+    h  <-  0.05
     # Nei-style model
-    r.0.Dat   <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 0,  x = x, h = h, generations = 25000)
-    r.5.Dat   <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 5,  x = x, h = h, generations = 25000)
-    r.10.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 10, x = x, h = h, generations = 25000)
-    r.15.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 15, x = x, h = h, generations = 25000)
+    r.0.Dat   <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 0,  x = x, h = h, generations = 20000)
+    r.1.Dat   <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 1,  x = x, h = h, generations = 20000)
+    r.2.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 2, x = x, h = h, generations = 20000)
+    r.3.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 3, x = x, h = h, generations = 20000)
 
     r.0.rel.w.YI.t   <-  r.0.Dat$rel.w.YI.t[round(r.0.Dat$YI.t,digits=4) < 1]
-    r.5.rel.w.YI.t   <-  r.5.Dat$rel.w.YI.t[round(r.5.Dat$YI.t,digits=4) > 0]
-    r.10.rel.w.YI.t  <-  r.10.Dat$rel.w.YI.t[round(r.10.Dat$YI.t,digits=4) > 0]
-    r.15.rel.w.YI.t  <-  r.15.Dat$rel.w.YI.t[round(r.15.Dat$YI.t,digits=4) > 0]
+    r.1.rel.w.YI.t   <-  r.1.Dat$rel.w.YI.t[round(r.1.Dat$YI.t,digits=4) > 0]
+    r.2.rel.w.YI.t  <-  r.2.Dat$rel.w.YI.t[round(r.2.Dat$YI.t,digits=4) > 0]
+    r.3.rel.w.YI.t  <-  r.3.Dat$rel.w.YI.t[round(r.3.Dat$YI.t,digits=4) > 0]
 
     # Haploid model
-    r.0.Hap.Dat   <-  makeDeterministicSimHaploidData(U = U, s = s, r = 0,  x = x, h = h, generations = 25000)
-    r.5.Hap.Dat   <-  makeDeterministicSimHaploidData(U = U, s = s, r = 5,  x = x, h = h, generations = 25000)
-    r.10.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 10, x = x, h = h, generations = 25000)
-    r.15.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 15, x = x, h = h, generations = 25000)
+    r.0.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 0, x = x, h = h, generations = 20000)
+    r.1.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 1, x = x, h = h, generations = 20000)
+    r.2.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 2, x = x, h = h, generations = 20000)
+    r.3.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 3, x = x, h = h, generations = 20000)
 
    # Colors
     COLS     <-  colorRampPalette(wes_palette("Zissou1"))(4)
@@ -394,23 +470,23 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         box()
         # Inversion relative fitnesses
         lines(r.0.rel.w.YI.t ~ seq_along(r.0.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1))
-        lines(r.5.rel.w.YI.t ~ seq_along(r.5.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1))
-        lines(r.10.rel.w.YI.t ~ seq_along(r.10.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1))
-        lines(r.15.rel.w.YI.t ~ seq_along(r.15.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1))
+        lines(r.1.rel.w.YI.t ~ seq_along(r.1.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1))
+        lines(r.2.rel.w.YI.t ~ seq_along(r.2.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1))
+        lines(r.3.rel.w.YI.t ~ seq_along(r.3.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1))
         # Inversion relative fitness -- Haploid model
         if(wHap) {
             lines(rel.w.YI.t[1:length(r.0.rel.w.YI.t)] ~ seq_along(rel.w.YI.t)[1:length(r.0.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor("#252525", opacity=1), data=r.0.Hap.Dat)
-            lines(rel.w.YI.t[1:length(r.5.rel.w.YI.t)] ~ seq_along(rel.w.YI.t)[1:length(r.5.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor("#252525", opacity=1), data=r.5.Hap.Dat)
-            lines(rel.w.YI.t[1:length(r.10.rel.w.YI.t)] ~ seq_along(rel.w.YI.t)[1:length(r.10.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor("#252525", opacity=1), data=r.10.Hap.Dat)
-            lines(rel.w.YI.t[1:length(r.15.rel.w.YI.t)] ~ seq_along(rel.w.YI.t)[1:length(r.15.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor("#252525", opacity=1), data=r.15.Hap.Dat)
+            lines(rel.w.YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(rel.w.YI.t)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor("#252525", opacity=1), data=r.1.Hap.Dat)
+            lines(rel.w.YI.t[1:length(r.2.rel.w.YI.t)] ~ seq_along(rel.w.YI.t)[1:length(r.2.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor("#252525", opacity=1), data=r.2.Hap.Dat)
+            lines(rel.w.YI.t[1:length(r.3.rel.w.YI.t)] ~ seq_along(rel.w.YI.t)[1:length(r.3.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor("#252525", opacity=1), data=r.3.Hap.Dat)
         }
         # Benchmark Inversion relative fitness of 1
         abline(h=1, lwd=1, lty=2, col=1)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.rel.w.YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525')
-        points(r.5.rel.w.YI.t[length(r.5.rel.w.YI.t)] ~ length(r.5.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
-        points(r.10.rel.w.YI.t[length(r.10.rel.w.YI.t)] ~ length(r.10.rel.w.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
-        points(r.15.rel.w.YI.t[length(r.15.rel.w.YI.t)] ~ length(r.15.rel.w.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
+        #points(r.0.rel.w.YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525')
+        points(r.1.rel.w.YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
+        points(r.2.rel.w.YI.t[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
+        points(r.3.rel.w.YI.t[length(r.3.rel.w.YI.t)] ~ length(r.3.rel.w.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
         # Annotate 1 + Ux approximation
         points((1 + U*x) ~ 1, pch=23, bg=transparentColor('#252525', opacity=0.7), col='#252525')
         # axes
@@ -418,16 +494,16 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1, labels=NA)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==40))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==8))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==5),
-                            expression(italic(r)==10),
-                            expression(italic(r)==15)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==1),
+                            expression(italic(d)==2),
+                            expression(italic(d)==3)),
                lty     =  1,
                lwd     =  2,
                col     =  c(transparentColor(COLS[1], opacity=1),
@@ -448,31 +524,31 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
 ## Panel F
 # Effect of initial del. mut. load on inversion frequency dynamics 
     # make plot
-     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,(qstr*1.1)), ylab='', xlab='', cex.lab=1.2)
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,(qstr*1.25)), ylab='', xlab='', cex.lab=1.2)
         usr  <-  par('usr')
         rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
         plotGrid(lineCol='grey80')
         box()
         # Inversion Frequencies
         lines(YI.t[1:length(r.0.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.0.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.0.Dat)
-        lines(YI.t[1:length(r.5.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.5.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.5.Dat)
-        lines(YI.t[1:length(r.10.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.10.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.10.Dat)
-        lines(YI.t[1:length(r.15.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.15.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.15.Dat)
+        lines(YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(YI.t[1:length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.2.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.2.Dat)
+        lines(YI.t[1:length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.3.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.3.Dat)
         lines(YI.gensol ~ t, lwd=2, lty=3)
         if(wHap) {
             lines(YI.t[1:length(r.0.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.0.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor("#252525", opacity=1), data=r.0.Hap.Dat)
-            lines(YI.t[1:length(r.5.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.5.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor("#252525", opacity=1), data=r.5.Hap.Dat)
-            lines(YI.t[1:length(r.10.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.10.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor("#252525", opacity=1), data=r.10.Hap.Dat)
-            lines(YI.t[1:length(r.15.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.15.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor("#252525", opacity=1), data=r.15.Hap.Dat)
+            lines(YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor("#252525", opacity=1), data=r.1.Hap.Dat)
+            lines(YI.t[1:length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.2.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor("#252525", opacity=1), data=r.2.Hap.Dat)
+            lines(YI.t[1:length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.3.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor("#252525", opacity=1), data=r.3.Hap.Dat)
         }
         # Points indicating inversion extinctions
-        points(YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525', data=r.0.Dat)
-        points(YI.t[length(r.5.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.5.rel.w.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.5.Dat)
-        points(YI.t[length(r.10.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.10.rel.w.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.10.Dat)
-        points(YI.t[length(r.15.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.15.rel.w.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.15.Dat)
+        #points(YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525', data=r.0.Dat)
+        points(YI.t[length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.1.rel.w.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+        points(YI.t[length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.2.rel.w.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
+        points(YI.t[length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.3.rel.w.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.3.Dat)
        # benchmark qstar
         abline(h=qstr, lty=2)
-        proportionalLabel(0.9, 0.92, expression(paste(italic(q),"*")), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.9, 0.83, expression(paste(italic(q),"*")), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         # axes
         axis(1, las=1, labels=NA)
         axis(2, las=1)
@@ -483,29 +559,63 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
      COLS  <-  c('red', '#252525')
 
 ## Panel I
-# deleterious allele frequencies for r = 5
+
+    # reset Colors
+     COLS  <-  c('red', '#252525')
+
+## Panel I
+# deleterious allele frequencies for r = 1
      # Make plot
-    delMax  <-  r.5.Dat$qt.Xf.W[1]*1.05
+    delMax  <-  r.1.Dat$qt.Xf.W[1]*1.05
      plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,delMax), ylab='', xlab='', cex.lab=1.2)
         usr  <-  par('usr')
         rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
         plotGrid(lineCol='grey80')
         box()
-        # Deleterious allele frequencies
-        lines(qt.Xf.W[1:length(r.5.rel.w.YI.t)] ~ seq_along(qt.Xf.W)[1:length(r.5.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.5.Dat)
-        lines(qt.Xf.D[1:length(r.5.rel.w.YI.t)] ~ seq_along(qt.Xf.D)[1:length(r.5.rel.w.YI.t)], lwd=2, lty='1F', col=transparentColor(COLS[2], opacity=1), data=r.5.Dat)
-        lines(qt.YI.W[1:length(r.5.rel.w.YI.t)]/YI.t[1:length(r.5.rel.w.YI.t)] ~ seq_along(qt.YI.W)[1:length(r.5.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.5.Dat)
+        # Lines for deleterious allele frequencies
+        lines(qt.Xf.W[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.Xf.W[1:length(r.1.rel.w.YI.t)]), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(qt.Xf.D[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.Xf.D[1:length(r.1.rel.w.YI.t)]), lwd=2, lty=3, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(qt.YI.W[1:length(r.1.rel.w.YI.t)]/YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.YI.W[1:length(r.1.rel.w.YI.t)]), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.1.Dat)
         # Points indicating inversion extinctions
-        points(qt.Xf.W[length(r.5.rel.w.YI.t)] ~ length(r.5.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.5.Dat)
-        points(qt.Xf.D[length(r.5.rel.w.YI.t)] ~ length(r.5.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.5.Dat)
-        points(qt.YI.W[length(r.5.rel.w.YI.t)]/YI.t[length(r.5.rel.w.YI.t)] ~ length(r.5.rel.w.YI.t), pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[1], opacity=0.7), data=r.5.Dat)
+        points(qt.Xf.W[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+        points(qt.Xf.D[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+        points(qt.YI.W[length(r.1.rel.w.YI.t)]/YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[1], opacity=0.7), data=r.1.Dat)
         # axes
-        axis(1, las=1, cex=1.2)
-        axis(2, las=1, cex=1.2)
+        axis(1, las=1, cex=1.3, labels=NA)
+        axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'I', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(italic(r)==5), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(-0.3,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+#        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
+     
+     # Make plot
+    delMax  <-  max(r.1.Dat$qt.Xf.W)
+    delMin  <-  min(r.1.Dat$qt.Xf.D)
+    delRange  <-  delMax - delMin
+    delMax  <-  delMax + 0.05*delRange
+
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(delMin,delMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Deleterious allele frequencies
+        lines(qt.Xf.W[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.Xf.W)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(qt.Xf.D[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.Xf.D)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+#        lines(qt.YI.W[1:length(r.1.rel.w.YI.t)]/YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.YI.W)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.1.Dat)
+        # Points indicating inversion extinctions
+        points(qt.Xf.W[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+        points(qt.Xf.D[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+#        points(qt.YI.W[length(r.1.rel.w.YI.t)]/YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[1], opacity=0.7), data=r.1.Dat)
+        # axes
+        axis(1, las=1, cex=1.2)
+        axis(2, las=1, cex=1.2)        
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'L', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
+
 
 }
 
@@ -524,7 +634,7 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
 deterministicMutRateIllustration  <-  function(wHap=FALSE) {
 
     # set plot layout
-    layout.mat <- matrix(c(1:9), nrow=3, ncol=3, byrow=FALSE)
+    layout.mat <- matrix(c(1:12), nrow=4, ncol=3, byrow=FALSE)
     layout     <- layout(layout.mat,respect=TRUE)
 
     # Make data for plotting 
@@ -536,7 +646,7 @@ deterministicMutRateIllustration  <-  function(wHap=FALSE) {
     # U = 0.02
     U        <-  0.02
     u        <-  U/nTot
-    x        <-  0.2
+    x        <-  0.
 
     # make data for plotting
     r.0.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 0, x = x, h = h, generations = 2500)
@@ -558,7 +668,7 @@ deterministicMutRateIllustration  <-  function(wHap=FALSE) {
 ## Panel A
 # Effect of initial del. mut. load on inversion relative fitness 
     # make plot
-    par(omi=c(0.5, 0.5, 0.75, 0.5), mar = c(3,3,1,1), bty='o', xaxt='s', yaxt='s')
+    par(omi=c(0.5, 0.5, 0.5, 0.0), mar = c(3,6,1,0), bty='o', xaxt='s', yaxt='s')
      plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(relFitMin, relFitMax), ylab='', xlab='', cex.lab=1.2)
         usr  <-  par('usr')
         rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
@@ -578,22 +688,22 @@ deterministicMutRateIllustration  <-  function(wHap=FALSE) {
         points(r.1.rel.w.YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
         # Annotate 1 + Ux approximation
         points((1 + U*x) ~ 1, pch=23, bg=transparentColor('#252525', opacity=0.7), col='#252525')
-        proportionalArrows(0.125, 0.85, 0.06, 0.85, cex=1, adj=c(0.5, 0.5), xpd=NA, log=FALSE, length=0.05)
+        proportionalArrows(0.125, 0.8475, 0.07, 0.8475, cex=1, adj=c(0.5, 0.5), xpd=NA, log=FALSE, length=0.05)
         proportionalLabel(0.25, 0.85, expression(1+italic(Ux)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         # axes
         axis(1, las=1, labels=NA)
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(-0.3,  0.5,   expression(paste("Inversion Relative Fitness")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(-0.45,  0.5,   expression(paste("Inversion Relative Fitness")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==1)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==1)),
                lty     =  1,
                lwd     =  2,
                col     =  c(transparentColor(COLS[1], opacity=1),
@@ -653,13 +763,13 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(-0.3,  0.5,   expression(paste("Inversion Frequency (", italic(Y[I]), ")")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+        proportionalLabel(-0.45,  0.5,   expression(paste("Inversion Frequency (", italic(Y[I]), ")")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
         # Legend
         legend(
                x       =  usr[2]*0.95,
                y       =  usr[4],
                legend  =  c(
-                            expression(paste("General solution for ", italic(Y[I]), " when ", italic(r)==0))),
+                            expression(paste("General solution for ", italic(Y[I]), " when ", italic(d)==0))),
                lty     =  3,
                lwd     =  2,
                col     =  "#252525",
@@ -707,13 +817,13 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         points(qt.Xf.D[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
         points(qt.YI.W[length(r.1.rel.w.YI.t)]/YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[1], opacity=0.7), data=r.1.Dat)
         # axes
-        axis(1, las=1, cex=1.3)
+        axis(1, las=1, cex=1.3, labels=NA)
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'G', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(-0.3,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
-        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(-0.45,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+#        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
         # Legend
         legend(
                x       =  usr[2],
@@ -734,16 +844,62 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
                )
 
 
+## Panel J
+    delMax  <-  max(r.1.Dat$qt.Xf.W)
+    delMin  <-  min(r.1.Dat$qt.Xf.D)
+    delRange  <-  delMax - delMin
+    delMax  <-  delMin + 1.05*delRange
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(delMin,delMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Points
+        lines(qt.Xf.W[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.Xf.W[1:length(r.1.rel.w.YI.t)]), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(qt.Xf.D[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.Xf.D[1:length(r.1.rel.w.YI.t)]), lwd=2, lty=3, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+#        lines(qt.YI.W[1:length(r.1.rel.w.YI.t)]/YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.YI.W[1:length(r.1.rel.w.YI.t)]), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.1.Dat)
+        # Points indicating inversion extinctions
+        points(qt.Xf.W[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+        points(qt.Xf.D[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+#        points(qt.YI.W[length(r.1.rel.w.YI.t)]/YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[1], opacity=0.7), data=r.1.Dat)
+        # axes
+        axis(1, las=1, cex=1.3)
+        axis(2, las=1, cex=1.3)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'J', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(-0.45,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
+        # Legend
+        legend(
+               x       =  usr[2],
+               y       =  usr[4],
+               legend = c(expression(italic(q)[italic(X[f])]^italic(W)), 
+#                          expression(italic(q)[italic(Y[I])]^italic(W)), 
+                          expression(italic(q)[italic(X[f])]^italic(D))),
+               lty     =  c(1,3),
+               lwd     =  2,
+               col     =  c(transparentColor(COLS[2], opacity=1),
+#                            transparentColor(COLS[1], opacity=1),
+                            transparentColor(COLS[2], opacity=1)),
+               cex     =  1.5,
+               xjust   =  1,
+               yjust   =  1,
+               bty     =  'n',
+               border  =  NA
+               )
+
+
 
     ###########
     # U = 0.05
     U  <-  0.05
 
     # Nei-style SLR model
-    r.0.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 0, x = x, h = h, generations = 5000)
-    r.1.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 1, x = x, h = h, generations = 5000)
-    r.2.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 2, x = x, h = h, generations = 5000)
-    r.3.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 3, x = x, h = h, generations = 5000)
+    r.0.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 0, x = x, h = h, generations = 2500)
+    r.1.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 1, x = x, h = h, generations = 2500)
+    r.2.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 2, x = x, h = h, generations = 2500)
+    r.3.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 3, x = x, h = h, generations = 2500)
 
     r.0.rel.w.YI.t  <-  r.0.Dat$rel.w.YI.t[round(r.0.Dat$YI.t,digits=4) < 1]
     r.1.rel.w.YI.t  <-  r.1.Dat$rel.w.YI.t[round(r.1.Dat$YI.t,digits=4) > 0]
@@ -751,10 +907,10 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
     r.3.rel.w.YI.t  <-  r.3.Dat$rel.w.YI.t[round(r.3.Dat$YI.t,digits=4) > 0]
 
     # Haploid Model
-    r.0.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 0, x = x, h = h, generations = 5000)
-    r.1.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 1, x = x, h = h, generations = 5000)
-    r.2.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 2, x = x, h = h, generations = 5000)
-    r.3.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 3, x = x, h = h, generations = 5000)
+    r.0.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 0, x = x, h = h, generations = 2500)
+    r.1.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 1, x = x, h = h, generations = 2500)
+    r.2.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 2, x = x, h = h, generations = 2500)
+    r.3.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 3, x = x, h = h, generations = 2500)
 
    # Colors
     COLS     <-  colorRampPalette(wes_palette("Zissou1"))(4)
@@ -795,16 +951,16 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==4))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==4))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==1),
-                            expression(italic(r)==2),
-                            expression(italic(r)==3)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==1),
+                            expression(italic(d)==2),
+                            expression(italic(d)==3)),
                lty     =  1,
                lwd     =  2,
                col     =  c(transparentColor(COLS[1], opacity=1),
@@ -881,12 +1037,41 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         points(qt.Xf.D[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
         points(qt.YI.W[length(r.1.rel.w.YI.t)]/YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[1], opacity=0.7), data=r.1.Dat)
         # axes
-        axis(1, las=1, cex=1.3)
+        axis(1, las=1, cex=1.3, labels=NA)
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'H', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
+
+
+## Panel K
+    delMax  <-  max(r.1.Dat$qt.Xf.W)
+    delMin  <-  min(r.1.Dat$qt.Xf.D)
+    delRange  <-  delMax - delMin
+    delMax  <-  delMin + 1.05*delRange
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(delMin,delMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Points
+        lines(qt.Xf.W[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.Xf.W[1:length(r.1.rel.w.YI.t)]), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(qt.Xf.D[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.Xf.D[1:length(r.1.rel.w.YI.t)]), lwd=2, lty=3, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+#        lines(qt.YI.W[1:length(r.1.rel.w.YI.t)]/YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(qt.YI.W[1:length(r.1.rel.w.YI.t)]), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.1.Dat)
+        # Points indicating inversion extinctions
+        points(qt.Xf.W[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+        points(qt.Xf.D[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+#        points(qt.YI.W[length(r.1.rel.w.YI.t)]/YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[1], opacity=0.7), data=r.1.Dat)
+        # axes
+        axis(1, las=1, cex=1.3)
+        axis(2, las=1, cex=1.3)
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'K', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(-0.45,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
+
 
 
 
@@ -894,10 +1079,10 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
     U  <-  0.1
 
     # First SLR model
-    r.0.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 0, x = x, h = h, generations = 5000)
-    r.2.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 2, x = x, h = h, generations = 5000)
-    r.4.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 4, x = x, h = h, generations = 5000)
-    r.6.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 6, x = x, h = h, generations = 5000)
+    r.0.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 0, x = x, h = h, generations = 2500)
+    r.2.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 2, x = x, h = h, generations = 2500)
+    r.4.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 4, x = x, h = h, generations = 2500)
+    r.6.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 6, x = x, h = h, generations = 2500)
 
     r.0.rel.w.YI.t  <-  r.0.Dat$rel.w.YI.t[round(r.0.Dat$YI.t,digits=4) < 1]
     r.2.rel.w.YI.t  <-  r.2.Dat$rel.w.YI.t[round(r.2.Dat$YI.t,digits=4) > 0]
@@ -905,10 +1090,10 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
     r.6.rel.w.YI.t  <-  r.6.Dat$rel.w.YI.t[round(r.6.Dat$YI.t,digits=4) > 0]
 
     # Haploid model
-    r.0.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 0,  x = x, h = h, generations = 5000)
-    r.2.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 2,  x = x, h = h, generations = 5000)
-    r.4.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 4, x = x, h = h, generations = 5000)
-    r.6.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 6, x = x, h = h, generations = 5000)
+    r.0.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 0,  x = x, h = h, generations = 2500)
+    r.2.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 2,  x = x, h = h, generations = 2500)
+    r.4.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 4, x = x, h = h, generations = 2500)
+    r.6.Hap.Dat  <-  makeDeterministicSimHaploidData(U = U, s = s, r = 6, x = x, h = h, generations = 2500)
 
    # Colors
     COLS     <-  colorRampPalette(wes_palette("Zissou1"))(4)
@@ -939,7 +1124,7 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         # Benchmakr relative fitness of 1
         abline(h=1, lwd=1, lty=2, col=1)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.rel.w.YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525')
+#        points(r.0.rel.w.YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525')
         points(r.2.rel.w.YI.t[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
         points(r.4.rel.w.YI.t[length(r.4.rel.w.YI.t)] ~ length(r.4.rel.w.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
         points(r.6.rel.w.YI.t[length(r.6.rel.w.YI.t)] ~ length(r.6.rel.w.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
@@ -950,16 +1135,16 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==8))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==8))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==2),
-                            expression(italic(r)==4),
-                            expression(italic(r)==6)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==2),
+                            expression(italic(d)==4),
+                            expression(italic(d)==6)),
                lty     =  1,
                lwd     =  2,
                col     =  c(transparentColor(COLS[1], opacity=1),
@@ -1001,7 +1186,7 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
             lines(YI.t[1:length(r.6.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.6.rel.w.YI.t)], lwd=2, lty=3, col=transparentColor("tomato", opacity=1), data=r.6.Hap.Dat)
         }
         # Points
-        points(YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525', data=r.0.Dat)
+#        points(YI.t[length(r.0.rel.w.YI.t)] ~ length(r.0.rel.w.YI.t), pch=8, col='#252525', data=r.0.Dat)
         points(YI.t[length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.2.rel.w.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.2.Dat)
         points(YI.t[length(r.4.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.4.rel.w.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.4.Dat)
         points(YI.t[length(r.6.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.6.rel.w.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.6.Dat)
@@ -1035,15 +1220,54 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         points(qt.Xf.D[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.2.Dat)
         points(qt.YI.W[length(r.2.rel.w.YI.t)]/YI.t[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[1], opacity=0.7), data=r.2.Dat)
         # axes
-        axis(1, las=1, cex=1.2)
+        axis(1, las=1, cex=1.2, labels=NA)
         axis(2, las=1, cex=1.2)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'I', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(italic(r)==2), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==2), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
+
+## Panel L
+    delMax  <-  max(r.2.Dat$qt.Xf.W)
+    delMin  <-  min(r.2.Dat$qt.Xf.D)
+    delRange  <-  delMax - delMin
+    delMax  <-  delMin + 1.05*delRange
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(delMin,delMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Points
+        lines(qt.Xf.W[1:length(r.2.rel.w.YI.t)] ~ seq_along(qt.Xf.W[1:length(r.2.rel.w.YI.t)]), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.2.Dat)
+        lines(qt.Xf.D[1:length(r.2.rel.w.YI.t)] ~ seq_along(qt.Xf.D[1:length(r.2.rel.w.YI.t)]), lwd=2, lty=3, col=transparentColor(COLS[2], opacity=1), data=r.2.Dat)
+#        lines(qt.YI.W[1:length(r.2.rel.w.YI.t)]/YI.t[1:length(r.2.rel.w.YI.t)] ~ seq_along(qt.YI.W[1:length(r.2.rel.w.YI.t)]), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.2.Dat)
+        # Points indicating inversion extinctions
+        points(qt.Xf.W[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.2.Dat)
+        points(qt.Xf.D[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.2.Dat)
+#        points(qt.YI.W[length(r.2.rel.w.YI.t)]/YI.t[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[1], opacity=0.7), data=r.2.Dat)
+        # axes
+        axis(1, las=1, cex=1.3)
+        axis(2, las=1, cex=1.3)
+#        axis(2, las=1, cex=1.3, at = axTicks(2), label = sciNotation(axTicks(2), 5))
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'L', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(-0.45,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
 
 }
 
+
+sciNotation <- function(x, digits = 1) {
+    if (length(x) > 1) {
+        return(append(sciNotation(x[1]), sciNotation(x[-1])))
+    }
+    if (!x) return(0)
+    exponent <- floor(log10(x))
+    base <- round(x / 10^exponent, digits)
+    as.expression(substitute(base %*% 10^exponent, 
+            list(base = base, exponent = exponent)))
+}
 
 
 #######################################
@@ -1121,6 +1345,11 @@ Nei_1967_recessiveMutations_AutoExact  <-  function() {
 
 }
 
+
+
+
+
+
 #' Supplementary Figure -- Autosomal Inversions. Exact Recursions
 #' 
 #' Illustration of deterministic dynamics for different
@@ -1188,15 +1417,15 @@ deterministicMutRateIllustration_AutoExact  <-  function() {
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.3,  0.5,   expression(paste("Inversion Relative Fitness")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==1)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==1)),
                lty     =  1,
                lwd     =  2,
                col     =  c(transparentColor(COLS[1], opacity=1),
@@ -1241,7 +1470,7 @@ I.gensol   <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
                x       =  usr[2]*0.95,
                y       =  usr[4],
                legend  =  c(
-                            expression(paste("General solution for ", italic(I[t]), " when ", italic(r)==0))),
+                            expression(paste("General solution for ", italic(I[t]), " when ", italic(d)==0))),
                lty     =  3,
                lwd     =  2,
                col     =  "#252525",
@@ -1277,7 +1506,7 @@ I.gensol   <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'G', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.3,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
         # Legend
@@ -1304,10 +1533,10 @@ I.gensol   <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
     ###########
     # U = 0.05
     U  <-  0.05
-    r.0.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 0, x = x, h = h, generations = 5000)
-    r.1.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 1, x = x, h = h, generations = 5000)
-    r.2.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 2, x = x, h = h, generations = 5000)
-    r.3.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 3, x = x, h = h, generations = 5000)
+    r.0.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 0, x = x, h = h, generations = 3000)
+    r.1.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 1, x = x, h = h, generations = 3000)
+    r.2.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 2, x = x, h = h, generations = 3000)
+    r.3.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 3, x = x, h = h, generations = 3000)
 
     r.0.rel.w.I.t  <-  c()
     r.1.rel.w.I.t  <-  c()
@@ -1359,16 +1588,16 @@ I.gensol   <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==4))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==4))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==1),
-                            expression(italic(r)==2),
-                            expression(italic(r)==3)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==1),
+                            expression(italic(d)==2),
+                            expression(italic(d)==3)),
                lty     =  1,
                lwd     =  2,
                col     =  c(transparentColor(COLS[1], opacity=1),
@@ -1440,7 +1669,7 @@ I.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'H', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
 
 
@@ -1449,10 +1678,10 @@ I.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
     ###########
     # U = 0.1
     U  <-  0.1
-    r.0.Dat   <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 0,  x = x, h = h, generations = 5000)
-    r.2.Dat   <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 2,  x = x, h = h, generations = 5000)
-    r.4.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 4, x = x, h = h, generations = 5000)
-    r.6.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 6, x = x, h = h, generations = 5000)
+    r.0.Dat   <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 0,  x = x, h = h, generations = 3000)
+    r.2.Dat   <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 2,  x = x, h = h, generations = 3000)
+    r.4.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 4, x = x, h = h, generations = 3000)
+    r.6.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 6, x = x, h = h, generations = 3000)
 
     r.0.rel.w.I.t  <-  c()
     r.2.rel.w.I.t  <-  c()
@@ -1506,16 +1735,16 @@ I.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==8))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==8))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==2),
-                            expression(italic(r)==4),
-                            expression(italic(r)==6)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==2),
+                            expression(italic(d)==4),
+                            expression(italic(d)==6)),
                lty     =  1,
                lwd     =  2,
                col     =  c(transparentColor(COLS[1], opacity=1),
@@ -1587,7 +1816,7 @@ I.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1, cex=1.2)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'I', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(italic(r)==2), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==2), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
 
 }
@@ -1598,7 +1827,7 @@ I.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
 
 # Supp FIGURE . Illustration of deterministic dynamics
 #           for different mutation rate values
-deterministicDominanceIllustration_AutoExact  <-  function() {
+deterministicDominanceIllustration_AutoExact  <-  function(x=0.2) {
 
     # set plot layout
     layout.mat <- matrix(c(1:9), nrow=3, ncol=3, byrow=FALSE)
@@ -1613,7 +1842,7 @@ deterministicDominanceIllustration_AutoExact  <-  function() {
     # U = 0.02
     U        <-  0.02
     u        <-  U/nTot
-    x        <-  0.2
+    
 
     # make data for plotting
     r.0.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 0, x = x, h = h, generations = 2500)
@@ -1661,15 +1890,15 @@ deterministicDominanceIllustration_AutoExact  <-  function() {
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.3,  0.5,   expression(paste("Inversion Relative Fitness")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==1)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==1)),
                lty     =  1,
                lwd     =  2,
                col     =  c(transparentColor(COLS[1], opacity=1),
@@ -1714,7 +1943,7 @@ I.gensol   <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
                x       =  usr[2]*0.95,
                y       =  usr[4],
                legend  =  c(
-                            expression(paste("General solution for ", italic(I[t]), " when ", italic(r)==0))),
+                            expression(paste("General solution for ", italic(I[t]), " when ", italic(d)==0))),
                lty     =  3,
                lwd     =  2,
                col     =  "#252525",
@@ -1750,7 +1979,7 @@ I.gensol   <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'G', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.3,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
         # Legend
@@ -1829,16 +2058,16 @@ I.gensol   <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1, labels=NA)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==4))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==4))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==1),
-                            expression(italic(r)==2),
-                            expression(italic(r)==3)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==1),
+                            expression(italic(d)==2),
+                            expression(italic(d)==3)),
                lty     =  1,
                lwd     =  2,
                col     =  c(transparentColor(COLS[1], opacity=1),
@@ -1911,19 +2140,19 @@ I.gensol   <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'H', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
 
 
 
 
     ###########
-    # h = 0.01
-    h  <-  0.01
-    r.0.Dat   <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 0,  x = x, h = h, generations = 40000)
-    r.5.Dat   <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 5,  x = x, h = h, generations = 40000)
-    r.10.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 10, x = x, h = h, generations = 40000)
-    r.15.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 15, x = x, h = h, generations = 40000)
+    # h = 0.05
+    h  <-  0.05
+    r.0.Dat   <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 0,  x = x, h = h, generations = 10000)
+    r.5.Dat   <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 2,  x = x, h = h, generations = 10000)
+    r.10.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 4, x = x, h = h, generations = 10000)
+    r.15.Dat  <-  makeAutoDeterministicFigSimData_Nei(U = U, s = s, r = 6, x = x, h = h, generations = 10000)
 
     r.0.rel.w.I.t  <-  c()
     r.5.rel.w.I.t  <-  c()
@@ -1963,7 +2192,7 @@ I.gensol   <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
         # Benchmakr relative fitness of 1
         abline(h=1, lwd=1, lty=2, col=1)
         # Points depicting (arbitrary) extinction frequency of 0.00001
-        points(r.0.rel.w.I.t[length(r.0.rel.w.I.t)] ~ length(r.0.rel.w.I.t), pch=8, col='#252525')
+#        points(r.0.rel.w.I.t[length(r.0.rel.w.I.t)] ~ length(r.0.rel.w.I.t), pch=8, col='#252525')
         points(r.5.rel.w.I.t[length(r.5.rel.w.I.t)] ~ length(r.5.rel.w.I.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
         points(r.10.rel.w.I.t[length(r.10.rel.w.I.t)] ~ length(r.10.rel.w.I.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
         points(r.15.rel.w.I.t[length(r.15.rel.w.I.t)] ~ length(r.15.rel.w.I.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
@@ -1974,16 +2203,16 @@ I.gensol   <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1, labels=NA)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==40))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==8))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==5),
-                            expression(italic(r)==10),
-                            expression(italic(r)==15)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==2),
+                            expression(italic(d)==4),
+                            expression(italic(d)==6)),
                lty     =  1,
                lwd     =  2,
                col     =  c(transparentColor(COLS[1], opacity=1),
@@ -2005,7 +2234,7 @@ I.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
 ## Panel F
 # Effect of initial del. mut. load on inversion frequency dynamics 
     # make plot
-     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,1.1), ylab='', xlab='', cex.lab=1.2)
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,(qstr*1.25)), ylab='', xlab='', cex.lab=1.2)
         usr  <-  par('usr')
         rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
         plotGrid(lineCol='grey80')
@@ -2018,13 +2247,13 @@ I.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
         # General solution for r = 0
         lines(I.gensol ~ t, lwd=2, lty=3, col="#252525")
         # Points
-        points(I.t[length(r.0.rel.w.I.t)] ~ length(r.0.rel.w.I.t), pch=8, col='#252525', data=r.0.Dat)
+#        points(I.t[length(r.0.rel.w.I.t)] ~ length(r.0.rel.w.I.t), pch=8, col='#252525', data=r.0.Dat)
         points(I.t[length(r.5.rel.w.I.t)] ~ seq_along(I.t)[length(r.5.rel.w.I.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.5.Dat)
         points(I.t[length(r.10.rel.w.I.t)] ~ seq_along(I.t)[length(r.10.rel.w.I.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.10.Dat)
         points(I.t[length(r.15.rel.w.I.t)] ~ seq_along(I.t)[length(r.15.rel.w.I.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.15.Dat)
         # benchmark qstar
         abline(h=qstr, lty=2)
-        proportionalLabel(0.9, 0.92, expression(paste(italic(q),"*")), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.9, 0.83, expression(paste(italic(q),"*")), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         # axes
         axis(1, las=1, labels=NA)
         axis(2, las=1)
@@ -2056,7 +2285,7 @@ I.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$I.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1, cex=1.2)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'I', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(italic(r)==5), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==5), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
 
 }
@@ -2121,15 +2350,15 @@ deterministicSuppFig  <-  function(h = 0.25, U = 0.02) {
         # Plot labels etc.
         proportionalLabel(0.5, 1.1, substitute(italic(x)==xx, list(xx=x)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(-0.35,  0.5,   expression(paste(Pr(italic(r)~"|"~italic(x)))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel( 0.5,  -0.2,  expression(italic(r)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
+        proportionalLabel(-0.35,  0.5,   expression(paste(Pr(italic(d)~"|"~italic(x)))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel( 0.5,  -0.2,  expression(italic(d)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)=="{0,1}"),
-                            expression(bar(italic(r))==frac(italic(U*x),italic(h*s)))),
+                            expression(italic(d)=="{0,1}"),
+                            expression(bar(italic(d))==frac(italic(U*x),italic(h*s)))),
                lty     =  c(2,1),
                lwd     =  c(1,1),
                col     =  c(2,1),
@@ -2174,8 +2403,8 @@ ymin  <-  min(1-U*x*2, r.1.rel.w.YI.t[length(r.1.rel.w.YI.t)])
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==1)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==1)),
                lty     =  1,
                lwd     =  1.5,
                col     =  c(transparentColor(COLS[5], opacity=1),
@@ -2265,7 +2494,7 @@ ymin  <-  min(1-U*x*2, r.1.rel.w.YI.t[length(r.1.rel.w.YI.t)])
         axis(2, las=1)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.1,   expression(italic(r)==0), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.1,   expression(italic(d)==0), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.35,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)        
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
         # Legend
@@ -2336,13 +2565,13 @@ ymin  <-  min(1-U*x*2, r.1.rel.w.YI.t[length(r.1.rel.w.YI.t)])
         # Plot labels etc.
         proportionalLabel(0.5, 1.1, substitute(italic(x)==xx, list(xx=x)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.04, 1.05, 'E', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  -0.2,  expression(italic(r)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
+        proportionalLabel( 0.5,  -0.2,  expression(italic(d)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            substitute(italic(r)=={rs}, list(rs=deparse(r.vals))),
-                            expression(bar(italic(r))==frac(italic(U*x),italic(h*s)))),
+                            substitute(italic(d)=={rs}, list(rs=deparse(r.vals))),
+                            expression(bar(italic(d))==frac(italic(U*x),italic(h*s)))),
                lty     =  c(2,1),
                lwd     =  c(1,1),
                col     =  c(2,1),
@@ -2453,7 +2682,7 @@ ymin  <-  min(1-U*x, r.relW.list[[i]][length(r.relW.list[[i]])])
         axis(2, las=1, labels=NA)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'H', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.1, substitute(italic(r)==rs, list(rs=r.vals[2])), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.1, substitute(italic(d)==rs, list(rs=r.vals[2])), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
 
 
@@ -2506,14 +2735,14 @@ ymin  <-  min(1-U*x, r.relW.list[[i]][length(r.relW.list[[i]])])
         # Plot labels etc.
         proportionalLabel(0.5, 1.1, substitute(italic(x)==xx, list(xx=x)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.04, 1.05, 'I', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  -0.2,  expression(italic(r)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
+        proportionalLabel( 0.5,  -0.2,  expression(italic(d)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            substitute(italic(r)==xx, list(xx=deparse(r.vals))),
-                            expression(bar(italic(r))==frac(italic(U*x),italic(h*s)))),
+                            substitute(italic(d)==xx, list(xx=deparse(r.vals))),
+                            expression(bar(italic(d))==frac(italic(U*x),italic(h*s)))),
                lty     =  c(2,1),
                lwd     =  c(1,1),
                col     =  c(2,1),
@@ -2625,7 +2854,7 @@ ymin  <-  min(1-U*x, r.relW.list[[i]][length(r.relW.list[[i]])])
         axis(2, las=1, labels=NA)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'L', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.1, substitute(italic(r)==rs, list(rs=r.vals[2])), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.1, substitute(italic(d)==rs, list(rs=r.vals[2])), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
 
 
@@ -2677,14 +2906,14 @@ ymin  <-  min(1-U*x, r.relW.list[[i]][length(r.relW.list[[i]])])
         # Plot labels etc.
         proportionalLabel(0.5, 1.1, substitute(italic(x)==xx, list(xx=x)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.04, 1.05, 'M', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  -0.2,  expression(italic(r)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
+        proportionalLabel( 0.5,  -0.2,  expression(italic(d)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            substitute(italic(r)==xx, list(xx=deparse(r.vals))),
-                            expression(bar(italic(r))==frac(italic(U*x),italic(h*s)))),
+                            substitute(italic(d)==xx, list(xx=deparse(r.vals))),
+                            expression(bar(italic(d))==frac(italic(U*x),italic(h*s)))),
                lty     =  c(2,1),
                lwd     =  c(1,1),
                col     =  c(2,1),
@@ -2797,7 +3026,7 @@ plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.Dat.list[[1]])), ylim =
         axis(2, las=1, labels=NA)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'P', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.1, substitute(italic(r)==rs, list(rs=r.vals[2])), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.1, substitute(italic(d)==rs, list(rs=r.vals[2])), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
 
 
@@ -2852,14 +3081,14 @@ plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.Dat.list[[1]])), ylim =
         # Plot labels etc.
         proportionalLabel(0.5, 1.1, substitute(italic(x)==xx, list(xx=x)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.04, 1.05, 'Q', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  -0.2,  expression(italic(r)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
+        proportionalLabel( 0.5,  -0.2,  expression(italic(d)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            substitute(italic(r)==xx, list(xx=deparse(r.vals))),
-                            expression(bar(italic(r))==frac(italic(U*x),italic(h*s)))),
+                            substitute(italic(d)==xx, list(xx=deparse(r.vals))),
+                            expression(bar(italic(d))==frac(italic(U*x),italic(h*s)))),
                lty     =  c(2,1),
                lwd     =  c(1,1),
                col     =  c(2,1),
@@ -2974,7 +3203,7 @@ plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.Dat.list[[1]])), ylim =
         axis(2, las=1, labels=NA)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'T', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.1, substitute(italic(r)==rs, list(rs=r.vals[2])), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.1, substitute(italic(d)==rs, list(rs=r.vals[2])), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
 
 }
@@ -3002,18 +3231,18 @@ PrFixFig4Panel_Approx  <-  function() {
     ## N = 100k data
     AdatN100kU02  <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.25_s0.01_N100k_U02.csv', header=TRUE)
     AdatN100kU05  <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.25_s0.01_N100k_U05.csv', header=TRUE)
-    AdatN100kU1  <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.25_s0.01_N100k_U1.csv', header=TRUE)
+    AdatN100kU1   <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.25_s0.01_N100k_U1.csv', header=TRUE)
     AdatN100kU02$PrFixNe  <-  AdatN100kU02$PrFix*(2*AdatN100kU02$N)
     AdatN100kU05$PrFixNe  <-  AdatN100kU05$PrFix*(2*AdatN100kU05$N)
     AdatN100kU1$PrFixNe  <-  AdatN100kU1$PrFix*(AdatN100kU1$N/2)
     AdatN100kU02$PrFix[AdatN100kU02$PrFix < (1/(2*10^8))]  <-  (1/(2*10^8))
     AdatN100kU05$PrFix[AdatN100kU05$PrFix < (1/(2*10^8))]  <-  (1/(2*10^8))
-    AdatN100kU1$PrFix[AdatN100kU1$PrFix < (1/(2*10^8))]    <-  (1/(2*10^8))
+    AdatN100kU1$PrFix[AdatN100kU1$PrFix   < (1/(2*10^8))]  <-  (1/(2*10^8))
 
     ## N = 1mil data
     AdatN1milU02  <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.25_s0.01_N1mil_U02.csv', header=TRUE)
     AdatN1milU05  <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.25_s0.01_N1mil_U05.csv', header=TRUE)
-    AdatN1milU1  <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.25_s0.01_N1mil_U1.csv', header=TRUE)
+    AdatN1milU1   <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.25_s0.01_N1mil_U1.csv', header=TRUE)
     AdatN1milU02$PrFixNe  <-  AdatN1milU02$PrFix*(2*AdatN1milU02$N)
     AdatN1milU05$PrFixNe  <-  AdatN1milU05$PrFix*(2*AdatN1milU05$N)
     AdatN1milU1$PrFixNe  <-  AdatN1milU1$PrFix*(AdatN1milU1$N/2)
@@ -3113,9 +3342,9 @@ PrFixFig4Panel_Approx  <-  function() {
         box()
         # Points
         abline(h=(1/(2*10^5)), lwd=1, lty=2, col=1)
-        points(PrFixAdj ~ x, pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=AdatN100kU02)
-        points(PrFixAdj ~ x, pch=22, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=AdatN100kU05)
-        points(PrFixAdj ~ x, pch=24, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=AdatN100kU1)
+        points(PrFix ~ x, pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=AdatN100kU02)
+        points(PrFix ~ x, pch=22, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=AdatN100kU05)
+        points(PrFix ~ x, pch=24, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=AdatN100kU1)
         # axes
         axis(1, las=1, labels=NA)
         axis(2, las=1, at=c((1/(2*10^8)), 
@@ -3167,9 +3396,9 @@ PrFixFig4Panel_Approx  <-  function() {
                x       =  1.02,
                y       =  0.00003,
                legend  =  c(
-                            expression(paste(italic(U/hs), " = ", 8)),
-                            expression(paste(italic(U/hs), " = ", 20)),
-                            expression(paste(italic(U/hs), " = ", 40))),
+                            expression(paste(italic(U/(hs)), " = ", 8)),
+                            expression(paste(italic(U/(hs)), " = ", 20)),
+                            expression(paste(italic(U/(hs)), " = ", 40))),
                pch     =  c(21,22,24),
                col     =  transparentColor(COLS[1], opacity=1),
                pt.bg     =  transparentColor(COLS[2], opacity=0.6),
@@ -3286,8 +3515,8 @@ points(detExp ~ datN1milU1$x, pch=24)
                y       =  1.075/(10^4),
                legend  =  c(
                             expression(paste("Large ", italic(N), " approx. (", italic(f)[0],italic(q)^"*", ")")),
-                            expression(paste("All fixed inversions (all ", italic(r), ")")),
-                            expression(paste("Initially unloaded (",italic(r), " = ", 0, ")"))),
+                            expression(paste("All fixed inversions (all ", italic(d), ")")),
+                            expression(paste("Initially unloaded (",italic(d), " = ", 0, ")"))),
                pch     =  c(24,24,24),
                col     =  transparentColor(COLS[1], opacity=1),
                pt.bg   =  c(NA,
@@ -3346,18 +3575,18 @@ PrFixFig4Panel_Exact  <-  function(suppVersion=FALSE) {
     # Import data for plotting
 
     ## Autosomal Inversion Data
-    AdatN25kU02  <-  read.csv(file = './data/RECODE/PrFixFig_AutoExact_h0.25_s0.01_N25k_U02_Nei.csv', header=TRUE)
-    AdatN25kU05  <-  read.csv(file = './data/RECODE/PrFixFig_AutoExact_h0.25_s0.01_N25k_U05_Nei.csv', header=TRUE)
-    AdatN25kU1   <-  read.csv(file = './data/RECODE/PrFixFig_AutoExact_h0.25_s0.01_N25k_U1_Nei.csv', header=TRUE)
+    AdatN25kU02  <-  read.csv(file = './data/RECODE/PrFixFig_AutoExact_h0.25_s0.01_N250k_U02_Nei.csv', header=TRUE)
+    AdatN25kU05  <-  read.csv(file = './data/RECODE/PrFixFig_AutoExact_h0.25_s0.01_N250k_U05_Nei.csv', header=TRUE)
+    AdatN25kU1   <-  read.csv(file = './data/RECODE/PrFixFig_AutoExact_h0.25_s0.01_N250k_U1_Nei.csv', header=TRUE)
     AdatN25kU02$PrFixNe  <-  AdatN25kU02$PrFix*(AdatN25kU02$N*2)
     AdatN25kU05$PrFixNe  <-  AdatN25kU05$PrFix*(AdatN25kU05$N*2)
     AdatN25kU1$PrFixNe   <-  AdatN25kU1$PrFix*(AdatN25kU1$N*2)
     AdatN25kU02$PrFix[AdatN25kU02$PrFix < (1/(2*10^7))]  <-  (1/(2*10^7))
     AdatN25kU05$PrFix[AdatN25kU05$PrFix < (1/(2*10^7))]  <-  (1/(2*10^7))
     AdatN25kU1$PrFix[AdatN25kU1$PrFix < (1/(2*10^7))]    <-  (1/(2*10^7))
-    rAdatN25kU02  <-  read.csv(file = './data/RECODE/PrFixFig_AutoExact_rFixedInv_h0.25_s0.01_N25k_U02_Nei.csv', header=TRUE)
-    rAdatN25kU05  <-  read.csv(file = './data/RECODE/PrFixFig_AutoExact_rFixedInv_h0.25_s0.01_N25k_U05_Nei.csv', header=TRUE)
-    rAdatN25kU1   <-  read.csv(file = './data/RECODE/PrFixFig_AutoExact_rFixedInv_h0.25_s0.01_N25k_U1_Nei.csv', header=TRUE)
+    rAdatN25kU02  <-  read.csv(file = './data/RECODE/PrFixFig_AutoExact_rFixedInv_h0.25_s0.01_N250k_U02_Nei.csv', header=TRUE)
+    rAdatN25kU05  <-  read.csv(file = './data/RECODE/PrFixFig_AutoExact_rFixedInv_h0.25_s0.01_N250k_U05_Nei.csv', header=TRUE)
+    rAdatN25kU1   <-  read.csv(file = './data/RECODE/PrFixFig_AutoExact_rFixedInv_h0.25_s0.01_N250k_U1_Nei.csv', header=TRUE)
     rAdatN25kU02  <-  subset(rAdatN25kU02,rAdatN25kU02$rFixedInv == 0)
     rAdatN25kU05  <-  subset(rAdatN25kU05,rAdatN25kU05$rFixedInv == 0)
     rAdatN25kU1   <-  subset(rAdatN25kU1,rAdatN25kU1$rFixedInv == 0)
@@ -3566,9 +3795,9 @@ PrFixFig4Panel_Exact  <-  function(suppVersion=FALSE) {
                x       =  1.02,
                y       =  0.0003,
                legend  =  c(
-                            expression(paste(italic(U/hs), " = ", 8)),
-                            expression(paste(italic(U/hs), " = ", 20)),
-                            expression(paste(italic(U/hs), " = ", 40))),
+                            expression(paste(italic(U/(hs)), " = ", 8)),
+                            expression(paste(italic(U/(hs)), " = ", 20)),
+                            expression(paste(italic(U/(hs)), " = ", 40))),
                pch     =  c(21,22,24),
                col     =  transparentColor(COLS[1], opacity=1),
                pt.bg     =  transparentColor(COLS[2], opacity=0.6),
@@ -3682,8 +3911,8 @@ PrFixFig4Panel_Exact  <-  function(suppVersion=FALSE) {
                        x       =  1.02,
                        y       =  6/(10^4),
                        legend  =  c(
-                                    expression(paste("All ", italic(r))),
-                                    expression(paste(italic(r), " = ", 0))),
+                                    expression(paste("All ", italic(d))),
+                                    expression(paste(italic(d), " = ", 0))),
                        pch     =  c(24,24),
                        col     =  transparentColor(COLS[1], opacity=1),
                        pt.bg   =  c(transparentColor(COLS[2], opacity=0.6), 
@@ -3727,10 +3956,10 @@ PrFixFig4Panel_Exact  <-  function(suppVersion=FALSE) {
                 # Legend
                 legend(
                        x       =  1.02,
-                       y       =  1.075/(10^4),
+                       y       =  6/(10^4),
                        legend  =  c(
-                                    expression(paste("All ", italic(r))),
-                                    expression(paste(italic(r), " = ", 0)),
+                                    expression(paste("All ", italic(d))),
+                                    expression(paste(italic(d), " = ", 0)),
                                     expression(paste(italic(f)[0],italic(q)^"*"))),
                        pch     =  c(24,24,24),
                        col     =  transparentColor(COLS[1], opacity=1),
@@ -3745,7 +3974,7 @@ PrFixFig4Panel_Exact  <-  function(suppVersion=FALSE) {
                        )
                 legend(
                        x       =  0.81,
-                       y       =  1.1/(10^4),
+                       y       =  6/(10^4),
                        legend  =  c(NA,NA,NA),
                        pch     =  c(22,22,22),
                        col     =  transparentColor(COLS[1], opacity=1),
@@ -3760,7 +3989,7 @@ PrFixFig4Panel_Exact  <-  function(suppVersion=FALSE) {
                        )
                 legend(
                        x       =  0.745,
-                       y       =  1.1/(10^4),
+                       y       =  6/(10^4),
                        legend  =  c(NA,NA,NA),
                        pch     =  c(21,21,21),
                        col     =  transparentColor(COLS[1], opacity=1),
@@ -3989,9 +4218,9 @@ PrFixFig4Panel_SuppFig <-  function() {
                x       =  1.02,
                y       =  0.0003,
                legend  =  c(
-                            expression(paste(italic(U/hs), " = ", 8)),
-                            expression(paste(italic(U/hs), " = ", 20)),
-                            expression(paste(italic(U/hs), " = ", 40))),
+                            expression(paste(italic(U/(hs)), " = ", 8)),
+                            expression(paste(italic(U/(hs)), " = ", 20)),
+                            expression(paste(italic(U/(hs)), " = ", 40))),
                pch     =  c(21,22,24),
                col     =  transparentColor(COLS[1], opacity=1),
                pt.bg     =  transparentColor(COLS[2], opacity=0.6),
@@ -4109,8 +4338,8 @@ points(detExp ~ datHapN1milU1$x, pch=24)
                x       =  1.02,
                y       =  1.075/(10^4),
                legend  =  c(
-                            expression(paste("All ", italic(r))),
-                            expression(paste(italic(r), " = ", 0)),
+                            expression(paste("All ", italic(d))),
+                            expression(paste(italic(d), " = ", 0)),
                             expression(paste(italic(f)[0],italic(q)^"*"))),
                pch     =  c(24,24,24),
                col     =  transparentColor(COLS[1], opacity=1),
@@ -4155,6 +4384,216 @@ points(detExp ~ datHapN1milU1$x, pch=24)
                )
 
 }
+
+
+
+
+
+
+PrFixFig2Panel_SuppFig <-  function() {
+
+    # Import data for plotting
+    
+    ## Autosomal Haploid Model
+    AdatHapN100kU02  <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.1_s0.01_N100k_U02.csv', header=TRUE)
+    AdatHapN100kU05  <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.1_s0.01_N100k_U05.csv', header=TRUE)
+    AdatHapN100kU1   <-  read.csv(file = './data/RECODE/PrFixAutoFig_h0.1_s0.01_N100k_U1.csv', header=TRUE)
+    AdatHapN100kU02$PrFixNe  <-  AdatHapN100kU02$PrFix*(AdatHapN100kU02$N*2)
+    AdatHapN100kU05$PrFixNe  <-  AdatHapN100kU05$PrFix*(AdatHapN100kU05$N*2)
+    AdatHapN100kU1$PrFixNe   <-  AdatHapN100kU1$PrFix*(AdatHapN100kU1$N*2)
+    AdatHapN100kU02$PrFix[AdatHapN100kU02$PrFix < (1/(2*10^8))]  <-  (1/(2*10^8))
+    AdatHapN100kU05$PrFix[AdatHapN100kU05$PrFix < (1/(2*10^8))]  <-  (1/(2*10^8))
+    AdatHapN100kU1$PrFix[AdatHapN100kU1$PrFix   < (1/(2*10^8))]    <-  (1/(2*10^8))
+
+
+    ## SLR Expanding Inversions Haploid Model
+    ## N = 1 mil data
+    datHapN100kU02  <-  read.csv(file = './data/RECODE/PrFixFig_Haploid_h0.1_s0.01_N1mil_U02.csv', header=TRUE)
+    datHapN100kU05  <-  read.csv(file = './data/RECODE/PrFixFig_Haploid_h0.1_s0.01_N1mil_U05.csv', header=TRUE)
+    datHapN100kU1  <-  read.csv(file = './data/RECODE/PrFixFig_Haploid_h0.1_s0.01_N1mil_U1.csv', header=TRUE)
+    datHapN100kU02$PrFixNe  <-  datHapN100kU02$PrFix*(datHapN100kU02$N/2)
+    datHapN100kU05$PrFixNe  <-  datHapN100kU05$PrFix*(datHapN100kU05$N/2)
+    datHapN100kU1$PrFixNe  <-  datHapN100kU1$PrFix*(datHapN100kU1$N/2)
+    datHapN100kU02$PrFix[datHapN100kU02$PrFix < (2/(10^8))]  <-  (2/(10^8))
+    datHapN100kU05$PrFix[datHapN100kU05$PrFix < (2/(10^8))]  <-  (2/(10^8))
+    datHapN100kU1$PrFix[datHapN100kU1$PrFix < (2/(10^8))]  <-  (2/(10^8))
+    rdatHapN100kU02  <-  read.csv(file = './data/RECODE/PrFixFig_Haploid_rFixedInv_h0.1_s0.01_N1mil_U02.csv', header=TRUE)
+    rdatHapN100kU05  <-  read.csv(file = './data/RECODE/PrFixFig_Haploid_rFixedInv_h0.1_s0.01_N1mil_U05.csv', header=TRUE)
+    rdatHapN100kU1  <-  read.csv(file = './data/RECODE/PrFixFig_Haploid_rFixedInv_h0.1_s0.01_N1mil_U1.csv', header=TRUE)
+    rdatHapN100kU02  <-  subset(rdatHapN100kU02,rdatHapN100kU02$rFixedInv == 0)
+    rdatHapN100kU05  <-  subset(rdatHapN100kU05,rdatHapN100kU05$rFixedInv == 0)
+    rdatHapN100kU1   <-  subset(rdatHapN100kU1,rdatHapN100kU1$rFixedInv == 0)
+    # Add 0's for Pr(fix | r=0) for table missing table values
+    for(i in 1:length(unique(datHapN100kU02$x))) {
+        if(!any(rdatHapN100kU02$rInvSize == datHapN100kU02$x[i])) {
+            rdatHapN100kU02  <-  rbind(rdatHapN100kU02, rdatHapN100kU02[i-1,])
+            rdatHapN100kU02$rInvSize[i]  <-  datHapN100kU02$x[i]
+            rdatHapN100kU02$Freq[i]  <-  (2/(10^8))
+        }
+        if(!any(rdatHapN100kU05$rInvSize == datHapN100kU05$x[i])) {
+            rdatHapN100kU05  <-  rbind(rdatHapN100kU05, rdatHapN100kU05[i-1,])
+            rdatHapN100kU05$rInvSize[i]  <-  datHapN100kU05$x[i]
+            rdatHapN100kU05$Freq[i]  <-  (2/(10^8))
+        }
+        if(!any(rdatHapN100kU1$rInvSize == datHapN100kU1$x[i])) {
+            rdatHapN100kU1  <-  rbind(rdatHapN100kU1, rdatHapN100kU1[i-1,])
+            rdatHapN100kU1$rInvSize[i]  <-  datHapN100kU1$x[i]
+            rdatHapN100kU1$Freq[i]  <-  (2/(10^8))
+        }
+    }
+
+
+
+    # Colors
+    colfunc  <-  colorRampPalette(c('#252525', 'grey70'))
+    COLS     <-  colfunc(3)
+
+    # set plot layout
+    layout.mat <- matrix(c(1:2), nrow=1, ncol=2, byrow=TRUE)
+    layout     <- layout(layout.mat,respect=TRUE)
+
+## Panel A & B -- Autosomal inversions
+## Panel A
+# Effect of initial del. mut. load on inversion frequency dynamics 
+    # make plot
+    par(omi=c(0.5, 0.5, 0.75, 0.5), mar = c(5,4,1,1), bty='o', xaxt='s', yaxt='s')    
+     plot(NA, axes=FALSE, type='n', main='', xlim = c(0,1), ylim = c((1/(2*10^8)), (6/(2*10^5))), log='y', ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80', log='y')
+        box()
+        # Points
+        abline(h=(1/(2*10^5)), lwd=1, lty=2, col=1)
+        points(PrFix ~ x, pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=AdatHapN100kU02)
+        points(PrFix ~ x, pch=22, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=AdatHapN100kU05)
+        points(PrFix ~ x, pch=24, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=AdatHapN100kU1)
+        # axes
+        axis(1, las=1)
+        axis(2, las=1, at=c((1/(2*10^8)), 
+                            (1/(2*10^7)), 
+                            (1/(2*10^6)), 
+                            (1/(2*10^5)), 
+                            (1/(2*10^4))), 
+                    labels=c(0, 
+                            expression(1/(2%*%10^7)), 
+                            expression(1/(2%*%10^6)), 
+                            expression(1/(2%*%10^5)), 
+                            expression(1/(2%*%10^4))))
+        proportionalLabel(0.5, 1.25, 'Autosomal', cex=1.75, adj=c(0.5, 0.5), xpd=NA, log='y')
+        proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA, log='y')
+        proportionalLabel(-0.0175, 0.16, '_', cex=1.2, adj=c(0.5, 0.5), xpd=NA,log='y', srt=30)
+        proportionalLabel(-0.0175, 0.14, '_', cex=1.2, adj=c(0.5, 0.5), xpd=NA,log='y', srt=30)
+        proportionalLabel(0.5, 1.06, expression(italic(N)==10^5) , cex=1.25, adj=c(0.5, 0.5), xpd=NA, log='y')
+        # Plot labels etc.
+        proportionalLabel(-0.475, 0.5, expression(Fixation~Probability), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90, log='y')
+        proportionalLabel( 0.5,  -0.25,  expression(paste("Inversion size (", italic(x),")")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, log='y')
+
+
+## Panel B
+
+# Effect of initial del. mut. load on inversion frequency dynamics 
+    # make plot
+     plot(NA, axes=FALSE, type='n', main='', xlim = c(0,1), ylim = c((2/10^8), 12/(10^5)), log='y', ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80', log='y')
+        box()
+        # Benchmark 2/N
+        abline(h=(2/10^6), lwd=1, lty=2, col=1)
+        # PrFix Points
+        points(PrFix ~ x, pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=datHapN100kU02)
+        points(PrFix ~ x, pch=22, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=datHapN100kU05)
+        points(PrFix ~ x, pch=24, col=transparentColor(COLS[1], opacity=1), bg=transparentColor(COLS[2], opacity=0.6), data=datHapN100kU1)
+        # r0 PrFix Points
+#        points(Freq ~ rInvSize, pch=21, col=transparentColor(COLS[1], opacity=1), bg=transparentColor('tomato', opacity=0.6), data=rdatHapN100kU02)
+#        points(Freq ~ rInvSize, pch=22, col=transparentColor(COLS[1], opacity=1), bg=transparentColor('tomato', opacity=0.6), data=rdatHapN100kU05)
+#        points(Freq ~ rInvSize, pch=24, col=transparentColor(COLS[1], opacity=1), bg=transparentColor('tomato', opacity=0.6), data=rdatHapN100kU1)
+        # f0*qStar
+qStars  <-  qstar(q.0=(2/datHapN100kU02$N[1]), U=datHapN100kU02$U[1], x=datHapN100kU02$x, s=datHapN100kU02$s[1], h=datHapN100kU02$h[1])        
+p0  <-  exp(-(datHapN100kU02$U[1] * datHapN100kU02$x)/(datHapN100kU02$s[1]*datHapN100kU02$h[1]))
+detExp  <-  p0*qStars
+detExp[detExp < 2/(10^8)]  <-  2/(10^8)
+points(detExp ~ datHapN100kU02$x, pch=21)
+qStars  <-  qstar(q.0=(2/datHapN100kU05$N[1]), U=datHapN100kU05$U[1], x=datHapN100kU05$x, s=datHapN100kU05$s[1], h=datHapN100kU05$h[1])        
+p0  <-  exp(-(datHapN100kU05$U[1] * datHapN100kU05$x)/(datHapN100kU05$s[1]*datHapN100kU05$h[1]))
+detExp  <-  p0*qStars
+detExp[detExp < 2/(10^8)]  <-  2/(10^8)
+points(detExp ~ datHapN100kU05$x, pch=22)
+qStars  <-  qstar(q.0=(2/datHapN100kU1$N[1]), U=datHapN100kU1$U[1], x=datHapN100kU1$x, s=datHapN100kU1$s[1], h=datHapN100kU1$h[1])        
+p0  <-  exp(-(datHapN100kU1$U[1] * datHapN100kU1$x)/(datHapN100kU1$s[1]*datHapN100kU1$h[1]))
+detExp  <-  p0*qStars
+detExp[detExp < 2/(10^8)]  <-  2/(10^8)
+points(detExp ~ datHapN100kU1$x, pch=24)
+        # axes
+        axis(1, las=1)
+        axis(2, las=1, at=c(2/10^8, 
+                            2/10^7, 
+                            2/10^6, 
+                            2/10^5, 
+                            2/10^4), 
+                    labels=c(0, 
+                            expression(2/10^7), 
+                            expression(2/10^6), 
+                            expression(2/10^5), 
+                            expression(2/10^4)))
+        # Plot labels etc.
+        proportionalLabel(0.04, 1.05, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA, log='y')
+        proportionalLabel(0.5, 1.25, 'Expand SLR', cex=1.75, adj=c(0.5, 0.5), xpd=NA, log='y')
+        proportionalLabel(0.5, 1.06, expression(italic(N)==10^6) , cex=1.25, adj=c(0.5, 0.5), xpd=NA, log='y')
+        proportionalLabel(-0.0175, 0.16, '_', cex=1.2, adj=c(0.5, 0.5), xpd=NA,log='y', srt=30)
+        proportionalLabel(-0.0175, 0.14, '_', cex=1.2, adj=c(0.5, 0.5), xpd=NA,log='y', srt=30)
+        proportionalLabel( 0.5,  -0.25,  expression(paste("Inversion size (", italic(x),")")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, log='y')
+
+        # Legend
+        legend(
+               x       =  1.02,
+               y       =  2/(10^4),
+               legend  =  c(
+                            expression(paste("All ", italic(d))),
+                            expression(paste(italic(f)[0],italic(q)^"*"))),
+               pch     =  c(24,24,24),
+               col     =  transparentColor(COLS[1], opacity=1),
+               pt.bg   =  c(transparentColor(COLS[2], opacity=0.6), 
+                            NA),
+               cex     =  1,
+               xjust   =  1,
+               yjust   =  1,
+               bty     =  'n',
+               border  =  NA
+               )
+        legend(
+               x       =  0.81,
+               y       =  2/(10^4),
+               legend  =  c(NA,NA),
+               pch     =  c(22,22),
+               col     =  transparentColor(COLS[1], opacity=1),
+               pt.bg   =  c(transparentColor(COLS[2], opacity=0.6), 
+                            NA),
+               cex     =  1,
+               xjust   =  1,
+               yjust   =  1,
+               bty     =  'n',
+               border  =  NA
+               )
+        legend(
+               x       =  0.745,
+               y       =  2/(10^4),
+               legend  =  c(NA,NA),
+               pch     =  c(21,21),
+               col     =  transparentColor(COLS[1], opacity=1),
+               pt.bg   =  c(transparentColor(COLS[2], opacity=0.6), 
+                            NA),
+               cex     =  1,
+               xjust   =  1,
+               yjust   =  1,
+               bty     =  'n',
+               border  =  NA
+               )
+
+}
+
+
+
 
 ####################################
 
@@ -4213,15 +4652,15 @@ deterministicSuppFig_AutoExact  <-  function(h = 0.25, U = 0.02) {
         # Plot labels etc.
         proportionalLabel(0.5, 1.1, substitute(italic(x)==xx, list(xx=x)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(-0.35,  0.5,   expression(paste(Pr(italic(r)~"|"~italic(x)))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel( 0.5,  -0.2,  expression(italic(r)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
+        proportionalLabel(-0.35,  0.5,   expression(paste(Pr(italic(d)~"|"~italic(x)))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel( 0.5,  -0.2,  expression(italic(d)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)=="{0,1}"),
-                            expression(bar(italic(r))==frac(italic(U*x),italic(h*s)))),
+                            expression(italic(d)=="{0,1}"),
+                            expression(bar(italic(d))==frac(italic(U*x),italic(h*s)))),
                lty     =  c(2,1),
                lwd     =  c(1,1),
                col     =  c(2,1),
@@ -4265,8 +4704,8 @@ deterministicSuppFig_AutoExact  <-  function(h = 0.25, U = 0.02) {
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==1)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==1)),
                lty     =  1,
                lwd     =  1.5,
                col     =  c(transparentColor(COLS[5], opacity=1),
@@ -4345,7 +4784,7 @@ deterministicSuppFig_AutoExact  <-  function(h = 0.25, U = 0.02) {
         axis(2, las=1)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.1,   expression(italic(r)==0), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.1,   expression(italic(d)==0), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.35,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)        
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
         # Legend
@@ -4416,14 +4855,14 @@ deterministicSuppFig_AutoExact  <-  function(h = 0.25, U = 0.02) {
         # Plot labels etc.
         proportionalLabel(0.5, 1.1, substitute(italic(x)==xx, list(xx=x)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.04, 1.05, 'E', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  -0.2,  expression(italic(r)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
+        proportionalLabel( 0.5,  -0.2,  expression(italic(d)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            substitute(italic(r)=={rs}, list(rs=deparse(r.vals))),
-#                            substitute(italic(r)==xx, list(xx=paste(r.vals, sep=", "))),
-                            expression(bar(italic(r))==frac(italic(U*x),italic(h*s)))),
+                            substitute(italic(d)=={rs}, list(rs=deparse(r.vals))),
+#                            substitute(italic(d)==xx, list(xx=paste(r.vals, sep=", "))),
+                            expression(bar(italic(d))==frac(italic(U*x),italic(h*s)))),
                lty     =  c(2,1),
                lwd     =  c(1,1),
                col     =  c(2,1),
@@ -4533,7 +4972,7 @@ deterministicSuppFig_AutoExact  <-  function(h = 0.25, U = 0.02) {
         axis(2, las=1, labels=NA)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'H', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.1, substitute(italic(r)==rs, list(rs=r.vals[2])), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.1, substitute(italic(d)==rs, list(rs=r.vals[2])), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
 
 
@@ -4586,14 +5025,14 @@ deterministicSuppFig_AutoExact  <-  function(h = 0.25, U = 0.02) {
         # Plot labels etc.
         proportionalLabel(0.5, 1.1, substitute(italic(x)==xx, list(xx=x)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.04, 1.05, 'I', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  -0.2,  expression(italic(r)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
+        proportionalLabel( 0.5,  -0.2,  expression(italic(d)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            substitute(italic(r)==xx, list(xx=deparse(r.vals))),
-                            expression(bar(italic(r))==frac(italic(U*x),italic(h*s)))),
+                            substitute(italic(d)==xx, list(xx=deparse(r.vals))),
+                            expression(bar(italic(d))==frac(italic(U*x),italic(h*s)))),
                lty     =  c(2,1),
                lwd     =  c(1,1),
                col     =  c(2,1),
@@ -4705,7 +5144,7 @@ deterministicSuppFig_AutoExact  <-  function(h = 0.25, U = 0.02) {
         axis(2, las=1, labels=NA)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'L', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.1,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.1,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
 
 
@@ -4757,14 +5196,14 @@ deterministicSuppFig_AutoExact  <-  function(h = 0.25, U = 0.02) {
         # Plot labels etc.
         proportionalLabel(0.5, 1.1, substitute(italic(x)==xx, list(xx=x)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.04, 1.05, 'M', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  -0.2,  expression(italic(r)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
+        proportionalLabel( 0.5,  -0.2,  expression(italic(d)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            substitute(italic(r)==xx, list(xx=deparse(r.vals))),
-                            expression(bar(italic(r))==frac(italic(U*x),italic(h*s)))),
+                            substitute(italic(d)==xx, list(xx=deparse(r.vals))),
+                            expression(bar(italic(d))==frac(italic(U*x),italic(h*s)))),
                lty     =  c(2,1),
                lwd     =  c(1,1),
                col     =  c(2,1),
@@ -4875,7 +5314,7 @@ deterministicSuppFig_AutoExact  <-  function(h = 0.25, U = 0.02) {
         axis(2, las=1, labels=NA)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'P', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.1,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.1,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
 
 
@@ -4930,14 +5369,14 @@ deterministicSuppFig_AutoExact  <-  function(h = 0.25, U = 0.02) {
         # Plot labels etc.
         proportionalLabel(0.5, 1.1, substitute(italic(x)==xx, list(xx=x)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.04, 1.05, 'Q', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  -0.2,  expression(italic(r)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
+        proportionalLabel( 0.5,  -0.2,  expression(italic(d)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            substitute(italic(r)==xx, list(xx=deparse(r.vals))),
-                            expression(bar(italic(r))==frac(italic(U*x),italic(h*s)))),
+                            substitute(italic(d)==xx, list(xx=deparse(r.vals))),
+                            expression(bar(italic(d))==frac(italic(U*x),italic(h*s)))),
                lty     =  c(2,1),
                lwd     =  c(1,1),
                col     =  c(2,1),
@@ -5051,7 +5490,7 @@ deterministicSuppFig_AutoExact  <-  function(h = 0.25, U = 0.02) {
         axis(2, las=1, labels=NA)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'T', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.1,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.1,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.2, adj=c(0.5, 0.5), xpd=NA)        
 
 }
@@ -5124,7 +5563,7 @@ SLR_WF_DynamicsFig  <-  function(invSize) {
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-#        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(1.3,  0.5,   expression(paste("Inversion Frequency (", italic(Y[I]), ")")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=270)
         proportionalLabel(-0.3,  0.5,  expression(paste("Inversion Relative Fitness")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)
         # Legend
@@ -5296,7 +5735,7 @@ subDat$invRelFit
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
 #        proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-#        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         if(i == 10){        
                     proportionalLabel(1.3,  0.5,   expression(paste("Inversion Frequency (", italic(Y[I]), ")")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=270)
                 }
@@ -5495,7 +5934,7 @@ AutoExact_WF_DynamicsFig  <-  function(invSize) {
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-#        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(1.3,  0.5,   expression(paste("Inversion Frequency (", italic(Y[I]), ")")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=270)
         proportionalLabel(-0.3,  0.5,   expression(paste("Inversion Relative Fitness")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)
         # Legend
@@ -5675,14 +6114,14 @@ AutoExact_WF_DynamicsFigSuppFig  <-  function() {
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-#        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
          # Annotate Inversion Size
                 proportionalLabel(0.5, 1.1, substitute(italic(x)==xx, list(xx=subDat$x[1])), cex=2.5, adj=c(0.5, 0.5), xpd=NA)
         # axes
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
 #        proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-#        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         if(i == 10){        
                     proportionalLabel(1.3,  0.5,   expression(paste("Inversion Frequency (", italic(Y[I]), ")")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=270)
                 }
@@ -5894,15 +6333,15 @@ deterministicMutRateIllustration_SLR_Nei  <-  function(wHap=FALSE) {
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==1.6))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.3,  0.5,   expression(paste("Inversion Relative Fitness")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==1)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==1)),
                lty     =  1,
                lwd     =  2,
                col     =  c(transparentColor(COLS[1], opacity=1),
@@ -5966,7 +6405,7 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
                x       =  usr[2]*0.95,
                y       =  usr[4],
                legend  =  c(
-                            expression(paste("General solution for ", italic(Y[I]), " when ", italic(r)==0))),
+                            expression(paste("General solution for ", italic(Y[I]), " when ", italic(d)==0))),
                lty     =  3,
                lwd     =  2,
                col     =  "tomato",
@@ -6018,7 +6457,7 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'G', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.3,  0.5,   expression(paste("Deleterious Allele Frequency")), cex=1.75, adj=c(0.5, 0.5), xpd=NA, srt=90)        
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
         # Legend
@@ -6099,16 +6538,16 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==4))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==4))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==1),
-                            expression(italic(r)==2),
-                            expression(italic(r)==3)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==1),
+                            expression(italic(d)==2),
+                            expression(italic(d)==3)),
                lty     =  1,
                lwd     =  2,
                col     =  c(transparentColor(COLS[1], opacity=1),
@@ -6189,7 +6628,7 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1, cex=1.3)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'H', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(italic(r)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==1), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
 
 
@@ -6253,16 +6692,16 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/hs==8))), cex=2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(Ux/(hs)==8))), cex=2, adj=c(0.5, 0.5), xpd=NA)
         # Legend
         legend(
                x       =  usr[2],
                y       =  usr[4],
                legend  =  c(
-                            expression(italic(r)==0),
-                            expression(italic(r)==2),
-                            expression(italic(r)==4),
-                            expression(italic(r)==6)),
+                            expression(italic(d)==0),
+                            expression(italic(d)==2),
+                            expression(italic(d)==4),
+                            expression(italic(d)==6)),
                lty     =  1,
                lwd     =  2,
                col     =  c(transparentColor(COLS[1], opacity=1),
@@ -6342,7 +6781,138 @@ YI.gensol  <-  YI.genSol(U=U, YI.init=r.0.Dat$YI.t[1], x=x, s=s, h=h, t=t)
         axis(2, las=1, cex=1.2)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'I', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(italic(r)==2), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(italic(d)==2), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.75, adj=c(0.5, 0.5), xpd=NA)        
+
+}
+
+
+
+
+
+
+
+############################
+##  Perspective Piece Figs
+
+perspectiveInvRelFit  <-  function() {
+
+    # set plot layout
+    layout.mat <- matrix(c(1,1,1,1,
+                           1,1,1,1,
+                           2,2,2,2,
+                           2,2,2,2), nrow=4, ncol=4, byrow=TRUE)
+    layout     <- layout(layout.mat,respect=TRUE)
+
+    # Make data for plotting 
+    s        <-  0.01
+    h        <-  0.25
+    nTot     <-  10^4 
+
+    ###########
+    # U = 0.02
+    U        <-  0.05
+    u        <-  U/nTot
+    x        <-  0.2
+
+    relFitMin  <-  0.997
+    relFitMax  <-  1.005
+
+
+    ###########
+    # h = 0.25
+    # Nei-style SLR model
+    r.0.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 0, x = x, h = h, generations = 2500)
+    r.1.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 1, x = x, h = h, generations = 2500)
+    r.2.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 2, x = x, h = h, generations = 2500)
+#    r.3.Dat  <-  makeDeterministicFigSimData_SLR_Nei(U = U, s = s, r = 3, x = x, h = h, generations = 2500)
+
+    r.0.rel.w.YI.t  <-  r.0.Dat$rel.w.YI.t[round(r.0.Dat$YI.t,digits=4) < 1]
+    r.1.rel.w.YI.t  <-  r.1.Dat$rel.w.YI.t[round(r.1.Dat$YI.t,digits=4) > 0]
+    r.2.rel.w.YI.t  <-  r.2.Dat$rel.w.YI.t[round(r.2.Dat$YI.t,digits=4) > 0]
+#    r.3.rel.w.YI.t  <-  r.3.Dat$rel.w.YI.t[round(r.3.Dat$YI.t,digits=4) > 0]
+
+   # Colors
+    COLS     <-  colorRampPalette(wes_palette("Zissou1"))(3)
+
+    relFitMin  <-  0.9925
+    relFitMax  <-  1 + U*x*1.25
+
+    # Effect of initial del. mut. load on inversion frequency dynamics 
+    # make plot
+    par(omi=c(0.5, 0.5, 0.5, 0.0), mar = c(3,6,1,0), bty='o', xaxt='s', yaxt='s')
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(relFitMin,relFitMax), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+#        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+#        plotGrid(lineCol='grey80')
+#        box()
+        # lines
+#        lines(r.3.rel.w.YI.t ~ seq_along(r.3.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1))
+        lines(r.2.rel.w.YI.t ~ seq_along(r.2.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1))
+        lines(r.1.rel.w.YI.t ~ seq_along(r.1.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1))
+        lines(r.0.rel.w.YI.t ~ seq_along(r.0.rel.w.YI.t), lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1))
+        # Benchmark inversion relative fitness of 1
+        abline(h=1, lwd=1, lty=2, col=1)
+        # Points depicting (arbitrary) extinction frequency of 0.00001
+        points(r.1.rel.w.YI.t[length(r.1.rel.w.YI.t)] ~ length(r.1.rel.w.YI.t), pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7))
+        points(r.2.rel.w.YI.t[length(r.2.rel.w.YI.t)] ~ length(r.2.rel.w.YI.t), pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7))
+#        points(r.3.rel.w.YI.t[length(r.3.rel.w.YI.t)] ~ length(r.3.rel.w.YI.t), pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7))
+        # Annotate 1 + Ux approximation
+#        points((1 + U*x) ~ 1, pch=23, bg=transparentColor('#252525', opacity=0.7), col='#252525')
+        # axes
+        axis(1, las=1, labels=NA)
+        axis(2, las=1, cex=1.2)
+        # Plot labels etc.
+#        proportionalLabel(0.04, 1.05, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, expression(paste("Mean # mutations"), cex=2, adj=c(0.5, 0.5), xpd=NA))
+        proportionalLabel(-0.15,  0.5,   expression(paste("Inversion relative fitness")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)        
+        # Legend
+        legend(
+               x       =  usr[2],
+               y       =  1.012,
+               legend  =  c(
+                            expression(italic(d)==0),
+                            expression(italic(d)==1),
+                            expression(italic(d)==2)),
+#                            expression(italic(d)==3)),
+               lty     =  1,
+               lwd     =  2,
+               col     =  c(transparentColor(COLS[1], opacity=1),
+                            transparentColor(COLS[2], opacity=1),
+                            transparentColor(COLS[3], opacity=1)),
+#                            transparentColor(COLS[4], opacity=1)),
+               cex     =  1.5,
+               xjust   =  1,
+               yjust   =  1,
+               bty     =  'n',
+               border  =  NA
+               )
+
+
+    # Effect of initial del. mut. load on inversion frequency dynamics 
+    # make plot
+     plot(NA, axes=FALSE, type='n', main='',xlim = c(0,nrow(r.0.Dat)), ylim = c(0,(0.025)), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+#        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+#        plotGrid(lineCol='grey80')
+#        box()
+        # lines
+        lines(YI.t[1:length(r.0.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.0.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[1], opacity=1), data=r.0.Dat)
+        lines(YI.t[1:length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.1.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[2], opacity=1), data=r.1.Dat)
+        lines(YI.t[1:length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.2.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[3], opacity=1), data=r.2.Dat)
+#        lines(YI.t[1:length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[1:length(r.3.rel.w.YI.t)], lwd=2, lty=1, col=transparentColor(COLS[4], opacity=1), data=r.3.Dat)
+        # Points
+        points(YI.t[length(r.1.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.1.rel.w.YI.t)], pch=21, col=transparentColor(COLS[2], opacity=1), bg=transparentColor(COLS[2], opacity=0.7), data=r.1.Dat)
+        points(YI.t[length(r.2.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.2.rel.w.YI.t)], pch=21, col=transparentColor(COLS[3], opacity=1), bg=transparentColor(COLS[3], opacity=0.7), data=r.2.Dat)
+#        points(YI.t[length(r.3.rel.w.YI.t)] ~ seq_along(YI.t)[length(r.3.rel.w.YI.t)], pch=21, col=transparentColor(COLS[4], opacity=1), bg=transparentColor(COLS[4], opacity=0.7), data=r.3.Dat)
+        # benchmark qstar
+#        abline(h=qstr, lty=2)
+#        proportionalLabel(0.9, 0.85, expression(paste(italic(q),"*")), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        # axes
+        axis(1, las=1, cex=1.2)
+        axis(2, las=1, cex=1.2)
+        # Plot labels etc.
+        proportionalLabel(-0.15,  0.5,   expression(paste("Inversion frequency")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel( 0.5,  -0.25,  expression(paste("Generations")), cex=1.5, adj=c(0.5, 0.5), xpd=NA)        
 
 }

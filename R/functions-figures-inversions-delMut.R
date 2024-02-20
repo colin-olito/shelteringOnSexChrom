@@ -5769,7 +5769,7 @@ delMutAccumulationAutoVsSLR  <-  function() {
         axis(2, las=1, cex=1.2)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(paste(italic(h)==0.25,", ", italic(r)==1)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(paste(italic(h)==0.25,", ", italic(d)==1)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.2,  0.5,   expression(paste("Deleterious Allele Frequency/",hat(italic(q)))), cex=1.6, adj=c(0.5, 0.5), xpd=NA, srt=90)        
         proportionalLabel( 0.5,  -0.2,  expression(paste("Generations")), cex=1.6, adj=c(0.5, 0.5), xpd=NA)        
         # Legend
@@ -5818,7 +5818,7 @@ delMutAccumulationAutoVsSLR  <-  function() {
         axis(2, las=1, labels=NA)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(paste(italic(h)==0.1,", ", italic(r)==1)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(paste(italic(h)==0.1,", ", italic(d)==1)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.2,  expression(paste("Generations")), cex=1.6, adj=c(0.5, 0.5), xpd=NA)        
 
 
@@ -5828,7 +5828,7 @@ delMutAccumulationAutoVsSLR  <-  function() {
     # h = 0.01
     
     # make data for plotting
-    h  <-  0.01
+    h  <-  0.05
     r.10.Dat  <-  makeDeterministicFigSimData(r = 10, x = x, h = h, generations = 40000)
     r.10.wbar.YI.t  <-  r.10.Dat$wbar.YI.t[round(r.10.Dat$YI.t,digits=4) > 0]
 
@@ -5855,7 +5855,7 @@ delMutAccumulationAutoVsSLR  <-  function() {
         axis(2, las=1, labels=NA)
         # Plot labels etc.
         proportionalLabel(0.04, 1.05, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel( 0.5,  1.05,   expression(paste(italic(h)==0.01,", ", italic(r)==10)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel( 0.5,  1.05,   expression(paste(italic(h)==0.05,", ", italic(d)==10)), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel( 0.5,  -0.2,  expression(paste("Generations")), cex=1.6, adj=c(0.5, 0.5), xpd=NA)        
 
 }
